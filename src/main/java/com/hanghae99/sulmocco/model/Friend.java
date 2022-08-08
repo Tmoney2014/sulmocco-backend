@@ -17,7 +17,7 @@ public class Friend {
     @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
     @Column(name = "addFriend_id", nullable = false)
-    private User user2;
+    private User user3;
 }
 //ToDo 유저가 유저를 북마크한경우 (?) 어떻게 할것인가 생각해보자
 
