@@ -34,6 +34,7 @@ public class User extends Timestamped {
     @Column(nullable = false)
     private String profileUrl;
 
+
     @Column(nullable = false)
     private String role;
 
