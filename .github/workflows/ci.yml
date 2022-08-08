@@ -42,8 +42,8 @@ jobs:
         run: |
           docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
           docker build -t spring-cicd .
-          docker tag spring-cicd [tmoney2014]/spring-cicd:${GITHUB_SHA::7}
-          docker push [tmoney2014]/spring-cicd:${GITHUB_SHA::7}
+          docker tag spring-cicd tmoney2014/spring-cicd:${GITHUB_SHA::7}
+          docker push tmoney2014/spring-cicd:${GITHUB_SHA::7}
 
        
 
