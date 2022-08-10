@@ -87,8 +87,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthFilter jwtFilter() throws Exception {
         List<String> skipPathList = new ArrayList<>();
 
-        skipPathList.add("POST,/user/login");
-        skipPathList.add("POST,/user/signup");
+        skipPathList.add("POST,/api/login");
+        skipPathList.add("POST,/api/signup");
+        skipPathList.add("GET,/api/checkUser/{username}");
+
+        skipPathList.add("GET,/oauth2/redirect?code={CODE}");
 
         skipPathList.add("GET,/");
 

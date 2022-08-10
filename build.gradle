@@ -49,6 +49,10 @@ dependencies {
 
     // 아임포트
 //    implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
+
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
 }
 
 //tasks.named('test') {

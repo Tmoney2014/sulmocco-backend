@@ -34,7 +34,6 @@ public final class JwtTokenUtils {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
         return token;
     }
 
