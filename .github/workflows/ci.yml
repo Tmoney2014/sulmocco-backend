@@ -10,8 +10,8 @@ name: Java CI with Gradle # workflow의 이름
 on: # 어떤 Events를 가지고 실행할것인가
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+#  pull_request:
+#    branches: [ "main" ]
 
 permissions:
   contents: read
@@ -30,6 +30,16 @@ jobs: # 하나의 workflow는 여러개의 job을 가질 수 있다.
           java-version: '8'
           distribution: 'temurin'
 
+      - name: make application.properties
+        run:
+          mkdir ./src/main/resources |
+          touch ./src/main/resources/application.properties
+        shell: bash
+
+      - name: deliver application.properties
+        run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
+        shell: bash
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew # shell command을 실행할 수 있따.
         shell: bash
@@ -37,6 +47,22 @@ jobs: # 하나의 workflow는 여러개의 job을 가질 수 있다.
       - name: Build with Gradle
         run: ./gradlew build
         shell: bash
+
+      - name: Docker build
+        run: |
+          docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+          docker build -t spring-cicd .
+          docker tag spring-cicd tmoney2014/spring-cicd:${GITHUB_SHA::7}
+          docker push tmoney2014/spring-cicd:${GITHUB_SHA::7}
+
+       
+
+#      - name: Docker build
+#        run: |
+#          docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+#          docker build -t mung-friend .
+#          docker tag mung-friend souliat/mung-friend:${GITHUB_SHA::7}
+#          docker push souliat/mung-friend:${GITHUB_SHA::7}
 
 #      - name: Build with Gradle
 #        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
