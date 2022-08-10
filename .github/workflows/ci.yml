@@ -64,11 +64,9 @@ jobs: # 하나의 workflow는 여러개의 job을 가질 수 있다.
           key: ${{ secrets.PRIVATE_KEY }}
           envs: GITHUB_SHA
           script: |
-          docker pull redis
-          docker run --name redis -d -p 6379:6379 -v mungchat:/data redis --save 60 1 --loglevel warning
-          docker pull ${{ secrets.USERNAME }}/spring-cicd:${GITHUB_SHA::7}
-          docker tag ${{ secrets.USERNAME }}/spring-cicd:${GITHUB_SHA::7} sulmocco
-          docker stop server
-          docker run --rm --name server -p 80:8080 -e TZ=Asia/Seoul -d sulmocco
+           docker pull ${{ secrets.USERNAME }}/spring-cicd:${GITHUB_SHA::7}
+           docker tag ${{ secrets.USERNAME }}/spring-cicd:${GITHUB_SHA::7} sulmocco
+           docker stop server
+           docker run --rm --name server -p 80:8080 -e TZ=Asia/Seoul -d sulmocco
 
 
