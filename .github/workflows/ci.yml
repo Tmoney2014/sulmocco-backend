@@ -10,8 +10,8 @@ name: Java CI with Gradle # workflow의 이름
 on: # 어떤 Events를 가지고 실행할것인가
   push:
     branches: [ "main" ]
-#  pull_request:
-#    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 permissions:
   contents: read
@@ -20,6 +20,7 @@ jobs: # 하나의 workflow는 여러개의 job을 가질 수 있다.
   build:
 
     runs-on: ubuntu-latest
+
 
     steps:  # job은 여러개의 step으로 구성되어 있다.
       - uses: actions/checkout@v3 # 다른 사람이 정의해둔 action을 사용해서 쓸 수 있다.
@@ -52,21 +53,22 @@ jobs: # 하나의 workflow는 여러개의 job을 가질 수 있다.
         run: |
           docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
           docker build -t spring-cicd .
-          docker tag spring-cicd tmoney2014/spring-cicd:${GITHUB_SHA::7}
-          docker push tmoney2014/spring-cicd:${GITHUB_SHA::7}
+          docker tag spring-cicd ${{ secrets.USERNAME }}/spring-cicd:${GITHUB_SHA::7}
+          docker push ${{ secrets.USERNAME }}/spring-cicd:${GITHUB_SHA::7}
 
-       
-
-#      - name: Docker build
-#        run: |
-#          docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-#          docker build -t mung-friend .
-#          docker tag mung-friend souliat/mung-friend:${GITHUB_SHA::7}
-#          docker push souliat/mung-friend:${GITHUB_SHA::7}
-
-#      - name: Build with Gradle
-#        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-#        with:
-#          arguments: build
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ec2-15-164-210-28.ap-northeast-2.compute.amazonaws.com
+          username: ec2-user
+          key: ${{ secrets.PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+          docker pull redis
+          docker run --name redis -d -p 6379:6379 -v mungchat:/data redis --save 60 1 --loglevel warning
+          docker pull ${{ secrets.USERNAME }}/spring-cicd:${GITHUB_SHA::7}
+          docker tag ${{ secrets.USERNAME }}/spring-cicd:${GITHUB_SHA::7} sulmocco
+          docker stop server
+          docker run --rm --name server -p 80:8080 -e TZ=Asia/Seoul -d sulmocco
 
 
