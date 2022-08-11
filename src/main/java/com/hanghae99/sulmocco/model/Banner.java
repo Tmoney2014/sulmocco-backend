@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Getter
-
 public class Banner {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)

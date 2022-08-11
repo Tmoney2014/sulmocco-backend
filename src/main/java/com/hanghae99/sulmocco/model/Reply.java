@@ -29,4 +29,23 @@ public class Reply extends Timestamped {
     @JoinColumn(name="talbes_id")
     private Tables tables;
 
+    //== 연관관계 (편의) 메서드==//
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setTables(Tables tables) {
+        this.tables = tables;
+    }
+
+    public Reply(String content, User user, Tables tables) {
+        this.content = content;
+        setUser(user);
+        setTables(tables);
+    }
+
+    public void update(String content) {
+        this.content = content;
+    }
+
 }

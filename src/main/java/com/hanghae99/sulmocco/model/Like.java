@@ -1,23 +1,29 @@
 package com.hanghae99.sulmocco.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
 
+@Entity
+@Getter
+@NoArgsConstructor
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LIKE_ID", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JsonBackReference
+    @ManyToOne(fetch = LAZY)
+//    @JsonBackReference
     @JoinColumn(name = "TABLES_ID", nullable = false)
     private Tables tables;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 

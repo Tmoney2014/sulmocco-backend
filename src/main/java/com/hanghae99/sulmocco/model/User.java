@@ -45,8 +45,6 @@ public class User {
 //    @OneToMany(mappedBy = "user")
 //    private List<Tables> tablesList = new ArrayList<>();
 //
-//    @OneToMany(mappedBy = "user")
-//    private List<Reply> replies = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "user")
 //    private List<Like> likes = new ArrayList<>();

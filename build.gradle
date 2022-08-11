@@ -33,10 +33,10 @@ dependencies {
     implementation group: 'com.auth0', name: 'java-jwt', version: '3.19.2'
 
     // validation
-//    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // AWS S3
-//    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
     // swagger
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
