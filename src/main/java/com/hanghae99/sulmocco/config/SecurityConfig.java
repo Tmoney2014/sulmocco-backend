@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public FormLoginFilter formLoginFilter() throws Exception {
         FormLoginFilter formLoginFilter = new FormLoginFilter(authenticationManager());
-        formLoginFilter.setFilterProcessesUrl("/api/user/login");
+        formLoginFilter.setFilterProcessesUrl("/api/login");     //앞단의 요청으로 /api 추가.
         formLoginFilter.setAuthenticationSuccessHandler(formLoginSuccessHandler());
         formLoginFilter.afterPropertiesSet();
         return formLoginFilter;
@@ -90,9 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("POST,/api/login");
         skipPathList.add("POST,/api/signup");
         skipPathList.add("GET,/api/checkUser/{username}");
-
         skipPathList.add("GET,/oauth2/redirect?code={CODE}");
-
         skipPathList.add("GET,/");
 
 

@@ -58,6 +58,6 @@ public class controller {
     }
     @GetMapping("/")
     public String home() {
-        return "index";
+        return "index2";
     }
 }
