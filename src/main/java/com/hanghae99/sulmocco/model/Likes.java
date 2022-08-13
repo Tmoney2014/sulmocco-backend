@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Like {
+public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LIKE_ID", nullable = false)
@@ -27,7 +27,7 @@ public class Like {
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
-    public Like(User user, Tables tables) {
+    public Likes(User user, Tables tables) {
         this.user = user;
         this.tables = tables;
     }
