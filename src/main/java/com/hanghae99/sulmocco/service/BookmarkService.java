@@ -63,7 +63,7 @@ public class BookmarkService {
         //FOR문을 돌려 필요한 내용을 DTO 에 하나씩 담아 ADD 후 DTOLIST 를 앞단으로 리턴
         for(Bookmark bookmark : bookmarks) {
             bookmarkResponseDtoList.add(new BookmarkResponseDto(bookmark.getTables().getTitle(),bookmark.getTables().getUser().getUsername(),bookmark.getTables().getContent()
-                    ,bookmark.getTables().getId(),bookmark.getTables().getLikes().size(),bookmark.getTables().getViewcount(),bookmark.getTables().getAlcoholTag(),bookmark.getTables().getFreeTag(),bookmark.getUser().getProfileUrl()));
+                    ,bookmark.getTables().getId(), (long) bookmark.getTables().getLikes().size(),bookmark.getTables().getAlcoholTag(),bookmark.getTables().getFreeTag(),bookmark.getUser().getProfileUrl()));
 
         }
 

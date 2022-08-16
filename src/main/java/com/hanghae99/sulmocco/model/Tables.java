@@ -44,7 +44,7 @@ public class Tables extends Timestamped{
     private List<Reply> replies;
 
     @OneToMany(mappedBy = "tables", cascade = CascadeType.ALL)
-    private List<Like> likes;
+    private List<Likes> likes;
 
     @OneToMany(mappedBy = "tables", cascade = CascadeType.ALL)
     @Column(nullable = false)
