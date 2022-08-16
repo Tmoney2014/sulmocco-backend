@@ -57,7 +57,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/h2-console/**");
+        web.ignoring().antMatchers("/h2-console/**",
+                        // swagger 관련 리소스 시큐리티 필터 제거
+                        "/api/v1/auth/**",
+                        "/v2/api-docs", "/swagger-resources/**", "/swagger-ui/index.html",
+                        "/swagger-ui.html", "/webjars/**", "/swagger/**", "/favicon.ico");
     }
 
     @Override
@@ -92,8 +96,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("GET,/api/checkUser/{username}");
         skipPathList.add("GET,/oauth2/redirect");
         skipPathList.add("GET,/");
-
-
 
 
         FilterSkipMatcher matcher = new FilterSkipMatcher(
