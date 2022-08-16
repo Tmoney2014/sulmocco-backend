@@ -15,14 +15,19 @@ public class TablesRequestDto {
 
     @NotBlank
     private String title;
+
     @NotBlank
     private String username;
+
     @NotBlank
     private String content;
-    @NotBlank(message = "이미지를 업로드 해주세요.")
+
+    private String thumbnail;
+
     private List<String> imgUrlList;
+
     @NotBlank
     private String alcoholtag;
-    @NotBlank
+
     private String freetag;
 }
