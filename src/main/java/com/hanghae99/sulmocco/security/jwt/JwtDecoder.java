@@ -37,6 +37,10 @@ public class JwtDecoder {
                 .getClaim(CLAIM_USER_NAME)
                 .asString();
 
+        String nickname = decodedJWT
+                .getClaim(CLAIM_NICK_NAME)
+                .asString();
+
         return username;
     }
 

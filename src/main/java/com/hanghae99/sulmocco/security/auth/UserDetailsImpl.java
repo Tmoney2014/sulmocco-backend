@@ -35,6 +35,10 @@ public class UserDetailsImpl implements org.springframework.security.core.userde
         return user.getId();
     }
 
+    public String getNickname() {
+        return user.getUsername();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
