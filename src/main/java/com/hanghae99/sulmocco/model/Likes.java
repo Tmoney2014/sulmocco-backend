@@ -15,16 +15,16 @@ import static javax.persistence.FetchType.LAZY;
 public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "LIKE_ID", nullable = false)
+    @Column(name = "LIKE_ID")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
 //    @JsonBackReference
-    @JoinColumn(name = "TABLES_ID", nullable = false)
+    @JoinColumn(name = "TABLES_ID")
     private Tables tables;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     public Likes(User user, Tables tables) {

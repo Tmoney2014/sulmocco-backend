@@ -47,7 +47,8 @@ public class TablesResponseDto {
         this.tableId = tables.getId();
         this.title = tables.getTitle();
         this.username = tables.getUser().getUsername();
-        this.thumbnail = tables.getThumbnail().getThumbnailUrl();
+//        this.thumbnail = tables.getThumbnail().getThumbnailUrl();
+        this.thumbnail = tables.getThumbnailImgUrl();
         this.likecount = tables.getLikes().size();
         this.viewcount = tables.getViewUserList().size();
         this.alcoholtag = tables.getAlcoholTag();
@@ -64,11 +65,12 @@ public class TablesResponseDto {
         this.title = tables.getTitle();
         this.username = tables.getUser().getUsername();
         this.content = tables.getContent();
-        this.thumbnail = tables.getThumbnail().getThumbnailUrl();
+        //        this.thumbnail = tables.getThumbnail().getThumbnailUrl();
+        this.thumbnail = tables.getThumbnailImgUrl();
         this.imgUrlList = tables.getImgUrls().stream()
                 .map(this::apply)
                 .collect(Collectors.toList());
-        this.replies = replies;
+        this.replies = replies; // findTable.getReplies(); // 이걸로도 되나 궁금하다
         this.alcoholtag = tables.getAlcoholTag();
         this.freetag = tables.getFreeTag();
         this.likecount = tables.getLikes().size();
@@ -88,7 +90,8 @@ public class TablesResponseDto {
     public static TablesResponseDto todayTableDto(Tables tables) {
         return TablesResponseDto.builder()
                 .tableId(tables.getId())
-                .thumbnail(tables.getThumbnail().getThumbnailUrl())
+//                .thumbnail(tables.getThumbnail().getThumbnailUrl())
+                .thumbnail(tables.getThumbnailImgUrl())
                 .title(tables.getTitle())
                 .likecount(tables.getLikes().size())
                 .viewcount(tables.getViewUserList().size())
@@ -103,19 +106,20 @@ public class TablesResponseDto {
 
     // 본인이 작성한 술상 목록
     public static Slice<TablesResponseDto> myPageTablesResponseDto(Slice<Tables> tableSlice) {
-        Slice<TablesResponseDto> tablesResponseDtoSlice = tableSlice.map(p ->
+        Slice<TablesResponseDto> tablesResponseDtoSlice = tableSlice.map(t ->
                         TablesResponseDto.builder()
-                                .tableId(p.getId())
-                                .username(p.getUser().getUsername())
-                                .title(p.getTitle())
-                                .content(p.getContent())
-                                .thumbnail(p.getThumbnail().getThumbnailUrl())
-                                .likecount(p.getLikes().size())
-                                .viewcount(p.getViewUserList().size())
-                                .alcoholtag(p.getAlcoholTag())
-                                .freetag(p.getFreeTag())
-                                .createdAt((p.getCreatedAt()))
-                                .profileimgurl(p.getUser().getProfileUrl())
+                                .tableId(t.getId())
+                                .username(t.getUser().getUsername())
+                                .title(t.getTitle())
+                                .content(t.getContent())
+//                                .thumbnail(p.getThumbnail().getThumbnailUrl())
+                                .thumbnail(t.getThumbnailImgUrl())
+                                .likecount(t.getLikes().size())
+                                .viewcount(t.getViewUserList().size())
+                                .alcoholtag(t.getAlcoholTag())
+                                .freetag(t.getFreeTag())
+                                .createdAt(t.getCreatedAt())
+                                .profileimgurl(t.getUser().getProfileUrl())
                                 .build()
         );
         return tablesResponseDtoSlice;

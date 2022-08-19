@@ -28,36 +28,9 @@ public class TablesService {
 
     private final TablesRepository tablesRepository;
     private final TableImageRepository tableImageRepository;
-    private final ThumbnailRepository thumbnailRepository;
     private final ReplyRepository replyRepository;
     private final LikeRepository likeRepository;
     private final BookmarkRepository bookmarkRepository;
-
-    /**
-     * 술상 추천 목록
-     */
-    public ResponseEntity<?> getTables() {
-        // todo : 페이징(무한스크롤) 및 검색 기능 추가 필요
-
-        List<Tables> tablesList = tablesRepository.findAll();
-        HashMap<Tables, String> allTables = new HashMap<>();
-
-//        for (Tables tables : tablesList) {
-//            TableImage thumbnail = tableImageRepository.findByTablesAndIsThumbnailImage(tables, true);
-//            allTables.put(thumbnail.getTables(), thumbnail.getTableImgUrl());
-//            for (Tables tables1 : allTables.keySet()) {
-//                tables1
-//            }
-//            allTables.keySet()
-//        }
-
-        List<TablesResponseDto> tablesResponseDtos = new ArrayList<>();
-//        List<TablesResponseDto> tablesResponseDtos = tablesList.stream()
-//                .map(TablesResponseDto::new)
-//                .collect(Collectors.toList());
-
-        return ResponseEntity.ok().body(tablesResponseDtos);
-    }
 
     /**
      * 술상 추천 작성 - ok
@@ -72,15 +45,15 @@ public class TablesService {
         Tables tables = new Tables(tablesRequestDto, user);
         // 술상 저장
         tablesRepository.save(tables);
-        // 썸네일 등록
-        Thumbnail thumbnail = new Thumbnail(tablesRequestDto.getThumbnail(), tables);
-        thumbnailRepository.save(thumbnail);
-        // 이미지 등록 ( 0번째는 썸네일, 1부터 저장 )
-        for (int i = 1; i < tablesRequestDto.getImgUrlList().size(); i++) {
-            String tableImgUrl = tablesRequestDto.getImgUrlList().get(i);
-            TableImage tableImage = new TableImage(tableImgUrl, tables);
-            tableImageRepository.save(tableImage);
+
+        if (tablesRequestDto.getImgUrlList().size() > 1) {
+            // 이미지 등록 ( 0번째는 썸네일, 1부터 저장 )
+            for (int i = 1; i < tablesRequestDto.getImgUrlList().size(); i++) {
+                String tableImgUrl = tablesRequestDto.getImgUrlList().get(i);
+                TableImage tableImage = new TableImage(tableImgUrl, tables);
+                tableImageRepository.save(tableImage);
 //            tables.addTableImage(tableImage);
+            }
         }
         return ResponseEntity.ok().body(new ResponseDto(true, "술상이 올라갔습니다."));
     }
@@ -103,8 +76,8 @@ public class TablesService {
 
         // 이미지 수정(업데이트)
 //        Thumbnail thumbnail = thumbnailRepository.findByTables(findTable);
-        Thumbnail thumbnail = findTable.getThumbnail();
-        thumbnail.updateImgUrl(tablesRequestDto.getThumbnail());
+//        Thumbnail thumbnail = findTable.getThumbnail();
+//        thumbnail.updateImgUrl(tablesRequestDto.getThumbnail());
         tableImageRepository.deleteByTables(findTable);
         for (int i = 1; i < tablesRequestDto.getImgUrlList().size(); i++) {
             String tableImgUrl = tablesRequestDto.getImgUrlList().get(i);
@@ -112,7 +85,8 @@ public class TablesService {
             tableImageRepository.save(tableImage);
         }
         // 술상 수정(업데이트)
-        findTable.update(tablesRequestDto, thumbnail);
+//        findTable.update(tablesRequestDto, thumbnail);
+        findTable.update(tablesRequestDto);
 
         return ResponseEntity.ok().body(new ResponseDto(true, "정상적으로 수정되었습니다."));
     }
@@ -120,6 +94,7 @@ public class TablesService {
     /**
      * 술상 추천 상세 - ok
      */
+    @Transactional
     public ResponseEntity<?> getTableDetail(Long tableId, User user) {
         // 술상 조회
         Tables findTable = tablesRepository.findById(tableId).orElseThrow(
@@ -129,10 +104,14 @@ public class TablesService {
 //        Thumbnail thumbnail = findTable.getThumbnail();
 
         // 북마크, 좋아요 조회
-        Optional<Bookmark> bookmark = bookmarkRepository.findByUserAndTables(user, findTable.getId());
+        Optional<Bookmark> bookmark = bookmarkRepository.findByUserAndTables(user, findTable);
         Optional<Likes> likes = likeRepository.findByUserAndTables(user, findTable);
         // 조회한 유저의 ID 저장 (조회수)
         findTable.addViewUser(user.getUserId());
+        List<Long> viewUserList = findTable.getViewUserList();
+        for (Long aLong : viewUserList) {
+            System.out.println("viewUserList" + aLong);
+        }
 
         // 술상 댓글 DB 조회
         List<Reply> replies = replyRepository.findAllByTablesOrderByCreatedAtDesc(findTable);
@@ -144,9 +123,9 @@ public class TablesService {
         }
 
         TablesResponseDto detailResponseDto = new TablesResponseDto(findTable,
-                                                    replyResponseDtos,
-                                                    checkIsBookmark(bookmark),
-                                                    checkIsLike(likes));
+                replyResponseDtos,
+                checkIsBookmark(bookmark),
+                checkIsLike(likes));
 
         return ResponseEntity.ok().body(detailResponseDto);
     }
@@ -163,67 +142,50 @@ public class TablesService {
         if (!findTable.getUser().getId().equals(user.getId())) {
             throw new IllegalStateException("작성자만 삭제할 수 있습니다.");
         }
-        // 술상 삭제 -> cascade 속성으로 연관관계 자동 삭제
+        // 술상 삭제
         tablesRepository.deleteById(tableId);
 
         return ResponseEntity.ok().body(new ResponseDto(true, "술상을 엎었습니다."));
     }
 
 
-//    public ResponseEntity<?> getPagingTables(int page, int size, String sortBy, boolean isAsc) {
-//
-////        List<Tables> tablesList = tablesRepository.findAll();
-////        List<TablesResponseDto> tablesResponseDtos = tablesList.stream()
-////                .map(TablesResponseDto::new)
-////                .collect(Collectors.toList());
-////        return ResponseEntity.ok().body(tablesResponseDtos);
-//
-//        // ----------------------페이징 처리-------------------------//
-//        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-//        Sort sort = Sort.by(direction, sortBy);
-//        Pageable pageable = PageRequest.of(page, size, sort);
-//        // Pageable pageable2 = new PageRequest(page, size, sort); 우리에겐 이 형태가 익숙하지만
-//        // static 함수(=of)를 사용해서 필요인자를 받아서 new를 해준다.
-//        // --------------------------------------------------------//
-//
-//        List<TablesResponseDto> reviewResponseDtos = new ArrayList<>();
-//
-//        // 댓글 가져오기
-//        Page<Reply> myReviews = reviewRepository.findOrderByCreatedAtDesc(user, pageable);
-//        for (Review myReview : myReviews) {
-//            ReviewResponseDto reviewResponseDto = new ReviewResponseDto(myReview);
-//            reviewResponseDtos.add(reviewResponseDto);
-//        }
-////      return  reviewResponseDtos = reviewRepository.findByUserOrderByCreatedAtDesc(user, pageable).stream()
-////                .map(myReview -> new ReviewResponseDto(myReview)).collect(Collectors.toList());
-//        return reviewResponseDtos;
-//    }
+    /**
+     * 술상 추천 목록
+     */
+    public ResponseEntity<?> getPagingTables(int page, int size, String sortBy, boolean isAsc, String alcohol) {
+
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Slice<Tables> tablesSlice = null;
+
+        if (alcohol == null) {
+            tablesSlice = tablesRepository.findAllTables(pageable); // 전체 목록
+        } else {
+            String[] splitAlcoholTag = alcohol.split(",");  // 소주,맥주,와인
+            tablesSlice = tablesRepository.getTablesOrderByAlcoholTag(pageable, splitAlcoholTag);
+        }
+
+        Slice<TablesResponseDto> tablesResponseDtoSlice = TablesResponseDto.myPageTablesResponseDto(tablesSlice);
+
+        return ResponseEntity.ok().body(tablesResponseDtoSlice);
+
+    }
 
     /**
-     * 본인이 작성한 술상 - ok ( 2번응답으로 바뀔 가능성 있음 )
+     * 본인이 작성한 술상 - ok
      */
     public ResponseEntity<?> getMyTables(int page, int size, boolean isAsc, User user) {
 
-        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort sort = Sort.by(direction);
-        Pageable pageable = PageRequest.of(page, size, sort);
-
-        List<TablesResponseDto> tablesResponseDtos = new ArrayList<>();
+//        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+//        Sort sort = Sort.by(direction);
+//        Pageable pageable = PageRequest.of(page, size, sort);
+        Pageable pageable = PageRequest.of(page, size);
 
         Slice<Tables> tablesSlice = tablesRepository.findAllByUserOrderByCreatedAtDesc(user, pageable);
-        // 1번
-        for (Tables tables : tablesSlice) {
-//            Thumbnail thumbnail = thumbnailRepository.findByTables(tables);
-            TablesResponseDto tablesResponseDto = new TablesResponseDto(tables);
-            tablesResponseDtos.add(tablesResponseDto);
-        }
-        // 1번 응답
-        return ResponseEntity.ok().body(tablesResponseDtos);
 
-        // 2번
-//        Slice<TablesResponseDto> tablesResponseDtoSlice = TablesResponseDto.myPageTablesResponseDto(tablesSlice);
-        // 2번 응답
-//        return ResponseEntity.ok().body(tablesResponseDtoSlice);
+        Slice<TablesResponseDto> tablesResponseDtoSlice = TablesResponseDto.myPageTablesResponseDto(tablesSlice);
+        return ResponseEntity.ok().body(tablesResponseDtoSlice);
     }
 
     /**
@@ -243,7 +205,8 @@ public class TablesService {
     }
 
     private void validateAlcoholtag(String alcoholtag) {
-        if (Stream.of("맥주", "소주", "양주", "막걸리", "와인", "전통주").anyMatch(s -> !alcoholtag.equals(s))) {
+        if (!(alcoholtag.equals("맥주") || alcoholtag.equals("소주") || alcoholtag.equals("막걸리") ||
+                alcoholtag.equals("양주") || alcoholtag.equals("와인") || alcoholtag.equals("전통주"))) {
             throw new IllegalStateException("잘못된 술태그 입니다.");
         }
     }
@@ -254,5 +217,22 @@ public class TablesService {
 
     private boolean checkIsLike(Optional<Likes> likes) {
         return (!likes.isPresent()) ? false : true;
+    }
+
+    /**
+     * 술상 추천 검색
+     */
+    public ResponseEntity<?> getPagingTablesBySearch(int page, int size, String sortBy, boolean isAsc, String keyword) {
+
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+//        Slice<Tables> tablesSlice = tablesRepository.getTablesBySearch(pageable, keyword, keyword, keyword, keyword);
+        Slice<Tables> tablesSlice = tablesRepository.getTablesBySearchV3(pageable, keyword);
+
+        Slice<TablesResponseDto> tablesResponseDtoSlice = TablesResponseDto.myPageTablesResponseDto(tablesSlice);
+
+        return ResponseEntity.ok().body(tablesResponseDtoSlice);
     }
 }

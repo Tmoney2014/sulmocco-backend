@@ -20,13 +20,13 @@ public class Reply extends Timestamped {
     @Column(nullable = false)
     private String content;
 
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonIgnore
     @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name="talbes_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="tables_id")
     private Tables tables;
 
     //== 연관관계 (편의) 메서드==//
@@ -44,8 +44,9 @@ public class Reply extends Timestamped {
         setTables(tables);
     }
 
-    public void update(String content) {
+    public void update(String content, User user) {
         this.content = content;
+        this.user = user;
     }
 
 }

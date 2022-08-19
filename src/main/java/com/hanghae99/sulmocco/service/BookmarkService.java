@@ -29,7 +29,7 @@ public class BookmarkService {
     public ResponseEntity<?> postbookmark(Long userId, Long tableId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다"));
         Tables tables = postRepository.findById(tableId).orElseThrow(() -> new IllegalArgumentException("포스트가 없습니다"));
-        Optional<Bookmark> bookmarkFound = bookmarkRepository.findByUserAndTables(user,tableId);
+        Optional<Bookmark> bookmarkFound = bookmarkRepository.findByUserAndTables(user,tables);
         // 이미 북마크가 되어있는 POST 이면 이미 북마크한 게시글이라고 오류 메시지 날리기
         if(bookmarkFound.isPresent()){
             return new ResponseEntity<>("북마크를 이미 한 게시글입니다", HttpStatus.valueOf(400));

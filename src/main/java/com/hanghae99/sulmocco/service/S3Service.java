@@ -43,6 +43,7 @@ public class S3Service {
                 PutObjectRequest por = new PutObjectRequest(bucket, filename, file.getInputStream(), metadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead);
                 amazonS3.putObject(por);
+                System.out.println("S3Service uploadImageV1 : 이미지 업로드 성공!!!");
             } catch (Exception e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드 중 문제가 발생했습니다");
             }

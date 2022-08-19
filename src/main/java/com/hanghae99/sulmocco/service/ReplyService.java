@@ -75,7 +75,8 @@ public class ReplyService {
         if (reply.getContent().equals(replyRequestDto.getContent())) {
             throw new IllegalArgumentException("내용이 변경되지 않았습니다.");
         }
-        reply.update(reply.getContent());
+        reply.update(replyRequestDto.getContent(), user); // 더티 체킹
+
         return ResponseEntity.ok(new ResponseDto(true, "댓글이 수정되었습니다."));
     }
 

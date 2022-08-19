@@ -1,5 +1,6 @@
 package com.hanghae99.sulmocco.controller;
 
+import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.service.LikeService;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +19,15 @@ public class LikeController {
 
 
     @PostMapping("/api/tables/{tableId}/like")
-    public ResponseEntity<?> postLikes(@AuthenticationPrincipal UserDetailsImpl userDetails , @PathVariable Long tableId) {
+    public ResponseEntity<?> postLikes(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long tableId) {
         Long userId = userDetails.getUser().getUserId();
-        return likesService.postLikes(userId,tableId);
+        return likesService.postLikes(userId, tableId);
     }
 
 
     @DeleteMapping("/api/tables/{tableId}/like")
-    public ResponseEntity<?> deletetLikes(@AuthenticationPrincipal UserDetailsImpl userDetails , @PathVariable Long tableId)  {
-        Long userId = userDetails.getUser().getUserId();
-        return likesService.deleteLikes(userId,tableId);
+    public ResponseEntity<?> deletetLikes(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long tableId) {
+        User user = userDetails.getUser();
+        return likesService.deleteLikes(user, tableId);
     }
 }

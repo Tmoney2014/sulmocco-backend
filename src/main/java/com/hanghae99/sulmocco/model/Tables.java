@@ -26,7 +26,7 @@ public class Tables extends Timestamped {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60000)
     private String content;
 
     @Column(nullable = false)
@@ -35,6 +35,7 @@ public class Tables extends Timestamped {
     @Column(nullable = false)
     private String freeTag;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -43,23 +44,30 @@ public class Tables extends Timestamped {
     @OneToMany(mappedBy = "tables", cascade = CascadeType.ALL)
     private List<Reply> replies;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "tables", cascade = CascadeType.ALL)
+    private List<Bookmark> bookmarks;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "tables", cascade = CascadeType.ALL)
     private List<Likes> likes;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "tables", cascade = CascadeType.ALL)
     @Column(nullable = false)
     private List<TableImage> imgUrls = new ArrayList<>();
 
-    @OneToOne(mappedBy = "tables", cascade = CascadeType.ALL)
-    private Thumbnail thumbnail;
-
-    @ElementCollection(fetch = LAZY)
+    @ElementCollection
     @CollectionTable(name = "VIEWUSER", joinColumns = @JoinColumn(name = "tables_id"))
     List<Long> viewUserList = new ArrayList<>();
 
+    @Column(nullable = false, length = 60000)
+    private String thumbnailImgUrl;
+
+    private int count;
+
     public void setUser(User user) {
         this.user = user;
-        user.getTablesList().add(this);
     }
 
     public Tables(TablesRequestDto tablesRequestDto, User user) {
@@ -67,18 +75,20 @@ public class Tables extends Timestamped {
         this.content = tablesRequestDto.getContent();
         this.alcoholTag = tablesRequestDto.getAlcoholtag();
         this.freeTag = tablesRequestDto.getFreetag();
+        this.thumbnailImgUrl = tablesRequestDto.getThumbnail();
 //        this.imgUrls = tablesRequestDto.getImgUrlList().stream()
 //                    .map((tableImageUrl) -> new TableImage(tableImageUrl, this))
 //                    .collect(Collectors.toList());
+        this.count = 0;
         setUser(user);
     }
 
-    public void update(TablesRequestDto tablesRequestDto, Thumbnail thumbnail) {
+    public void update(TablesRequestDto tablesRequestDto) {
         this.title = tablesRequestDto.getTitle();
         this.content = tablesRequestDto.getContent();
         this.alcoholTag = tablesRequestDto.getAlcoholtag();
         this.freeTag = tablesRequestDto.getFreetag();
-        this.thumbnail = thumbnail;
+        this.thumbnailImgUrl = tablesRequestDto.getThumbnail();
 //        this.imgUrls = tablesRequestDto.getImgUrlList().stream()
 //                .map((tableImageUrl) -> new TableImage(tableImageUrl, this))
 //                .collect(Collectors.toList());
@@ -89,6 +99,7 @@ public class Tables extends Timestamped {
             return;
         }
         viewUserList.add(userId);
+        count = viewUserList.size();
     }
 
     public void addTableImage(TableImage tableImage) {
