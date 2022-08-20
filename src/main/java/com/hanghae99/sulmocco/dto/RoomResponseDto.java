@@ -1,0 +1,54 @@
+package com.hanghae99.sulmocco.dto;
+
+import com.hanghae99.sulmocco.model.Room;
+import com.hanghae99.sulmocco.model.Tables;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.stream.Collectors;
+
+@Getter
+@Setter
+public class RoomResponseDto {
+
+   private Long roomId;
+   private String chatRoomId;
+   private String version;
+   private String tumbnail;
+   private String title;
+   private String alcoholtag;
+   private String food;
+   private String theme;
+   private String username;
+   private boolean onair;
+
+    public RoomResponseDto(Room room) {
+        this.roomId =room.getId();
+        this.chatRoomId = room.getChatRoomId();
+        this.version = room.getVersion();
+        this.tumbnail = room.getThumbnail();
+        this.title = room.getTitle();
+        this.alcoholtag = room.getAlcoholTag();
+        this.food = room.getFood();
+        this.theme = room.getTheme();
+        this.username = room.getUsername();
+        this.onair = room.isOnair();
+    }
+
+
+
+
+}
+
+
+//   “roomId”: “술약속 id”
+//           “chatRoomId” : “채팅방 id”
+//           “thumbnail”:”썸네일 이미지 url”,
+//           “title” : “방제목”
+//           “time”: “시간”,
+//           “members” : “참여인원”,
+//           “alcohol”:”주종”,
+//           “food” : “안주”,
+//           “theme”: “테마”,
+//           “username : “사용자 이름”,
+//           “onair” : “방송여부”

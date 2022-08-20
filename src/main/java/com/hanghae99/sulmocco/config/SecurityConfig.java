@@ -72,12 +72,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http
+                .csrf().disable()
+                .headers()
+                .frameOptions().sameOrigin(); // SockJS는 기본적으로 HTML iframe 요소를 통한 전송을 허용하지 않도록 설정되는데 해당 내용을 해제한다.
+
         http.cors();
         http
+
                 .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
         http.sessionManagement()
+
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .logout()
@@ -85,17 +91,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .authorizeRequests()
+//                .antMatchers("/chat/**").permitAll()
                 .anyRequest().permitAll();
+
     }
 
     private JwtAuthFilter jwtFilter() throws Exception {
         List<String> skipPathList = new ArrayList<>();
-
+//        skipPathList.add("POST,/**");
+//        skipPathList.add("GET,/**");
         skipPathList.add("POST,/api/login");
         skipPathList.add("POST,/api/signup");
         skipPathList.add("GET,/api/checkUser/{username}");
         skipPathList.add("GET,/oauth2/redirect");
-        skipPathList.add("GET,/");
+//        skipPathList.add("GET,/chat**");
+//        skipPathList.add("GET,/room**");
+//        skipPathList.add("POST,/chat**");
+//        skipPathList.add("POST,/room**");
 
 
         FilterSkipMatcher matcher = new FilterSkipMatcher(
