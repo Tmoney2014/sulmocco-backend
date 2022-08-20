@@ -28,6 +28,9 @@ public class Room extends Timestamped implements Serializable {
     private String thumbnail;
 
     @Column(nullable = false)
+    private String version;
+
+    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
@@ -53,12 +56,13 @@ public class Room extends Timestamped implements Serializable {
         Room room = new Room();
         room.chatRoomId = UUID.randomUUID().toString();
         room.thumbnail = requestDto.getThumbnail();
+        room.version = requestDto.getVersion();
         room.title = requestDto.getTitle();
-        room.alcoholTag = requestDto.getAlcoholTag();
+        room.alcoholTag = requestDto.getAlcoholtag();
         room.food = requestDto.getFood();
         room.theme = requestDto.getTheme();
         room.username = username;
-        room.onair = requestDto.isOnair();
+        room.onair = true;
         room.profileimgurl = userprofileurl;
         return room;
     }

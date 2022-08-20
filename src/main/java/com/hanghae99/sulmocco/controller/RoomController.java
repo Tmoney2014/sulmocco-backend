@@ -38,9 +38,9 @@ public class RoomController {
 
     // 다른 사용 자는 입장만 하면 된다. 술약속 상세 페이제 리스폰스로 chatRoomId 를 보내준다.
     @GetMapping("/room/enter/{roomId}")
-    public String roomDetail(Model model, @PathVariable String roomId) {
-        model.addAttribute("chatRoomId", roomId);
-        return "/chat/roomdetail";
+    public ResponseEntity<?> roomDetail(@PathVariable Long roomId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        return ResponseEntity.ok().body(roomService.roomdetail(roomId,userDetails));
     }
 
 //    @GetMapping("/room/{roomId}")

@@ -1,9 +1,12 @@
 package com.hanghae99.sulmocco.service;
 
 import com.hanghae99.sulmocco.dto.RoomRequestDto;
+import com.hanghae99.sulmocco.dto.RoomResponseDto;
+import com.hanghae99.sulmocco.dto.TablesResponseDto;
 import com.hanghae99.sulmocco.model.Room;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.repository.RoomRepository;
+import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.websocket.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
@@ -45,14 +48,14 @@ public class RoomService {
         topics = new HashMap<>();
     }
 
-
-    public List<Room> findAllRoom() {
-        return opsHashChatRoom.values(CHAT_ROOMS);
-    }
-
-    public Room findRoomById(String id) {
-        return opsHashChatRoom.get(CHAT_ROOMS, id);
-    }
+//
+//    public List<Room> findAllRoom() {
+//        return opsHashChatRoom.values(CHAT_ROOMS);
+//    }
+//
+//    public Room findRoomById(String id) {
+//        return opsHashChatRoom.get(CHAT_ROOMS, id);
+//    }
     /**
      * 채팅방 생성 : 서버간 채팅방 공유를 위해 redis hash에 저장한다.
      */
@@ -76,6 +79,13 @@ public class RoomService {
 
     public ChannelTopic getTopic(String chatRoomId) {
         return topics.get(chatRoomId);
+    }
+
+    public ResponseEntity<?> roomdetail(Long roomId, UserDetailsImpl userDetails) {
+        Room findRoom = roomRepository.findById(roomId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 술약속입니다."));
+        return ResponseEntity.ok().body(new RoomResponseDto(findRoom));
+
     }
 }
 

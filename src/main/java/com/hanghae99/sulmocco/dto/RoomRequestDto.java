@@ -13,12 +13,13 @@ public class RoomRequestDto {
 
     String title;
 
-    String alcoholTag;
+    String version;
+
+    String alcoholtag;
 
     String food;
 
     String theme;
 
-    boolean onair;
 }
 
