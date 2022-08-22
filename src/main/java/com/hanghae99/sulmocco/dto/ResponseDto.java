@@ -18,8 +18,17 @@ public class ResponseDto {
 
     private Long roomId;
 
+    private String id;
+
+    private String username;
+
     public ResponseDto (boolean response, String message) {
         this.response = response;
         this.message = message;
+    }
+    public ResponseDto (boolean response, String id, String username) {
+        this.response = response;
+        this.id = id;
+        this.username = username;
     }
 }

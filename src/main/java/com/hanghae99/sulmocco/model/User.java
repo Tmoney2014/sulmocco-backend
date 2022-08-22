@@ -28,26 +28,15 @@ public class User {
     private String password;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String username;    // 우리 서비스에서는 닉네임으로 사용된다.
 
     @Column(nullable = false)
     private String level;
 
-//    @Column(nullable = false)
     private String profileUrl;
 
 //    @Column(nullable = false)
 //    private String role;
-
-    // 여기서의 "user"는 Post에 있는 user필드에 의해서 매핑된 거울 역할
-    // mappedBy 속성 : 나는 주인이 아니에요. 나는 연관관계의 거울이에요.(읽기 전용)
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "user")
-//    private List<Tables> tablesList = new ArrayList<>();
-//
-
-//    @OneToMany(mappedBy = "user")
-//    private List<Like> likes = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "user")
 //    private List<Bookmark> bookmarks = new ArrayList<>();

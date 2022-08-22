@@ -13,15 +13,15 @@ public class Bookmark {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BOOKMARK_ID", nullable = false)
+    @Column(name = "bookmark_id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "TABLES_ID", nullable = false)
+    @JoinColumn(name = "tables_id")
     private Tables tables;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Bookmark(User user, Tables tables) {

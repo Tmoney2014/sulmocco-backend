@@ -63,19 +63,19 @@ public class BookmarkService {
         //FOR문을 돌려 필요한 내용을 DTO 에 하나씩 담아 ADD 후 DTOLIST 를 앞단으로 리턴
         for(Bookmark bookmark : bookmarks) {
             bookmarkResponseDtoList.add(new BookmarkResponseDto(bookmark.getTables().getTitle(),bookmark.getTables().getUser().getUsername(),bookmark.getTables().getContent()
-                    ,bookmark.getTables().getId(),bookmark.getTables().getLikes().size(),bookmark.getTables().getViewcount(),bookmark.getTables().getAlcoholTag(),bookmark.getTables().getFreeTag(),bookmark.getUser().getProfileUrl()));
+                    ,bookmark.getTables().getId(),bookmark.getTables().getLikes().size(),bookmark.getTables().getViewount(),bookmark.getTables().getAlcoholTag(),bookmark.getTables().getFreeTag(),bookmark.getUser().getProfileUrl()));
 
         }
 
-        private String title;
-        private String username;
-        private String content;
-        private Long tablesId;
-        private Long likecount;  //@OneToMany(mappedBy = "tables", cascade = CascadeType.ALL //private List<Like> likes; 사이즈로 갖고옴.
-        private Long viewcount;  //콜렉션으로 유저ID 저장 // 사이즈로 갖고옴.
-        private String alcoholtag;
-        private String freetag;
-        private String profileimgurl; // 작성자 profileimg
+//        private String title;
+//        private String username;
+//        private String content;
+//        private Long tablesId;
+//        private Long likecount;  //@OneToMany(mappedBy = "tables", cascade = CascadeType.ALL //private List<Like> likes; 사이즈로 갖고옴.
+//        private Long viewcount;  //콜렉션으로 유저ID 저장 // 사이즈로 갖고옴.
+//        private String alcoholtag;
+//        private String freetag;
+//        private String profileimgurl; // 작성자 profileimg
 
 
         return new ResponseEntity<>(bookmarkResponseDtoList, HttpStatus.valueOf(200));

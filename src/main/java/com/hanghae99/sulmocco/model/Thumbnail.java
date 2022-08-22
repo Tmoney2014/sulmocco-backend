@@ -7,10 +7,10 @@ import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Getter
 @NoArgsConstructor
+@Getter
 @Entity
-public class TableImage {
+public class Thumbnail {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -18,22 +18,22 @@ public class TableImage {
     private Long id;
 
     @Column()
-    private String tableImgUrl;
+    private String thumbnailUrl;
+
     @JoinColumn(name = "tables_id", nullable = false)
-    @ManyToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY)
     private Tables tables;
 
-    public TableImage(String tableImgUrl, Tables tables) {
-        this.tableImgUrl = tableImgUrl;
+    public Thumbnail(String thumbnailUrl, Tables tables) {
+        this.thumbnailUrl = thumbnailUrl;
         setTables(tables);
     }
-    //== 연관관계 메서드 ==//
+
     public void setTables(Tables tables) {
         this.tables = tables;
-        tables.getImgUrls().add(this);
     }
 
-    public void update(String tableImgUrl) {
-        this.tableImgUrl = tableImgUrl;
+    public void updateImgUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 }

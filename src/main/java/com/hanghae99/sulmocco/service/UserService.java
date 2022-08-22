@@ -42,4 +42,13 @@ public class UserService {
             return ResponseEntity.ok().body("사용가능한 닉네임 입니다.");
         }
     }
+
+    public ResponseEntity<?> checkUserId(String userId) {
+
+        if (userRepository.findById(userId) != null) {
+            throw new IllegalArgumentException("이미 존재하는 아이디 입니다. 아이디를 찾아주세요.");
+        } else {
+            return ResponseEntity.ok().body(new ResponseDto(true,"사용 가능한 아이디입니다."));
+        }
+    }
 }

@@ -13,16 +13,20 @@ import java.util.List;
 @AllArgsConstructor
 public class TablesRequestDto {
 
-    @NotBlank
+    @NotBlank(message = "제목을 입력해주세요.")
     private String title;
-    @NotBlank
+
+    @NotBlank(message = "username이 없습니다")
     private String username;
-    @NotBlank
+
+    @NotBlank(message = "내용을 작성해주세요.")
     private String content;
-    @NotBlank(message = "이미지를 업로드 해주세요.")
+
+    private String thumbnail;
+
     private List<String> imgUrlList;
-    @NotBlank
+
     private String alcoholtag;
-    @NotBlank
+
     private String freetag;
 }

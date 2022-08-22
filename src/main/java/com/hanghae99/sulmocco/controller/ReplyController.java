@@ -1,5 +1,7 @@
 package com.hanghae99.sulmocco.controller;
 
+import com.hanghae99.sulmocco.dto.ReplyRequestDto;
+import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.service.ReplyService;
 import lombok.RequiredArgsConstructor;
@@ -14,39 +16,45 @@ public class ReplyController {
     private final ReplyService replyService;
 
     // 댓글 목록
-    @GetMapping("/api/tables/{tableId}/replies")
+//    @GetMapping("/api/tables/{tableId}/replies")
+    @GetMapping("/api/replies/{tableId}")
     public ResponseEntity<?> getReplies(@PathVariable Long tableId) {
         return replyService.getReplies(tableId);
     }
 
     // 댓글 작성
-    @PostMapping("/api/tables/{tableId}/replies")
+//    @PostMapping("/api/tables/{tableId}/replies")
+    @PostMapping("/api/replies/{tableId}")
     public ResponseEntity<?> createReply(@PathVariable Long tableId,
+                                         @RequestBody ReplyRequestDto replyRequestDto,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails != null) {
-            return replyService.createReply(tableId);
+            User user = userDetails.getUser();
+            return replyService.createReply(tableId, replyRequestDto, user);
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("로그인이 만료되었습니다.");
     }
 
     // 댓글 수정
-    @PutMapping("/api/tables/{tableId}/replies/{replyId}")
-    public ResponseEntity<?> updateReply(@PathVariable Long tableId,
-                                         @PathVariable Long replyId,
+    @PutMapping("/api/replies/{replyId}")
+    public ResponseEntity<?> updateReply(@PathVariable Long replyId,
+                                         @RequestBody ReplyRequestDto replyRequestDto,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails != null) {
-            return replyService.updateReply(tableId, replyId);
+            User user = userDetails.getUser();
+            return replyService.updateReply(replyId, replyRequestDto, user);
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("로그인이 만료되었습니다.");
     }
+
     // 댓글 삭제
-    @DeleteMapping("/api/tables/{tableId}/replies/{replyId}")
-    public ResponseEntity<?> deleteReply(@PathVariable Long tableId,
-                                         @PathVariable Long replyId,
+    @DeleteMapping("/api/replies/{replyId}")
+    public ResponseEntity<?> deleteReply(@PathVariable Long replyId,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails != null) {
-            return replyService.deleteReply(tableId, replyId);
+            User user = userDetails.getUser();
+            return replyService.deleteReply(replyId, user);
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("로그인이 만료되었습니다.");
     }
 }

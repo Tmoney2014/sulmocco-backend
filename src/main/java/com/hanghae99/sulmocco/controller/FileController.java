@@ -17,7 +17,7 @@ public class FileController {
     private final S3Service s3Service;
 
     // 이미지 업로드 V1 - List<UploadResponseDto>
-    @PostMapping("/api/images/uploadV1")
+    @PostMapping("/api/images")
     public ResponseEntity<?> uploadImageV1(@RequestPart(value = "file", required = false) List<MultipartFile> files) throws IOException {
         return s3Service.uploadImageV1(files);
     }
@@ -29,7 +29,7 @@ public class FileController {
 //    }
 
     // 이미지 삭제
-    @DeleteMapping("/api/images/delete")
+    @DeleteMapping("/api/images")
     public List<String> deleteImages(@RequestBody List<String> filenames){
         return s3Service.deleteImages(filenames);
     }
