@@ -30,8 +30,9 @@ public class Friends extends Timestamped {
     }
 
 
-    public Friends(String content, User user) {
-        this.addFriend_id = addFriend_id;
-        setUser(user);
+    public Friends(Long userId, User user) {
+        this.addFriendId = userId;
+        this.user = user;
+
     }
 }

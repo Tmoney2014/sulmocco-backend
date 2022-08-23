@@ -3,17 +3,22 @@ package com.hanghae99.sulmocco.controller;
 import com.hanghae99.sulmocco.dto.ReplyRequestDto;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
+import com.hanghae99.sulmocco.service.FriendsService;
 import com.hanghae99.sulmocco.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
+
 @RestController
 @RequiredArgsConstructor
 public class FriendsController {
 
-    private final ReplyService replyService;
+//    private final ReplyService replyService;
+
+    private final FriendsService friendsService;
 
     // 친구목록
     @GetMapping("/api/friends/")
@@ -23,23 +28,22 @@ public class FriendsController {
 
     //친구추가
     @PostMapping("/api/friends/{username}")
-    public ResponseEntity<?> createReply(@PathVariable Long tableId,
-                                         @RequestBody ReplyRequestDto replyRequestDto,
+    public ResponseEntity<?> createFriens(@PathVariable String username,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails != null) {
             User user = userDetails.getUser();
-            return replyService.createReply(tableId, replyRequestDto, user);
+            return friendsService.createFriends(username, user);
         }
         return ResponseEntity.badRequest().body("로그인이 만료되었습니다.");
     }
 
     // 친구 삭제
     @DeleteMapping("/api/friends/{username}")
-    public ResponseEntity<?> deleteReply(@PathVariable Long replyId,
+    public ResponseEntity<?> deleteFriends(@PathVariable String username,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails != null) {
             User user = userDetails.getUser();
-            return replyService.deleteReply(replyId, user);
+            return friendsService.deleteFriends(username, user);
         }
         return ResponseEntity.badRequest().body("로그인이 만료되었습니다.");
     }
