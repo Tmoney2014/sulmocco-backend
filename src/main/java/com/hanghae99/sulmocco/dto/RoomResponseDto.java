@@ -2,6 +2,8 @@ package com.hanghae99.sulmocco.dto;
 
 import com.hanghae99.sulmocco.model.Room;
 import com.hanghae99.sulmocco.model.Tables;
+import com.hanghae99.sulmocco.repository.RedisRepository;
+import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,21 +19,27 @@ public class RoomResponseDto {
    private String tumbnail;
    private String title;
    private String alcoholtag;
+
+   private Long userCount;
    private String food;
    private String theme;
    private String username;
+   private String profileurl;
    private boolean onair;
 
     public RoomResponseDto(Room room) {
+
         this.roomId =room.getId();
         this.chatRoomId = room.getChatRoomId();
         this.version = room.getVersion();
         this.tumbnail = room.getThumbnail();
         this.title = room.getTitle();
         this.alcoholtag = room.getAlcoholTag();
+        this.userCount = room.getUserCount();
         this.food = room.getFood();
         this.theme = room.getTheme();
         this.username = room.getUsername();
+        this.profileurl = room.getProfileimgurl();
         this.onair = room.isOnair();
     }
 

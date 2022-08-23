@@ -4,12 +4,14 @@ import com.hanghae99.sulmocco.base.Timestamped;
 import com.hanghae99.sulmocco.dto.RoomRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 public class Room extends Timestamped implements Serializable {
@@ -21,10 +23,8 @@ public class Room extends Timestamped implements Serializable {
     @Column(name = "room_id")
     private Long id;
 
-
     private String chatRoomId;
 
-    @Column(nullable = false)
     private String thumbnail;
 
     @Column(nullable = false)
@@ -35,6 +35,14 @@ public class Room extends Timestamped implements Serializable {
 
     @Column(nullable = false)
     private String alcoholTag;
+
+    @Column
+    private Long userCount;
+
+    @ManyToOne
+    @JoinColumn
+    private User user;
+
 
     @Column(nullable = false)
     private String food;
@@ -52,18 +60,20 @@ public class Room extends Timestamped implements Serializable {
     private String profileimgurl;
 
 
-    public static Room create(RoomRequestDto requestDto, String username, String userprofileurl) {
+    public static Room create(RoomRequestDto requestDto, User user) {
         Room room = new Room();
         room.chatRoomId = UUID.randomUUID().toString();
         room.thumbnail = requestDto.getThumbnail();
         room.version = requestDto.getVersion();
         room.title = requestDto.getTitle();
         room.alcoholTag = requestDto.getAlcoholtag();
+        room.userCount = 0L;
+        room.user = user;
         room.food = requestDto.getFood();
         room.theme = requestDto.getTheme();
-        room.username = username;
+        room.username = user.getUsername();
         room.onair = true;
-        room.profileimgurl = userprofileurl;
+        room.profileimgurl = user.getProfileUrl();
         return room;
     }
 }

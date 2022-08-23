@@ -108,6 +108,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        skipPathList.add("GET,/room**");
 //        skipPathList.add("POST,/chat**");
 //        skipPathList.add("POST,/room**");
+        // 채팅
+        skipPathList.add("GET,/webjars/**");
+        skipPathList.add("GET,/ws-stomp/**");
+        skipPathList.add("GET,/ws-alarm/**");
+        skipPathList.add("GET,/chat/user");
 
 
         FilterSkipMatcher matcher = new FilterSkipMatcher(

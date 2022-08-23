@@ -1,5 +1,6 @@
 package com.hanghae99.sulmocco.websocket;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -11,8 +12,9 @@ import javax.annotation.PreDestroy;
 /**
  * 로컬 환경일경우 내장 레디스가 실행된다.
  */
-@Profile("alpha")
+@Profile("local")
 @Configuration
+@RequiredArgsConstructor
 public class EmbeddedRedisConfig {
 
     @Value("${spring.redis.port}")
@@ -33,3 +35,4 @@ public class EmbeddedRedisConfig {
         }
     }
 }
+
