@@ -11,6 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 public class ChatMessageRequestDto {
     private ChatMessage.MessageType type;
+
+    //TODO 룸아이디 변경
+
     private Long roomId;
     private String sender;
     private String message;
