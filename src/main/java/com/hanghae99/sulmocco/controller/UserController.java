@@ -27,4 +27,5 @@ public class UserController {
     public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
         return userService.signup(signUpRequestDto);
     }
+//    @GetMapping("/api/checkUser/")
 }

@@ -56,16 +56,16 @@ public class BookmarkService {
 
     //JWT 의 유저 정보로 모든 북마크 보기
     public ResponseEntity<?> getbookmark(UserDetailsImpl userDetails) {
-//        //USER 로 찾아 BOOKMARK LIST 작성
-//        List<Bookmark> bookmarks = bookmarkRepository.findByUser(userDetails.getUser());
-//        //앞단으로 리스폰스 해줄 DTO 형식을 새로 만들어서
-//        List<BookmarkResponseDto> bookmarkResponseDtoList = new ArrayList<>();
-//        //FOR문을 돌려 필요한 내용을 DTO 에 하나씩 담아 ADD 후 DTOLIST 를 앞단으로 리턴
-//        for(Bookmark bookmark : bookmarks) {
-//            bookmarkResponseDtoList.add(new BookmarkResponseDto(bookmark.getTables().getTitle(),bookmark.getTables().getUser().getUsername(),bookmark.getTables().getContent()
-//                    ,bookmark.getTables().getId(),bookmark.getTables().getLikes().size(),bookmark.getTables().getViewcount(),bookmark.getTables().getAlcoholTag(),bookmark.getTables().getFreeTag(),bookmark.getUser().getProfileUrl()));
-//
-//        }
+        //USER 로 찾아 BOOKMARK LIST 작성
+        List<Bookmark> bookmarks = bookmarkRepository.findByUser(userDetails.getUser());
+        //앞단으로 리스폰스 해줄 DTO 형식을 새로 만들어서
+        List<BookmarkResponseDto> bookmarkResponseDtoList = new ArrayList<>();
+        //FOR문을 돌려 필요한 내용을 DTO 에 하나씩 담아 ADD 후 DTOLIST 를 앞단으로 리턴
+        for(Bookmark bookmark : bookmarks) {
+            bookmarkResponseDtoList.add(new BookmarkResponseDto(bookmark.getTables().getTitle(),bookmark.getTables().getUser().getUsername(),bookmark.getTables().getContent()
+                    ,bookmark.getTables().getId(),bookmark.getTables().getLikes().size(),bookmark.getTables().getViewUserList().size(),bookmark.getTables().getAlcoholTag(),bookmark.getTables().getFreeTag(),bookmark.getUser().getProfileUrl()));
+
+        }
 
 //        private String title;
 //        private String username;
@@ -78,8 +78,7 @@ public class BookmarkService {
 //        private String profileimgurl; // 작성자 profileimg
 
 
-//        return new ResponseEntity<>(bookmarkResponseDtoList, HttpStatus.valueOf(200));
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(bookmarkResponseDtoList, HttpStatus.valueOf(200));
 
     }
 }

@@ -12,55 +12,71 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
 public class Room extends Timestamped implements Serializable {
+
+    private static final long serialVersionUID = 6494678977089006639L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "room_id")
     private Long id;
 
-    @Column(nullable = false)
-    private String roomId;
+    private String chatRoomId;
+
+    private String thumbnail;
 
     @Column(nullable = false)
-    private  String title;   // 방 이름
-    @Column
-    private String thumbnail;
-    @Column
     private String version;
-    @Column
-    private String alcoholtag;
-    @Column
-    private String food;
-    @Column
-    private String theme;
-    @Column
-    private String roomUrl;
-    @Column
-    private Boolean isOpen;
+
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private String alcoholTag;
+
     @Column
     private Long userCount;
-    @Column
-    private int count;
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne
     @JoinColumn
     private User user;
 
+
+    @Column(nullable = false)
+    private String food;
+
+    @Column(nullable = false)
+    private String theme;
+
+    @Column(nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private boolean onair;
+
+//    @Column(nullable = false)
+    private String profileimgurl;
+
+
     public static Room create(RoomRequestDto requestDto, User user) {
         Room room = new Room();
-        room.roomId = UUID.randomUUID().toString();
-        room.title = requestDto.getTitle();
+        room.chatRoomId = UUID.randomUUID().toString();
         room.thumbnail = requestDto.getThumbnail();
         room.version = requestDto.getVersion();
-        room.alcoholtag = requestDto.getAlcoholtag();
+        room.title = requestDto.getTitle();
+        room.alcoholTag = requestDto.getAlcoholtag();
+        room.userCount = 0L;
+        room.user = user;
         room.food = requestDto.getFood();
         room.theme = requestDto.getTheme();
-        room.roomUrl = requestDto.getRoomUrl();
-        room.isOpen = requestDto.getIsOpen();
-        room.userCount = 0L;
-        room.count = requestDto.getCount();
-        room.user = user;
+        room.username = user.getUsername();
+        room.onair = true;
+        room.profileimgurl = user.getProfileUrl();
         return room;
     }
 }
+
+
+

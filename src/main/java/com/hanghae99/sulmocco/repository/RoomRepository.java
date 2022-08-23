@@ -1,17 +1,25 @@
 package com.hanghae99.sulmocco.repository;
 
 import com.hanghae99.sulmocco.model.Room;
+<<<<<<< HEAD
 import com.hanghae99.sulmocco.model.Tables;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+=======
+import com.hanghae99.sulmocco.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+>>>>>>> e8c9964fa9c806ac52147a97dc59258c126246ed
 
 import java.util.List;
 import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
+<<<<<<< HEAD
     Optional<Room> findByTitle(String title);
 
     Optional<Room> findByRoomId(String roomId);
@@ -33,3 +41,19 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     Slice<Room> getRoomsOrderByAlcoholTag(Pageable pageable, String[] splitAlcoholTag);
 
 }
+=======
+
+
+
+    Room findByTitle(String title);
+
+    Page<Room> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+//
+//    List<Room> findByUser(User user);
+//
+//    List<Room> findByNameContainingIgnoreCase(String keyword);
+
+    Optional<Room> findByChatRoomId(String chatRoomId);
+}
+>>>>>>> e8c9964fa9c806ac52147a97dc59258c126246ed

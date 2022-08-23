@@ -30,6 +30,8 @@ public class UserDetailsImpl implements org.springframework.security.core.userde
         return user.getPassword();
     }
 
+// TODO username = id  nickname = username  수정 필요
+
     @Override
     public String getUsername() {
         return user.getId();
