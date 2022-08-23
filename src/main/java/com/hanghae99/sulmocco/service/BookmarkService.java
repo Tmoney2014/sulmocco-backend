@@ -28,14 +28,14 @@ public class BookmarkService {
     //북마크 USERID와 POSTID를 받아서 POST와 USER 연결하여 저장하기
     public ResponseEntity<?> postbookmark(Long userId, Long tableId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다"));
-        Tables post = postRepository.findById(tableId).orElseThrow(() -> new IllegalArgumentException("포스트가 없습니다"));
-        Optional<Bookmark> bookmarkFound = bookmarkRepository.findByUserAndTables(user,tableId);
+        Tables tables = postRepository.findById(tableId).orElseThrow(() -> new IllegalArgumentException("포스트가 없습니다"));
+        Optional<Bookmark> bookmarkFound = bookmarkRepository.findByUserAndTables(user,tables);
         // 이미 북마크가 되어있는 POST 이면 이미 북마크한 게시글이라고 오류 메시지 날리기
         if(bookmarkFound.isPresent()){
             return new ResponseEntity<>("북마크를 이미 한 게시글입니다", HttpStatus.valueOf(400));
         }
         //새로운 BOOKMARK 객체 생성후 찾은 USER와 POST 넣어서 저장
-        Bookmark bookmark = new Bookmark(user, post);
+        Bookmark bookmark = new Bookmark(user, tables);
         bookmarkRepository.save(bookmark);
 
         return new ResponseEntity<>("북마크를 등록했습니다.", HttpStatus.valueOf(200));
@@ -63,7 +63,7 @@ public class BookmarkService {
         //FOR문을 돌려 필요한 내용을 DTO 에 하나씩 담아 ADD 후 DTOLIST 를 앞단으로 리턴
         for(Bookmark bookmark : bookmarks) {
             bookmarkResponseDtoList.add(new BookmarkResponseDto(bookmark.getTables().getTitle(),bookmark.getTables().getUser().getUsername(),bookmark.getTables().getContent()
-                    ,bookmark.getTables().getId(),bookmark.getTables().getLikes().size(),bookmark.getTables().getViewount(),bookmark.getTables().getAlcoholTag(),bookmark.getTables().getFreeTag(),bookmark.getUser().getProfileUrl()));
+                    ,bookmark.getTables().getId(),bookmark.getTables().getLikes().size(),bookmark.getTables().getViewUserList().size(),bookmark.getTables().getAlcoholTag(),bookmark.getTables().getFreeTag(),bookmark.getUser().getProfileUrl()));
 
         }
 
