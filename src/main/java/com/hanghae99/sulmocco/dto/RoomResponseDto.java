@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RoomResponseDto {
 
-    private Long roodId;
     private String title;
     private String thumbnail;
     private String alcoholtag;
@@ -31,7 +30,6 @@ public class RoomResponseDto {
     private boolean onair;
 
     public RoomResponseDto(Room room) {
-        this.roomId =room.getId();
         this.chatRoomId = room.getChatRoomId();
         this.version = room.getVersion();
         this.thumbnail = room.getThumbnail();
@@ -52,7 +50,7 @@ public class RoomResponseDto {
                                 .title(r.getTitle())
                                 .thumbnail(r.getThumbnail())
 //                                .members
-                                .roodId(r.getId())
+                                .chatRoomId(r.getChatRoomId())
                                 .alcoholtag(r.getAlcoholTag())
                                 .food(r.getFood())
                                 .theme(r.getTheme())
