@@ -18,6 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @Getter
 public class Tables extends Timestamped {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tables_id")
@@ -32,7 +33,6 @@ public class Tables extends Timestamped {
     @Column(nullable = false)
     private String alcoholTag;
 
-    @Column(nullable = false)
     private String freeTag;
 
     @JsonIgnore
@@ -54,14 +54,13 @@ public class Tables extends Timestamped {
 
     @JsonIgnore
     @OneToMany(mappedBy = "tables", cascade = CascadeType.ALL)
-    @Column(nullable = false)
     private List<TableImage> imgUrls = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "VIEWUSER", joinColumns = @JoinColumn(name = "tables_id"))
     List<Long> viewUserList = new ArrayList<>();
 
-    @Column(nullable = false, length = 60000)
+    @Column(length = 60000)
     private String thumbnailImgUrl;
 
     private int count;

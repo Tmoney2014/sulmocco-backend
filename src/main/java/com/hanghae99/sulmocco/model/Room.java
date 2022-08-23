@@ -1,5 +1,6 @@
 package com.hanghae99.sulmocco.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hanghae99.sulmocco.base.Timestamped;
 import com.hanghae99.sulmocco.dto.RoomRequestDto;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -15,50 +18,36 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 public class Room extends Timestamped implements Serializable {
-
     private static final long serialVersionUID = 6494678977089006639L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")
     private Long id;
-
     private String chatRoomId;
-
     private String thumbnail;
-
     @Column(nullable = false)
     private String version;
-
     @Column(nullable = false)
     private String title;
-
     @Column(nullable = false)
     private String alcoholTag;
-
     @Column
     private Long userCount;
-
-    @ManyToOne
+    @Column(nullable = false)
+    private String food;
+    @Column(nullable = false)
+    private String theme;
+    @Column(nullable = false)
+    private String username;
+    @Column(nullable = false)
+    private boolean onair;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
 
-
-    @Column(nullable = false)
-    private String food;
-
-    @Column(nullable = false)
-    private String theme;
-
-    @Column(nullable = false)
-    private String username;
-
-    @Column(nullable = false)
-    private boolean onair;
-
-//    @Column(nullable = false)
-    private String profileimgurl;
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private List<EnterUser> enterUsers = new ArrayList<>();
 
     public static Room create(RoomRequestDto requestDto, User user) {
         Room room = new Room();
@@ -73,7 +62,6 @@ public class Room extends Timestamped implements Serializable {
         room.theme = requestDto.getTheme();
         room.username = user.getUsername();
         room.onair = true;
-        room.profileimgurl = user.getProfileUrl();
         return room;
     }
 }

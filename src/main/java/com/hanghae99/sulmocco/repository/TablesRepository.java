@@ -1,6 +1,5 @@
 package com.hanghae99.sulmocco.repository;
 
-import com.hanghae99.sulmocco.model.Friend;
 import com.hanghae99.sulmocco.model.Tables;
 import com.hanghae99.sulmocco.model.User;
 import org.springframework.data.domain.Pageable;

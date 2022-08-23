@@ -1,6 +1,5 @@
 package com.hanghae99.sulmocco.dto;
 
-import com.hanghae99.sulmocco.model.TableImage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

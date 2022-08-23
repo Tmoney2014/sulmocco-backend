@@ -65,6 +65,7 @@ public class TablesService {
 
         Tables findTable = tablesRepository.findById(tableId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 술상입니다."));
+
         if (!findTable.getUser().getId().equals(user.getId())) {
             throw new IllegalStateException("작성자만 수정할 수 있습니다.");
         }
@@ -78,6 +79,7 @@ public class TablesService {
 
         // 이미지 수정(업데이트)
         tableImageRepository.deleteByTables(findTable);
+
         if (tablesRequestDto.getImgUrlList().size() > 1) {
             // 이미지 등록 ( 0번째는 썸네일, 1부터 저장 )
             for (int i = 1; i < tablesRequestDto.getImgUrlList().size(); i++) {
