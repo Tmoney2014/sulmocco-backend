@@ -99,9 +99,9 @@ public class RoomService {
             throw new IllegalArgumentException("방을 만든 유저만 삭제할 수 있습니다.");
         }
 
-        if (enterUserRepository.findByRoom(room) != null) {
-            throw new IllegalArgumentException("모든 유저가 퇴장 후 방을 삭제할 수 있습니다.");
-        }
+//        if (enterUserRepository.findByRoom(room) != null) {
+//            throw new IllegalArgumentException("모든 유저가 퇴장 후 방을 삭제할 수 있습니다.");
+//        }
         roomRepository.delete(room);
 
         return ResponseEntity.ok().body(new ResponseDto(true, "오늘 술은 여기까지입니다."));

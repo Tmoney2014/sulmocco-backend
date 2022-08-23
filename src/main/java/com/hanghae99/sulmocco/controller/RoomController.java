@@ -65,8 +65,7 @@ public class RoomController {
     }
 
     //방 생성
-    @PostMapping("/room")
-    @ResponseBody
+    @PostMapping("/api/chat/room")
     public ResponseEntity<?> createRoom(@RequestBody RoomRequestDto requestDto,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
