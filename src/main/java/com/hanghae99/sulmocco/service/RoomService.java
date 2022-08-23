@@ -43,7 +43,7 @@ public class RoomService {
     private final int LIMIT = 500;
 
     //방 생성
-    public Long createRoom(RoomRequestDto requestDto, User user) {
+    public String createRoom(RoomRequestDto requestDto, User user) {
 
 
         if (roomRepository.findByTitle(requestDto.getTitle()) != null) {
@@ -57,7 +57,7 @@ public class RoomService {
         //비밀번호가 있다면 true, 없다면 false
         Room createRoom = roomRepository.save(room);
 
-        return createRoom.getId();
+        return createRoom.getChatRoomId();
     }
 
 
