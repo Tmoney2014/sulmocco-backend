@@ -27,7 +27,7 @@ public class RoomService {
     /**
      * 술모임 만들기
      */
-    public ResponseEntity<?> createRoom(RoomRequestDto requestDto, User user) {
+    public String createRoom(RoomRequestDto requestDto, User user) {
 
         if (requestDto.getTitle() == null) {
             throw new IllegalArgumentException("방 이름을 입력해주세요.");
@@ -37,8 +37,10 @@ public class RoomService {
         }
 
         Room room = Room.create(requestDto, user);
-        roomRepository.save(room);
-        return ResponseEntity.ok().body(new ResponseDto(true, "술모임이 시작되었습니다."));
+        //비밀번호가 있다면 true, 없다면 false
+        Room createRoom = roomRepository.save(room);
+
+        return createRoom.getChatRoomId();
     }
 
     /**
