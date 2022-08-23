@@ -17,7 +17,7 @@ public class Friends extends Timestamped {
     private Long id;
 
     @Column(nullable = false)
-    private Long addFriend_id;
+    private Long addFriendId;
 
     @ManyToOne(fetch = FetchType.LAZY)
 //    @JsonIgnore

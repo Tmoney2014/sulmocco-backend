@@ -22,8 +22,9 @@ public class FriendsController {
 
     // 친구목록
     @GetMapping("/api/friends/")
-    public ResponseEntity<?> getFriends(@PathVariable Long tableId) {
-        return friendsService.getFriends(tableId);
+    public ResponseEntity<?> getFriends(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return friendsService.getFriends(user);
     }
 
     //친구추가

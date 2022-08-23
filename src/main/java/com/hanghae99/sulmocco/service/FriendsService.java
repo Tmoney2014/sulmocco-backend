@@ -24,18 +24,18 @@ public class FriendsService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> getFriends(Long friendsId) {
+    public ResponseEntity<?> getFriends(User user) {
 
-        //친구 조회
-        Friends findFriends = friendsRepository.findById(friendsId).orElseThrow(
-                () -> new IllegalArgumentException("친구가 존재하지 않습니다."));
+        // 친구 조회
+//        Friends findFriends = friendsRepository.findByUser(user).orElseThrow(
+//                () -> new IllegalArgumentException("친구가 존재하지 않습니다."));
 
-        // 술상 댓글 DB 조회
-        List<Friends> friends = friendsRepository.findAllByFriendsOrderByCreatedAtDesc(findFriends);
-
+        List<Long> friendsIdList = friendsRepository.findByUser(user);
         List<FriendsResponseDto> friendsResponseDtos = new ArrayList<>();
-        for (Friends myFriends : friends) {
-            FriendsResponseDto friendsResponseDto = new FriendsResponseDto(myFriends);
+
+        for (Long friendsId : friendsIdList) {
+            User findFriendsUser = userRepository.findByUserId(friendsId);
+            FriendsResponseDto friendsResponseDto = new FriendsResponseDto(findFriendsUser);
             friendsResponseDtos.add(friendsResponseDto);
         }
 

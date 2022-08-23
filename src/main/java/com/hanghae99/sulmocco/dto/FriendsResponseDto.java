@@ -2,6 +2,7 @@ package com.hanghae99.sulmocco.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hanghae99.sulmocco.model.Friends;
+import com.hanghae99.sulmocco.model.User;
 import lombok.*;
 
 @Getter
@@ -13,8 +14,16 @@ import lombok.*;
 public class FriendsResponseDto {
 
     private String addFriend_id;
+    private String username;
+    private String profile;
+    private boolean isOnair;
 
-    public FriendsResponseDto(Friends friends) {
-        this.addFriend_id = String.valueOf(friends.getAddFriend_id());
+//    public FriendsResponseDto(Friends friends) {
+//        this.addFriend_id = String.valueOf(friends.getAddFriend_id());
+//    }
+
+    public FriendsResponseDto(User user) {
+        this.username = user.getUsername();
+        this.profile = user.getProfileUrl();
     }
 }

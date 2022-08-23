@@ -1,5 +1,7 @@
 package com.hanghae99.sulmocco.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
