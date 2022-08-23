@@ -9,9 +9,9 @@ name: Java CI with Gradle # workflow의 이름
 
 on: # 어떤 Events를 가지고 실행할것인가
   push:
-    branches: [ "develop" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "main" ]
 
 permissions:
   contents: read
