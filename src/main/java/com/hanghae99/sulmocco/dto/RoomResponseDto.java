@@ -7,6 +7,7 @@ import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Getter
@@ -25,6 +26,7 @@ public class RoomResponseDto {
    private String theme;
    private String username;
    private String profileurl;
+   private LocalDateTime creadtedAt;
    private boolean onair;
 
     public RoomResponseDto(Room room) {
@@ -40,6 +42,7 @@ public class RoomResponseDto {
         this.theme = room.getTheme();
         this.username = room.getUsername();
         this.profileurl = room.getProfileimgurl();
+        this.creadtedAt = room.getCreatedAt();
         this.onair = room.isOnair();
     }
 
