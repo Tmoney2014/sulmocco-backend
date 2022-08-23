@@ -39,10 +39,17 @@ public class StompHandler implements ChannelInterceptor {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
         // websocket 연결시 헤더의 jwt token 검증
         if (StompCommand.CONNECT == accessor.getCommand()) {
+
             jwtDecoder.decodeUsername(accessor.getFirstNativeHeader("Authorization").substring(7));
         } else if (StompCommand.SUBSCRIBE == accessor.getCommand()) {
-            String chatRoomId = chatService.getRoomId(Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId"));
+
+            String destination = Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId");
+//            String chatRoomId = chatService.getRoomId(Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId"));
+            String chatRoomId = chatService.getRoomId(destination);
             String sessionId = (String) message.getHeaders().get("simpSessionId");
+
+            log.info("message header 정보들={}", message.getHeaders());
+            log.info("message destination은={}", destination);
 
             redisRepository.setUserEnterInfo(sessionId, chatRoomId);
             redisRepository.plusUserCount(chatRoomId);
