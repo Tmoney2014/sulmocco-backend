@@ -12,8 +12,8 @@ public class BookmarkResponseDto {
     private String username;
     private String content;
     private Long tablesId;
-    private Long likecount;  //@OneToMany(mappedBy = "tables", cascade = CascadeType.ALL //private List<Like> likes; 사이즈로 갖고옴.
-//    private Long viewcount;  //콜렉션으로 유저ID 저장 // 사이즈로 갖고옴.
+    private int likecount;  //@OneToMany(mappedBy = "tables", cascade = CascadeType.ALL //private List<Like> likes; 사이즈로 갖고옴.
+    private int viewcount;  //콜렉션으로 유저ID 저장 // 사이즈로 갖고옴.
     private String alcoholtag;
     private String freetag;
     private String profileimgurl; // 작성자 profileimg

@@ -1,13 +1,12 @@
 package com.hanghae99.sulmocco.websocket;
 
 
-import com.hanghae99.sulmocco.model.Room;
+
 import com.hanghae99.sulmocco.repository.EnterUserRepository;
 import com.hanghae99.sulmocco.repository.RedisRepository;
 import com.hanghae99.sulmocco.repository.RoomRepository;
 import com.hanghae99.sulmocco.repository.UserRepository;
-import com.sun.org.apache.xpath.internal.objects.XString;
-import freemarker.template.utility.StringUtil;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
