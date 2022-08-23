@@ -35,7 +35,7 @@ jobs: # 하나의 workflow는 여러개의 job을 가질 수 있다.
 #           github 원격 repo 의 SETTINGS/SECRETS/ACTIONS 에서 SECRET생성 Name=PROPERTIES,value=여기 PROPERTIES내용을 담아 저장
       - name: make application.properties
         run:
-          mkdir ./src/main/resources |
+#          mkdir ./src/main/resources |
           touch ./src/main/resources/application.properties
         shell: bash
 
