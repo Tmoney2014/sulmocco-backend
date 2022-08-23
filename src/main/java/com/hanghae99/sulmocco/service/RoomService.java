@@ -46,9 +46,9 @@ public class RoomService {
     public String createRoom(RoomRequestDto requestDto, User user) {
 
 
-        if (roomRepository.findByTitle(requestDto.getTitle()) != null) {
-            throw new IllegalArgumentException("이미 존재하는 방 이름입니다.");
-        }
+//        if (roomRepository.findByTitle(requestDto.getTitle()) != null) {
+//            throw new IllegalArgumentException("이미 존재하는 방 이름입니다.");
+//        }
 
         if (requestDto.getTitle() == null) {
             throw new IllegalArgumentException("방 이름을 입력해주세요.");
