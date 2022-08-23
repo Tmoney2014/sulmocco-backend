@@ -26,9 +26,11 @@ public class BookmarkController {
         return bookmarkService.deletebookmark(userDetails,tableId);
     }
 
+    //마이페이지 -북마크한 술상
     @GetMapping("/api/mypage/bookmark")
     public ResponseEntity<?> getbookmark(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return bookmarkService.getbookmark(userDetails);
     }
+    
 
 }
