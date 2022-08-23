@@ -38,8 +38,8 @@ public class RedisRepository {
         return hashOpsChatRoom.get(CHAT_ROOMS, id);
     }
 
-    public void setNickname(String sessionId, String nickname) {
-        hashOpsEnterInfo.put(USER_USERNAME, sessionId, nickname);
+    public void setUsername(String sessionId, String username) {
+        hashOpsEnterInfo.put(USER_USERNAME, sessionId, username);
     }
 
     /* 세션에서 유저 닉네임 로드 */

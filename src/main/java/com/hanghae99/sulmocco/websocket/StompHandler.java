@@ -50,7 +50,7 @@ public class StompHandler implements ChannelInterceptor {
 //            String name = jwtDecoder.decodeUsername(accessor.getFirstNativeHeader("Authorization").substring(7));
             String username = jwtDecoder.decodeUsername(accessor.getFirstNativeHeader("Authorization").substring(7));
 
-            redisRepository.setNickname(sessionId, username);
+            redisRepository.setUsername(sessionId, username);
             try {
                 chatService.sendChatMessage(ChatMessage.builder().type(ChatMessage.MessageType.ENTER).chatRoomId(chatRoomId).sender(username).build());
             } catch (InterruptedException e) {

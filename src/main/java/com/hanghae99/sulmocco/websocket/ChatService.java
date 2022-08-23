@@ -50,7 +50,7 @@ public class ChatService {
 
             chatMessage.setMessage(chatMessage.getSender() + "님이 방에서 나갔습니다.");
             chatMessage.setSender("[알림]");
-
+            redisTemplate.convertAndSend(channelTopic.getTopic(), chatMessage);
         }
 
         //유튜브 URL을 제출한다면 WorkOut true(유저가 방에 진입하지 못함, 운동중)
