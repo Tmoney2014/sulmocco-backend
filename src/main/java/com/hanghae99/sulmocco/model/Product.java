@@ -1,17 +1,22 @@
 package com.hanghae99.sulmocco.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Getter
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "product_id")
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String imageUrl;
 
     @Column(nullable = false)
@@ -20,7 +25,7 @@ public class Product {
     @Column(nullable = false)
     private Integer price;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private  String redirectUrl;
 
     @Column(nullable = false)

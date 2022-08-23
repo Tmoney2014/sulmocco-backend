@@ -22,7 +22,7 @@ public class User {
     private Long userId;
 
     @Column(nullable = false, unique = true)
-    private String id;
+    private String id;  // 로그인 아이디
 
     @Column(nullable = false)
     private String password;
@@ -35,9 +35,6 @@ public class User {
 
     private String profileUrl;
 
-//    @Column(nullable = false)
-//    private String role;
-
 //    @OneToMany(mappedBy = "user")
 //    private List<Bookmark> bookmarks = new ArrayList<>();
 
@@ -46,13 +43,12 @@ public class User {
 
 
     @Builder
-    public User(String id, String password, String username, String level, String profileUrl, String role) {
+    public User(String id, String password, String username, String level, String profileUrl) {
         this.id = id;
         this.password = password;
         this.username = username;
         this.level = level;
         this.profileUrl = profileUrl;
-//        this.role = role;
     }
 
     public User(SignUpRequestDto signUpRequestDto, String password) {

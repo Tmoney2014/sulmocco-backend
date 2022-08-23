@@ -1,5 +1,6 @@
 package com.hanghae99.sulmocco.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Getter
+@AllArgsConstructor
 public class Banner {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +23,6 @@ public class Banner {
     private String imageUrl;
 
     @Column(nullable = false, unique = true)
-    private  String redirectUrl;
+    private String redirectUrl;
     
 }
