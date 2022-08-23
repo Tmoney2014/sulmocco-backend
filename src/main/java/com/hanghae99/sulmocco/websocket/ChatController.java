@@ -28,7 +28,7 @@ public class ChatController {
             throws InterruptedException {
 
         token = token.substring(7);
-        message.setSender(jwtDecoder.decodeUsername(token));
+        message.setSender(jwtDecoder.decodeNickname(token));
 //        message.setProfileImg(jwtDecoder.decodeprofileImg(token));
         message.setUserCount(redisRepository.getUserCount(message.getChatRoomId()));
 //        chatMessageRepository.save(message);

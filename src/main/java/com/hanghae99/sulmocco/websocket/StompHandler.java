@@ -40,7 +40,7 @@ public class StompHandler implements ChannelInterceptor {
         // websocket 연결시 헤더의 jwt token 검증
         if (StompCommand.CONNECT == accessor.getCommand()) {
 
-            jwtDecoder.decodeUsername(accessor.getFirstNativeHeader("Authorization").substring(7));
+            jwtDecoder.decodeNickname(accessor.getFirstNativeHeader("Authorization").substring(7));
         } else if (StompCommand.SUBSCRIBE == accessor.getCommand()) {
 
             String destination = Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId");
@@ -53,12 +53,12 @@ public class StompHandler implements ChannelInterceptor {
 
             redisRepository.setUserEnterInfo(sessionId, chatRoomId);
             redisRepository.plusUserCount(chatRoomId);
-//            String name = jwtDecoder.decodeUsername(accessor.getFirstNativeHeader("Authorization").substring(7));
-            String username = jwtDecoder.decodeUsername(accessor.getFirstNativeHeader("Authorization").substring(7));
+//            String name = jwtDecoder.decodeNickname(accessor.getFirstNativeHeader("Authorization").substring(7));
+            String nickname = jwtDecoder.decodeNickname(accessor.getFirstNativeHeader("Authorization").substring(7));
 
-            redisRepository.setUsername(sessionId, username);
+            redisRepository.setUsername(sessionId, nickname);
             try {
-                chatService.sendChatMessage(ChatMessage.builder().type(ChatMessage.MessageType.ENTER).chatRoomId(chatRoomId).sender(username).build());
+                chatService.sendChatMessage(ChatMessage.builder().type(ChatMessage.MessageType.ENTER).chatRoomId(chatRoomId).sender(nickname).build());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -94,12 +94,6 @@ public class StompHandler implements ChannelInterceptor {
                     room.setUserCount(redisRepository.getUserCount(chatRoomId));
                     roomRepository.save(room);
                 }
-
-//                //유튜브 켜고 방 나왔을 때, 방 인원이 0명이면 false로
-//                if (redisRepository.getUserCount(chatRoomId) == 0) {
-//                    room.setWorkOut(false);
-//                    roomRepository.save(room);
-//                }
 
                 User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저네임입니다"));
                 if (enterUserRepository.findByRoomAndUser(room, user).getRoom().getChatRoomId().equals(chatRoomId)) {
