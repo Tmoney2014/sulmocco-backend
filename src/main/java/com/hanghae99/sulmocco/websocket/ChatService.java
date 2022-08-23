@@ -37,7 +37,7 @@ public class ChatService {
 
     public void sendChatMessage(ChatMessage chatMessage) throws InterruptedException {
 
-        chatMessage.setUserCount(redisRepository.getUserCount(chatMessage.getRoomId()));
+        chatMessage.setUserCount(redisRepository.getUserCount(chatMessage.getChatRoomId()));
 
 
         if (ChatMessage.MessageType.ENTER.equals(chatMessage.getType())) {
