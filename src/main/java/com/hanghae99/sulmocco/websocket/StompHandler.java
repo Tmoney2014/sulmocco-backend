@@ -34,7 +34,6 @@ public class StompHandler implements ChannelInterceptor {
     private final Long min = 0L;
 
 
-
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
@@ -42,7 +41,7 @@ public class StompHandler implements ChannelInterceptor {
         if (StompCommand.CONNECT == accessor.getCommand()) {
             jwtDecoder.decodeUsername(accessor.getFirstNativeHeader("Authorization").substring(7));
         } else if (StompCommand.SUBSCRIBE == accessor.getCommand()) {
-           String chatRoomId = chatService.getRoomId(Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId"));
+            String chatRoomId = chatService.getRoomId(Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId"));
             String sessionId = (String) message.getHeaders().get("simpSessionId");
 
             redisRepository.setUserEnterInfo(sessionId, chatRoomId);
