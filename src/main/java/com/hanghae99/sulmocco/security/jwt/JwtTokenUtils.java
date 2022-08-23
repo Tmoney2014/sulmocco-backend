@@ -29,7 +29,7 @@ public final class JwtTokenUtils {
             token = JWT.create()
                     .withIssuer("sparta")
                     .withClaim(CLAIM_USER_NAME, userDetails.getUsername())
-//                    .withClaim(CLAIM_NICK_NAME, userDetails.getNickname())
+                    .withClaim(CLAIM_NICK_NAME, userDetails.getNickname())
                     // 토큰 만료 일시 = 현재 시간 + 토큰 유효기간)
                     .withClaim(CLAIM_EXPIRED_DATE, new Date(System.currentTimeMillis() + JWT_TOKEN_VALID_MILLI_SEC))
                     .sign(generateAlgorithm());
