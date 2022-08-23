@@ -16,14 +16,12 @@ public class ReplyController {
     private final ReplyService replyService;
 
     // 댓글 목록
-//    @GetMapping("/api/tables/{tableId}/replies")
     @GetMapping("/api/replies/{tableId}")
     public ResponseEntity<?> getReplies(@PathVariable Long tableId) {
         return replyService.getReplies(tableId);
     }
 
     // 댓글 작성
-//    @PostMapping("/api/tables/{tableId}/replies")
     @PostMapping("/api/replies/{tableId}")
     public ResponseEntity<?> createReply(@PathVariable Long tableId,
                                          @RequestBody ReplyRequestDto replyRequestDto,

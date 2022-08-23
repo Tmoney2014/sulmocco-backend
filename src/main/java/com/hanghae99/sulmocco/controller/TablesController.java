@@ -22,16 +22,15 @@ public class TablesController {
     @GetMapping("/api/mypage/tables")
     public ResponseEntity<?> getMyTables(@RequestParam("page") int page,
                                          @RequestParam("size") int size,
-                                         @RequestParam("isAsc") boolean isAsc,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         page = page - 1;
         User user = userDetails.getUser();
-        return tablesService.getMyTables(page, size, isAsc, user);
+        return tablesService.getMyTables(page, size, user);
     }
 
-    // 술상 추천 목록V2
+    // 술상 추천 목록
     @GetMapping("/api/tables")
-    public ResponseEntity<?> getPagingTablesV2(@RequestParam("page") int page,        // 1부터 시작
+    public ResponseEntity<?> getPagingTables(@RequestParam("page") int page,        // 1부터 시작
                                              @RequestParam("size") int size,        // 9개
                                              @RequestParam("sortBy") String sortBy, // 정렬 항목
                                              @RequestParam("isAsc") boolean isAsc,
@@ -43,15 +42,15 @@ public class TablesController {
     // 술상 추천 검색
     @GetMapping("/api/tables/search")
     public ResponseEntity<?> getPagingTablesBySearchV1(@RequestParam("page") int page,        // 1부터 시작
-                                               @RequestParam("size") int size,        // 9개
-                                               @RequestParam("sortBy") String sortBy, // 정렬 항목
-                                               @RequestParam("isAsc") boolean isAsc,
-                                               @RequestParam("keyword") String keyword) {
+                                                       @RequestParam("size") int size,        // 9개
+                                                       @RequestParam("sortBy") String sortBy, // 정렬 항목
+                                                       @RequestParam("isAsc") boolean isAsc,
+                                                       @RequestParam("keyword") String keyword) {
         page = page - 1;
         return tablesService.getPagingTablesBySearch(page, size, sortBy, isAsc, keyword);
     }
 
-    // 오늘의 술상 추천
+    // 오늘의 술상 추천 - 추천수 Top 3
     @GetMapping("/api/tables/main")
     public ResponseEntity<?> getTablesOrderByViewCount() {
         return tablesService.getTablesOrderByLikeCount();
@@ -62,11 +61,8 @@ public class TablesController {
     public ResponseEntity<?> createTables(@RequestBody @Valid TablesRequestDto tablesRequestDto,
                                           BindingResult result,
                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails != null) {
-            User user = userDetails.getUser();
-            return tablesService.createTables(tablesRequestDto, user);
-        }
-        return ResponseEntity.badRequest().body("로그인이 만료되었습니다.");
+        User user = userDetails.getUser();
+        return tablesService.createTables(tablesRequestDto, user);
     }
 
     // 술상 추천 수정
@@ -74,11 +70,8 @@ public class TablesController {
     public ResponseEntity<?> updateTables(@PathVariable Long tableId,
                                           @RequestBody @Valid TablesRequestDto tablesRequestDto,
                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails != null) {
-            User user = userDetails.getUser();
-            return tablesService.updateTables(tableId, tablesRequestDto, user);
-        }
-        return ResponseEntity.badRequest().body("로그인이 만료되었습니다.");
+        User user = userDetails.getUser();
+        return tablesService.updateTables(tableId, tablesRequestDto, user);
     }
 
     // 술상 추천 상세
@@ -93,10 +86,7 @@ public class TablesController {
     @DeleteMapping("/api/tables/{tableId}")
     public ResponseEntity<?> updateTables(@PathVariable Long tableId,
                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails != null) {
-            User user = userDetails.getUser();
-            return tablesService.deleteTables(tableId, user);
-        }
-        return ResponseEntity.badRequest().body("로그인이 만료되었습니다.");
+        User user = userDetails.getUser();
+        return tablesService.deleteTables(tableId, user);
     }
 }

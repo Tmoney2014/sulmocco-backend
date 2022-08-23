@@ -66,6 +66,15 @@ public class Tables extends Timestamped {
 
     private int count;
 
+    public Tables(String title, String content, String alcoholTag, String freetag, String thumbnailImgUrl, User user) {
+        this.title = title;
+        this.content = content;
+        this.alcoholTag = alcoholTag;
+        this.freeTag = freetag;
+        this.thumbnailImgUrl = thumbnailImgUrl;
+        setUser(user);
+    }
+
     public void setUser(User user) {
         this.user = user;
     }

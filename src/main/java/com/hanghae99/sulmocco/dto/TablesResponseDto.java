@@ -3,15 +3,12 @@ package com.hanghae99.sulmocco.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hanghae99.sulmocco.model.TableImage;
 import com.hanghae99.sulmocco.model.Tables;
-import com.hanghae99.sulmocco.model.Thumbnail;
 import lombok.*;
 import org.springframework.data.domain.Slice;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Getter
 @Setter
