@@ -20,7 +20,6 @@ public class RoomResponseDto {
    private String tumbnail;
    private String title;
    private String alcoholtag;
-
    private Long userCount;
    private String food;
    private String theme;
