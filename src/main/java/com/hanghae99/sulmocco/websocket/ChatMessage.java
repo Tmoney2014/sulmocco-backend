@@ -17,9 +17,9 @@ public class ChatMessage {
     }
 
     @Builder
-    public ChatMessage(MessageType type, String roomId, String sender, String message, long userCount, String profileImg) {
+    public ChatMessage(MessageType type, String chatRoomId, String sender, String message, long userCount, String profileImg) {
         this.type = type;
-        this.roomId = roomId;
+        this.chatRoomId = chatRoomId;
         this.sender = sender;
         this.message = message;
         this.userCount = userCount;
@@ -40,7 +40,7 @@ public class ChatMessage {
     private MessageType type; // 메시지 타입
 
     @Column(nullable = false)
-    private String roomId; // 방번호
+    private String chatRoomId; // 방번호
 
     @Column
     private String sender; // 메시지 보낸사람

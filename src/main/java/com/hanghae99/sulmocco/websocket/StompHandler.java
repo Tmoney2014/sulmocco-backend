@@ -52,7 +52,7 @@ public class StompHandler implements ChannelInterceptor {
 
             redisRepository.setNickname(sessionId, username);
             try {
-                chatService.sendChatMessage(ChatMessage.builder().type(ChatMessage.MessageType.ENTER).roomId(chatRoomId).sender(username).build());
+                chatService.sendChatMessage(ChatMessage.builder().type(ChatMessage.MessageType.ENTER).chatRoomId(chatRoomId).sender(username).build());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -76,7 +76,7 @@ public class StompHandler implements ChannelInterceptor {
             if (chatRoomId != null) {
                 redisRepository.minusUserCount(chatRoomId);
                 try {
-                    chatService.sendChatMessage(ChatMessage.builder().type(ChatMessage.MessageType.QUIT).roomId(chatRoomId).sender(username).build());
+                    chatService.sendChatMessage(ChatMessage.builder().type(ChatMessage.MessageType.QUIT).chatRoomId(chatRoomId).sender(username).build());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
