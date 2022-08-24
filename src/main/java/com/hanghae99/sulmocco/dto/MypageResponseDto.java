@@ -1,0 +1,18 @@
+package com.hanghae99.sulmocco.dto;
+
+import com.hanghae99.sulmocco.model.User;
+
+public class MypageResponseDto {
+
+    private String username;
+    private String level;
+    private String id;
+    private String profileUrl;
+
+    public void add(User user) {
+        this.id = user.getId();
+        this.level = user.getLevel();
+        this.profileUrl = user.getProfileUrl();
+        this.username = user.getUsername();
+    }
+}
