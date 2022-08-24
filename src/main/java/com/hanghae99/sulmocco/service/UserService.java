@@ -1,18 +1,18 @@
 package com.hanghae99.sulmocco.service;
 
-import com.hanghae99.sulmocco.dto.PasswordChangeRequestDto;
+import com.hanghae99.sulmocco.dto.MypageResponseDto;
+import com.hanghae99.sulmocco.dto.ChangeRequestDto;
 import com.hanghae99.sulmocco.dto.ResponseDto;
 import com.hanghae99.sulmocco.dto.SignUpRequestDto;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.repository.UserRepository;
+import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -67,13 +67,13 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> changePw(PasswordChangeRequestDto passwordChangeRequestDto) {
-        User finduUser = userRepository.findById(passwordChangeRequestDto.getId());
-        String password = bCryptPasswordEncoder.encode(passwordChangeRequestDto.getPassword());
+    public ResponseEntity<?> changePw(ChangeRequestDto changeRequestDto) {
+        User finduUser = userRepository.findById(changeRequestDto.getId());
+        String password = bCryptPasswordEncoder.encode(changeRequestDto.getPassword());
 
-        if(passwordChangeRequestDto.getPassword().equals(passwordChangeRequestDto.getPassword2())){
+        if(changeRequestDto.getPassword().equals(changeRequestDto.getPassword2())){
 
-            finduUser.update(password,finduUser);
+            finduUser.updatePw(password,finduUser);
         }else {
             throw new IllegalArgumentException("비밀번호확인이 일치하지 않습니다.");
         }
@@ -81,5 +81,22 @@ public class UserService {
 
 
 
+    }
+
+    public ResponseEntity<?> mypage(UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+
+        MypageResponseDto mypageResponseDto = new MypageResponseDto();
+        mypageResponseDto.add(user);
+
+        return new ResponseEntity<>(mypageResponseDto, HttpStatus.valueOf(200));
+    }
+
+    public ResponseEntity<?> changeUser(UserDetailsImpl userDetails, ChangeRequestDto changeRequestDto) {
+        User finduser = userDetails.getUser();
+        String password = bCryptPasswordEncoder.encode(changeRequestDto.getPassword());
+        finduser.updateUser(password,changeRequestDto);
+
+        return new ResponseEntity<>("회원정보수정 완료", HttpStatus.valueOf(200));
     }
 }
