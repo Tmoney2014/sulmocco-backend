@@ -30,6 +30,7 @@ public class UserController {
     }
 //    @GetMapping("/api/checkUser/")
 
+    //비밀번호 수정
     @PutMapping("/api/resetPw")
     public  ResponseEntity<?>  changePw(@RequestBody PasswordChangeRequestDto passwordChangeRequestDto){
         return userService.changePw(passwordChangeRequestDto);

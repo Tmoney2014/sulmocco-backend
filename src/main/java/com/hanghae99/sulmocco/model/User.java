@@ -7,6 +7,7 @@ import com.hanghae99.sulmocco.dto.SignUpRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import sun.security.util.Password;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -61,9 +62,9 @@ public class User {
 //        this.role = role;
     }
 
-    public void update(PasswordChangeRequestDto passwordChangeRequestDto, User user) {
-        this.id = passwordChangeRequestDto.getId();
-        this.password = passwordChangeRequestDto.getPassword();
+    public void update(String password, User user) {
+        this.id = user.getId();
+        this.password = password;
         this.level = user.getLevel();
         this.username = user.getUsername();
         this.profileUrl = user.getProfileUrl();

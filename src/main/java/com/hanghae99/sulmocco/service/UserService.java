@@ -66,12 +66,14 @@ public class UserService {
 
     }
 
+    @Transactional
     public ResponseEntity<?> changePw(PasswordChangeRequestDto passwordChangeRequestDto) {
         User finduUser = userRepository.findById(passwordChangeRequestDto.getId());
+        String password = bCryptPasswordEncoder.encode(passwordChangeRequestDto.getPassword());
 
         if(passwordChangeRequestDto.getPassword().equals(passwordChangeRequestDto.getPassword2())){
 
-            finduUser.update(passwordChangeRequestDto,finduUser);
+            finduUser.update(password,finduUser);
         }else {
             throw new IllegalArgumentException("비밀번호확인이 일치하지 않습니다.");
         }
