@@ -1,5 +1,6 @@
 package com.hanghae99.sulmocco.controller;
 
+import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,18 @@ public class BookmarkController {
     }
 
     //마이페이지 -북마크한 술상
+//    @GetMapping("/api/mypage/bookmark")
+//    public ResponseEntity<?> getbookmark(@AuthenticationPrincipal UserDetailsImpl userDetails){
+//        return bookmarkService.getbookmark(userDetails);
+//    }
+
     @GetMapping("/api/mypage/bookmark")
-    public ResponseEntity<?> getbookmark(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return bookmarkService.getbookmark(userDetails);
+    public ResponseEntity<?> getBookmark(@RequestParam("page") int page,
+                                         @RequestParam("size") int size,
+                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        page = page - 1;
+        User user = userDetails.getUser();
+        return bookmarkService.getMyBookmark(page, size, user);
     }
-    
 
 }

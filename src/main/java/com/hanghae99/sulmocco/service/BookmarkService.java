@@ -1,6 +1,7 @@
 package com.hanghae99.sulmocco.service;
 
 import com.hanghae99.sulmocco.dto.BookmarkResponseDto;
+import com.hanghae99.sulmocco.dto.TablesResponseDto;
 import com.hanghae99.sulmocco.model.Bookmark;
 import com.hanghae99.sulmocco.model.Tables;
 import com.hanghae99.sulmocco.model.User;
@@ -9,6 +10,9 @@ import com.hanghae99.sulmocco.repository.TablesRepository;
 import com.hanghae99.sulmocco.repository.UserRepository;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -55,19 +59,32 @@ public class BookmarkService {
     }
 
     //JWT 의 유저 정보로 모든 북마크 보기
-    public ResponseEntity<?> getbookmark(UserDetailsImpl userDetails) {
-        //USER 로 찾아 BOOKMARK LIST 작성
-        List<Bookmark> bookmarks = bookmarkRepository.findByUser(userDetails.getUser());
-        //앞단으로 리스폰스 해줄 DTO 형식을 새로 만들어서
-        List<BookmarkResponseDto> bookmarkResponseDtoList = new ArrayList<>();
-        //FOR문을 돌려 필요한 내용을 DTO 에 하나씩 담아 ADD 후 DTOLIST 를 앞단으로 리턴
-        for(Bookmark bookmark : bookmarks) {
-            bookmarkResponseDtoList.add(new BookmarkResponseDto(bookmark.getTables().getTitle(),bookmark.getTables().getUser().getUsername(),bookmark.getTables().getContent()
-                    ,bookmark.getTables().getId(),bookmark.getTables().getLikes().size(),bookmark.getTables().getViewUserList().size(),bookmark.getTables().getAlcoholTag(),bookmark.getTables().getFreeTag(),bookmark.getUser().getProfileUrl()));
+//    public ResponseEntity<?> getbookmark(UserDetailsImpl userDetails) {
+//        //USER 로 찾아 BOOKMARK LIST 작성
+//        List<Bookmark> bookmarks = bookmarkRepository.findByUser(userDetails.getUser());
+//        //앞단으로 리스폰스 해줄 DTO 형식을 새로 만들어서
+//        List<BookmarkResponseDto> bookmarkResponseDtoList = new ArrayList<>();
+//        //FOR문을 돌려 필요한 내용을 DTO 에 하나씩 담아 ADD 후 DTOLIST 를 앞단으로 리턴
+//        for(Bookmark bookmark : bookmarks) {
+//            bookmarkResponseDtoList.add(new BookmarkResponseDto(bookmark.getTables().getTitle(),bookmark.getTables().getUser().getUsername(),bookmark.getTables().getContent()
+//                    ,bookmark.getTables().getId(),bookmark.getTables().getLikes().size(),bookmark.getTables().getViewUserList().size(),bookmark.getTables().getAlcoholTag(),bookmark.getTables().getFreeTag(),bookmark.getUser().getProfileUrl()));
+//
+//        }
+//
+//        return new ResponseEntity<>(bookmarkResponseDtoList, HttpStatus.valueOf(200));
+//
+//    }
 
-        }
+    public ResponseEntity<?> getMyBookmark(int page, int size, User user) {
 
-        return new ResponseEntity<>(bookmarkResponseDtoList, HttpStatus.valueOf(200));
+//        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+//        Sort sort = Sort.by(direction);
+//        Pageable pageable = PageRequest.of(page, size, sort);
+        Pageable pageable = PageRequest.of(page, size);
 
+        Slice<Bookmark> bookmarkSlice = bookmarkRepository.findAllByUserOrderByCreatedAtDesc(user, pageable);
+
+        Slice<BookmarkResponseDto> bookmarkResponseDtoSlice = BookmarkResponseDto.myPageBookmarkResponseDto(bookmarkSlice);
+        return ResponseEntity.ok().body(bookmarkResponseDtoSlice);
     }
 }
