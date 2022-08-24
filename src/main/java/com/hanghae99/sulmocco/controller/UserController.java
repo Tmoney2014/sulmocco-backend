@@ -1,5 +1,6 @@
 package com.hanghae99.sulmocco.controller;
 
+import com.hanghae99.sulmocco.dto.PasswordChangeRequestDto;
 import com.hanghae99.sulmocco.dto.ResponseDto;
 import com.hanghae99.sulmocco.dto.SignUpRequestDto;
 import com.hanghae99.sulmocco.service.UserService;
@@ -28,4 +29,12 @@ public class UserController {
         return userService.signup(signUpRequestDto);
     }
 //    @GetMapping("/api/checkUser/")
+
+    @PutMapping("/api/resetPw")
+    public  ResponseEntity<?>  changePw(@RequestBody PasswordChangeRequestDto passwordChangeRequestDto){
+        return userService.changePw(passwordChangeRequestDto);
+
+
+
+    }
 }

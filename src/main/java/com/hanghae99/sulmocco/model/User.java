@@ -2,6 +2,7 @@ package com.hanghae99.sulmocco.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hanghae99.sulmocco.base.Timestamped;
+import com.hanghae99.sulmocco.dto.PasswordChangeRequestDto;
 import com.hanghae99.sulmocco.dto.SignUpRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -60,4 +61,13 @@ public class User {
 //        this.role = role;
     }
 
+    public void update(PasswordChangeRequestDto passwordChangeRequestDto, User user) {
+        this.id = passwordChangeRequestDto.getId();
+        this.password = passwordChangeRequestDto.getPassword();
+        this.level = user.getLevel();
+        this.username = user.getUsername();
+        this.profileUrl = user.getProfileUrl();
+        this.userId = user.getUserId();
+
+    }
 }

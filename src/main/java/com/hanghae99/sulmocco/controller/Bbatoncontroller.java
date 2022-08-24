@@ -118,7 +118,7 @@ public class Bbatoncontroller {
                 String user_id = (String) jsonBody2.get("user_id");
 
                 // 비바톤ID와 우리 ID가 동일하기 때문에 여기서 이전에 회원가입을 했는지 DB 조회
-                userService.checkUserId(user_id);
+                userService.checkUserIdPw(user_id);
 
                 if ("Y".equals(adultFlag)) {
                     //인증 성공
