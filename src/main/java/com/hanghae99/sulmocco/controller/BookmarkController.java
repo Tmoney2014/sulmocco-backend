@@ -13,14 +13,14 @@ public class BookmarkController {
 
     private final BookmarkService bookmarkService;
 
-
+//북마크
     @PostMapping("/api/tables/{tableId}/bookmark")
     public ResponseEntity<?> postbookmark(@AuthenticationPrincipal UserDetailsImpl userDetails , @PathVariable Long tableId) {
         Long userId = userDetails.getUser().getUserId();
         return bookmarkService.postbookmark(userId,tableId);
     }
 
-
+//북마크 삭제
     @DeleteMapping("/api/tables/{tableId}/bookmark")
     public ResponseEntity<?> deletetbookmark(@AuthenticationPrincipal UserDetailsImpl userDetails , @PathVariable Long tableId)  {
         return bookmarkService.deletebookmark(userDetails,tableId);
