@@ -69,6 +69,7 @@ public class UserService {
     @Transactional
     public ResponseEntity<?> changePw(ChangeRequestDto changeRequestDto) {
         User finduUser = userRepository.findById(changeRequestDto.getId());
+
         String password = bCryptPasswordEncoder.encode(changeRequestDto.getPassword());
 
         if (changeRequestDto.getPassword().equals(changeRequestDto.getPassword2())) {

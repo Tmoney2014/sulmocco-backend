@@ -11,8 +11,8 @@ public class ChangeRequestDto {
 
     private Long userId;
     private String id;
-    private String Password;
-    private String Password2;
+    private String password;
+    private String password2;
     private String username;
     private String profileUrl;
     private String level;
