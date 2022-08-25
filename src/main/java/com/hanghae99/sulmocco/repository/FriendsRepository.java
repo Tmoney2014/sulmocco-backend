@@ -13,7 +13,7 @@ public interface FriendsRepository extends JpaRepository<Friends, Long> {
 
 //    List<Friends> findAllByFriendsOrderByCreatedAtDesc(Friends findFriends);
 
-    @Query("select f.addFriendId from Friends f where f.user =: user")
+    @Query("select f.addFriendId from Friends f where f.user=:user")
     List<Long> findByUser(@Param("user") User user);
 
 //    Friends findByUserIdAndUser(Long userId, User user);
