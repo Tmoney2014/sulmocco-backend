@@ -23,17 +23,28 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     // 전체 목록
     @Query("select r from Room r ")
-//    Slice<Room> findAllRooms(Pageable pageable);
     Page<Room> findAllRooms(Pageable pageable);
 
-    // 전체 술모임 검색
+    // 술모임 검색
     @Query("select r from Room r where r.title LIKE %:keyword% Or r.alcoholTag LIKE %:keyword% Or r.food LIKE %:keyword% Or r.theme LIKE %:keyword% ")
-//    Slice<Room> getRoomsBySearch(Pageable pageable, @Param("keyword") String keyword);
-    Page<Room> getRoomsBySearch(Pageable pageable, @Param("keyword") String keyword);
+    Page<Room> getRoomsBySearch(Pageable pageable, String keyword);
 
-    // 술 태그로 조회 (다중태그)
+    // 술모임 검색 with version 설정
+    @Query("select r from Room r where r.version=:version and r.title LIKE %:keyword% Or r.alcoholTag LIKE %:keyword% Or r.food LIKE %:keyword% Or r.theme LIKE %:keyword% ")
+    Page<Room> getRoomsByVersionAndSearch(Pageable pageable, String keyword, String version);
+
+
+
+    // 술 태그로만 조회
     @Query("select r from Room r where r.alcoholTag in :splitAlcoholTag ")
-//    Slice<Room> getRoomsOrderByAlcoholTag(Pageable pageable, String[] splitAlcoholTag);
     Page<Room> getRoomsOrderByAlcoholTag(Pageable pageable, String[] splitAlcoholTag);
+
+    // version으로만 조회
+    @Query("select r from Room r where r.version=:version ")
+    Page<Room> findAllRoomsByVersion(Pageable pageable, String version);
+
+    // 술 version + 술태그 조회
+    @Query("select r from Room r where r.version=:version and r.alcoholTag in :splitAlcoholTag ")
+    Page<Room> getRoomsOrderByVersionAndAlcoholTag(Pageable pageable, String version, String[] splitAlcoholTag);
 
 }

@@ -97,9 +97,6 @@ public class TablesService {
         // 술상 조회
         Tables findTable = tablesRepository.findById(tableId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 술상입니다."));
-        // 썸네일 조회
-//        Thumbnail thumbnail = thumbnailRepository.findByTables(findTable);
-//        Thumbnail thumbnail = findTable.getThumbnail();
 
         // 북마크, 좋아요 조회
         Optional<Bookmark> bookmark = bookmarkRepository.findByUserAndTables(user, findTable);

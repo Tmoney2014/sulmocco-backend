@@ -127,14 +127,19 @@ public class RoomService {
     /**
      * 전체 술모임 검색
      */
-    public ResponseEntity<?> getPagingRoomsBySearch(int page, int size, String sortBy, boolean isAsc, String keyword) {
+    public ResponseEntity<?> getPagingRoomsBySearch(int page, int size, String sortBy, boolean isAsc, String keyword, String version) {
 
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         // sortBy : count(인기순) / id (최신순)
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
+        Slice<Room> roomSlice = null;
 
-        Slice<Room> roomSlice = roomRepository.getRoomsBySearch(pageable, keyword);
+        if (version == null) {
+            roomSlice = roomRepository.getRoomsBySearch(pageable, keyword);
+        } else {
+            roomSlice = roomRepository.getRoomsByVersionAndSearch(pageable, keyword, version);
+        }
 
         Slice<RoomResponseDto> roomResponseDtos = RoomResponseDto.roomList(roomSlice);
 
@@ -144,18 +149,31 @@ public class RoomService {
     /**
      * 전체 술모임 조회
      */
-    public ResponseEntity<?> getPagingRooms(int page, int size, String sortBy, boolean isAsc, String alcohol) {
+    public ResponseEntity<?> getPagingRooms(int page, int size, String sortBy, boolean isAsc, String alcohol, String version) {
 
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        // sortBy : count(인기순) / id (최신순)
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         Slice<Room> roomSlice = null;
+        String[] splitAlcoholTag = alcohol.split(",");  // ex) 소주,맥주,와인
 
-        if (alcohol == null) {
-            roomSlice = roomRepository.findAllRooms(pageable); // 전체 목록
+        if (version == null) {
+            if (alcohol == null) {
+                // version X 술태그 X (첫화면)
+                roomSlice = roomRepository.findAllRooms(pageable);
+            } else {
+                // version X 술태그 O
+                roomSlice = roomRepository.getRoomsOrderByAlcoholTag(pageable, splitAlcoholTag);
+            }
         } else {
-            String[] splitAlcoholTag = alcohol.split(",");  // 소주,맥주,와인
-            roomSlice = roomRepository.getRoomsOrderByAlcoholTag(pageable, splitAlcoholTag);
+            if (alcohol == null) {
+                // version O 술태그 X
+                roomSlice = roomRepository.findAllRoomsByVersion(pageable, version);
+            } else {
+                // version O 술태그 O
+                roomSlice = roomRepository.getRoomsOrderByVersionAndAlcoholTag(pageable, version, splitAlcoholTag);
+            }
         }
 
         Slice<RoomResponseDto> roomResponseDtos = RoomResponseDto.roomList(roomSlice);

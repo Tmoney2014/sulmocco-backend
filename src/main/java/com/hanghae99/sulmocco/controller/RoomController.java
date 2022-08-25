@@ -24,9 +24,10 @@ public class RoomController {
                                                     @RequestParam("size") int size,
                                                     @RequestParam("sortBy") String sortBy,
                                                     @RequestParam("isAsc") boolean isAsc,
-                                                    @RequestParam(value = "keyword", required = false) String keyword) {
+                                                    @RequestParam(value = "keyword", required = false) String keyword,
+                                                    @RequestParam(value = "version", required = false) String version) {
         page = page - 1;
-        return roomService.getPagingRoomsBySearch(page, size, sortBy, isAsc, keyword);
+        return roomService.getPagingRoomsBySearch(page, size, sortBy, isAsc, keyword, version);
     }
 
     // 술모임 목록
@@ -35,9 +36,10 @@ public class RoomController {
                                             @RequestParam("size") int size,
                                             @RequestParam("sortBy") String sortBy,
                                             @RequestParam("isAsc") boolean isAsc,
-                                            @RequestParam(value = "alcohol", required = false) String alcohol) {
+                                            @RequestParam(value = "alcohol", required = false) String alcohol,
+                                            @RequestParam(value = "version", required = false) String version) {
         page = page - 1;
-        return roomService.getPagingRooms(page, size, sortBy, isAsc, alcohol);
+        return roomService.getPagingRooms(page, size, sortBy, isAsc, alcohol, version);
     }
 
 //    // 술모임 생성
@@ -73,7 +75,7 @@ public class RoomController {
 
     //  userEnter 테이블 조인(현재 방에 접속 중인 유저 확인 테이블)
     @PostMapping("/api/chat/room/enter/{chatRoomId}")
-    public ResponseEntity<List<EnterUserResponseDto>> enterRoom(@PathVariable  String chatRoomId,
+    public ResponseEntity<List<EnterUserResponseDto>> enterRoom(@PathVariable String chatRoomId,
                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok().body(roomService.enterRoom(chatRoomId, userDetails.getUser()));
     }
