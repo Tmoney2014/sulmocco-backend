@@ -105,7 +105,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("GET,/api/checkUser/{username}");
         skipPathList.add("GET,/oauth2/redirect");
         skipPathList.add("GET,/oauth2/redirect_pw");
-        skipPathList.add("GET,/api/resetPw");
+        skipPathList.add("PUT,/api/resetPw");
+        skipPathList.add("GET,/oauth2/**");
+        skipPathList.add("GET,/password/**");
 //        skipPathList.add("GET,/chat**");
 //        skipPathList.add("GET,/room**");
 //        skipPathList.add("POST,/chat**");
