@@ -23,14 +23,17 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     // 전체 목록
     @Query("select r from Room r ")
-    Slice<Room> findAllRooms(Pageable pageable);
+//    Slice<Room> findAllRooms(Pageable pageable);
+    Page<Room> findAllRooms(Pageable pageable);
 
     // 전체 술모임 검색
     @Query("select r from Room r where r.title LIKE %:keyword% Or r.alcoholTag LIKE %:keyword% Or r.food LIKE %:keyword% Or r.theme LIKE %:keyword% ")
-    Slice<Room> getRoomsBySearch(Pageable pageable, @Param("keyword") String keyword);
+//    Slice<Room> getRoomsBySearch(Pageable pageable, @Param("keyword") String keyword);
+    Page<Room> getRoomsBySearch(Pageable pageable, @Param("keyword") String keyword);
 
     // 술 태그로 조회 (다중태그)
     @Query("select r from Room r where r.alcoholTag in :splitAlcoholTag ")
-    Slice<Room> getRoomsOrderByAlcoholTag(Pageable pageable, String[] splitAlcoholTag);
+//    Slice<Room> getRoomsOrderByAlcoholTag(Pageable pageable, String[] splitAlcoholTag);
+    Page<Room> getRoomsOrderByAlcoholTag(Pageable pageable, String[] splitAlcoholTag);
 
 }

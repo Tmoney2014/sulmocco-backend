@@ -44,7 +44,6 @@ public class TablesResponseDto {
         this.tableId = tables.getId();
         this.title = tables.getTitle();
         this.username = tables.getUser().getUsername();
-//        this.thumbnail = tables.getThumbnail().getThumbnailUrl();
         this.thumbnail = tables.getThumbnailImgUrl();
         this.likecount = tables.getLikes().size();
         this.viewcount = tables.getViewUserList().size();
@@ -62,7 +61,6 @@ public class TablesResponseDto {
         this.title = tables.getTitle();
         this.username = tables.getUser().getUsername();
         this.content = tables.getContent();
-        //        this.thumbnail = tables.getThumbnail().getThumbnailUrl();
         this.thumbnail = tables.getThumbnailImgUrl();
         this.imgUrlList = tables.getImgUrls().stream()
                 .map(this::apply)
@@ -87,7 +85,6 @@ public class TablesResponseDto {
     public static TablesResponseDto todayTableDto(Tables tables) {
         return TablesResponseDto.builder()
                 .tableId(tables.getId())
-//                .thumbnail(tables.getThumbnail().getThumbnailUrl())
                 .thumbnail(tables.getThumbnailImgUrl())
                 .title(tables.getTitle())
                 .likecount(tables.getLikes().size())
@@ -109,7 +106,6 @@ public class TablesResponseDto {
                                 .username(t.getUser().getUsername())
                                 .title(t.getTitle())
                                 .content(t.getContent())
-//                                .thumbnail(p.getThumbnail().getThumbnailUrl())
                                 .thumbnail(t.getThumbnailImgUrl())
                                 .likecount(t.getLikes().size())
                                 .viewcount(t.getViewUserList().size())

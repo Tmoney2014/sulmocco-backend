@@ -31,7 +31,6 @@ public class RoomResponseDto {
     private boolean onair;
 
     public RoomResponseDto(Room room) {
-        this.roomId =room.getId();
         this.chatRoomId = room.getChatRoomId();
         this.version = room.getVersion();
         this.thumbnail = room.getThumbnail();
@@ -49,15 +48,18 @@ public class RoomResponseDto {
     public static Slice<RoomResponseDto> roomList(Slice<Room> roomSlice) {
         Slice<RoomResponseDto> roomResponseDtos = roomSlice.map(r ->
                         RoomResponseDto.builder()
+                                .chatRoomId(r.getChatRoomId())
                                 .title(r.getTitle())
                                 .thumbnail(r.getThumbnail())
-//                                .members
-                                .roodId(r.getId())
+                                .version(r.getVersion())
+                                .userCount(r.getUserCount())
                                 .alcoholtag(r.getAlcoholTag())
                                 .food(r.getFood())
                                 .theme(r.getTheme())
                                 .username(r.getUser().getUsername())
-//                                .onair
+                                .profileUrl(r.getUser().getProfileUrl())
+                                .createdAt(r.getCreatedAt())
+                                .onair(r.isOnair())
                                 .build()
         );
         return roomResponseDtos;

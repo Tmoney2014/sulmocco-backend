@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -27,5 +25,4 @@ public class UserController {
     public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
         return userService.signup(signUpRequestDto);
     }
-//    @GetMapping("/api/checkUser/")
 }

@@ -2,7 +2,6 @@ package com.hanghae99.sulmocco.controller;
 
 import com.hanghae99.sulmocco.dto.EnterUserResponseDto;
 import com.hanghae99.sulmocco.dto.RoomRequestDto;
-import com.hanghae99.sulmocco.dto.RoomResponseDto;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.service.RoomService;
@@ -20,7 +19,7 @@ public class RoomController {
     private final RoomService roomService;
 
     // 술모임 검색
-    @GetMapping("/api/rooms/search")
+    @GetMapping("/api/room/search")
     public ResponseEntity<?> getPagingRoomsBySearch(@RequestParam("page") int page,
                                                     @RequestParam("size") int size,
                                                     @RequestParam("sortBy") String sortBy,
@@ -31,7 +30,7 @@ public class RoomController {
     }
 
     // 술모임 목록
-    @GetMapping("/api/rooms")
+    @GetMapping("/api/room")
     public ResponseEntity<?> getPagingRooms(@RequestParam("page") int page,
                                             @RequestParam("size") int size,
                                             @RequestParam("sortBy") String sortBy,

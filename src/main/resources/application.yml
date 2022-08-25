@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: local
+#  static파일을 개발할 때 서버를 재시작 하지 않고도
+#  수정한 내용이 반영되도록 하기 위한 설정
   devtools:
     livereload:
       enabled: true
