@@ -26,7 +26,7 @@ public class Room extends Timestamped implements Serializable {
     private String chatRoomId;
     private String thumbnail;
     @Column(nullable = false)
-    private String version;
+    private String version; // host, friend, hostPrivate, friendPrivate
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
