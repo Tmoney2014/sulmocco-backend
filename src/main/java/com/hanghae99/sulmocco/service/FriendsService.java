@@ -64,12 +64,12 @@ public class FriendsService {
     /**
      * 친구추가
      */
-    public ResponseEntity<?> createFriends( String username, User user) {
+    public ResponseEntity<?> createFriends(String username, User user) {
 
         User addfriends = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("유저가 존재하지 않습니다."));
 
-        Friends friends = new Friends(addfriends.getUserId(),user);
+        Friends friends = new Friends(addfriends.getUserId(), user);
 
         friendsRepository.save(friends);
 
@@ -86,13 +86,13 @@ public class FriendsService {
 
     public ResponseEntity<?> deleteFriends(String username, User user) {
 
-       User friends = userRepository.findByUsername(username).orElseThrow(
+        User deleteFriends = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 친구입니다."));
-        Long userId = friends.getUserId();
+        Long userId = deleteFriends.getUserId();
 //        if (!friends.getUser().getId().equals(user.getId()))
 //            throw new IllegalArgumentException("본인만 삭제할 수 있습니다.");
 
-        Friends deleteFriend = friendsRepository.findByUserIdAndUser(userId,user);
+        Friends deleteFriend = friendsRepository.findByAddFriendIdAndUser(userId, user);
         friendsRepository.delete(deleteFriend);
 
         return ResponseEntity.ok(new ResponseDto(true, "친구를 삭제되었습니다."));

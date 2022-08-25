@@ -30,7 +30,7 @@ public class FriendsController {
     //친구추가
     @PostMapping("/api/friends/{username}")
     public ResponseEntity<?> createFriens(@PathVariable String username,
-                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails != null) {
             User user = userDetails.getUser();
             return friendsService.createFriends(username, user);
@@ -41,7 +41,7 @@ public class FriendsController {
     // 친구 삭제
     @DeleteMapping("/api/friends/{username}")
     public ResponseEntity<?> deleteFriends(@PathVariable String username,
-                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails != null) {
             User user = userDetails.getUser();
             return friendsService.deleteFriends(username, user);
