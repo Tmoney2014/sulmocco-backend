@@ -22,8 +22,9 @@ public class FriendsResponseDto {
 //        this.addFriend_id = String.valueOf(friends.getAddFriend_id());
 //    }
 
-    public FriendsResponseDto(User user) {
+    public FriendsResponseDto(User user, boolean isOnair) {
         this.username = user.getUsername();
         this.profile = user.getProfileUrl();
+        this.isOnair = isOnair;
     }
 }

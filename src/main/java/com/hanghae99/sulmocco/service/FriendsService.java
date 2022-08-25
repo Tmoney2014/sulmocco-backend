@@ -5,6 +5,7 @@ import com.hanghae99.sulmocco.dto.ResponseDto;
 import com.hanghae99.sulmocco.model.Friends;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.repository.FriendsRepository;
+import com.hanghae99.sulmocco.repository.RoomRepository;
 import com.hanghae99.sulmocco.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ public class FriendsService {
 
     private final FriendsRepository friendsRepository;
 
+    private final RoomRepository roomRepository;
+
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
@@ -35,7 +38,10 @@ public class FriendsService {
 
         for (Long friendsId : friendsIdList) {
             User findFriendsUser = userRepository.findByUserId(friendsId);
-            FriendsResponseDto friendsResponseDto = new FriendsResponseDto(findFriendsUser);
+            //친구 추가한 사용자가 Id로 생성된 방이 있는지 없는지 확인
+            boolean isonair = roomRepository.findById(friendsId).isPresent();
+
+            FriendsResponseDto friendsResponseDto = new FriendsResponseDto(findFriendsUser, isonair);
             friendsResponseDtos.add(friendsResponseDto);
         }
 
