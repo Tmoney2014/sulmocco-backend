@@ -17,7 +17,7 @@ public class MypageResponseDto {
     private String id;
     private String profileUrl;
 
-    public void add(User user) {
+    public MypageResponseDto (User user) {
         this.id = user.getId();
         this.level = user.getLevel();
         this.profileUrl = user.getProfileUrl();
