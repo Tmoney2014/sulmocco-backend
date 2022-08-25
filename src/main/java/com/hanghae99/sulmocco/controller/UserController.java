@@ -44,6 +44,7 @@ public class UserController {
     @PutMapping("/api/mypage")
     public ResponseEntity<?> changeUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody ChangeRequestDto changeRequestDto){
         return userService.changeUser(userDetails,changeRequestDto);
+
     }
 
 }

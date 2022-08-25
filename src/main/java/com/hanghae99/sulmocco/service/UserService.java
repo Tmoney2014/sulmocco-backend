@@ -96,9 +96,11 @@ public class UserService {
 
     @Transactional
     public ResponseEntity<?> changeUser(UserDetailsImpl userDetails, ChangeRequestDto changeRequestDto) {
-        User finduser = userDetails.getUser();
-        String password = bCryptPasswordEncoder.encode(changeRequestDto.getPassword());
-        finduser.updateUser(password, changeRequestDto);
+        String username = userDetails.getUser().getUsername();
+
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        user.updateUser(changeRequestDto);
 
         return new ResponseEntity<>("회원정보수정 완료", HttpStatus.valueOf(200));
     }
