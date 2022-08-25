@@ -93,7 +93,7 @@ public class Bbatoncontroller {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("code", code);
         params.add("grant_type", "authorization_code");
-        params.add("redirect_uri", "http://localhost:3000/oauth2/redirect");
+        params.add("redirect_uri", "http://localhost:3000/oauth2/redirect_pw");
 
         HttpEntity<MultiValueMap<String, String>> requestParams = new HttpEntity<>(params, headers);
         ResponseEntity response = restTemplate.postForEntity("https://bauth.bbaton.com/oauth/token", requestParams, String.class);
@@ -118,7 +118,7 @@ public class Bbatoncontroller {
                 String user_id = (String) jsonBody2.get("user_id");
 
                 // 비바톤ID와 우리 ID가 동일하기 때문에 여기서 이전에 회원가입을 했는지 DB 조회
-                userService.checkUserId(user_id);
+                userService.checkUserIdPw(user_id);
 
                 if ("Y".equals(adultFlag)) {
                     //인증 성공

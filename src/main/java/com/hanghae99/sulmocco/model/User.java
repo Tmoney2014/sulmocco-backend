@@ -1,15 +1,12 @@
 package com.hanghae99.sulmocco.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hanghae99.sulmocco.base.Timestamped;
+import com.hanghae99.sulmocco.dto.ChangeRequestDto;
 import com.hanghae99.sulmocco.dto.SignUpRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -60,4 +57,19 @@ public class User {
 //        this.role = role;
     }
 
+    public void updatePw(String password, User user) {
+        this.id = user.getId();
+        this.password = password;
+        this.level = user.getLevel();
+        this.username = user.getUsername();
+        this.profileUrl = user.getProfileUrl();
+        this.userId = user.getUserId();
+
+    }
+
+    public void updateUser(ChangeRequestDto changeRequestDto) {
+        this.username = changeRequestDto.getUsername();
+        this.level = changeRequestDto.getLevel();
+        this.profileUrl = changeRequestDto.getProfileUrl();
+    }
 }
