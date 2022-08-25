@@ -66,6 +66,7 @@ public class UserService {
 
     }
 
+    // 비밀번호 찾기
     @Transactional
     public ResponseEntity<?> changePw(ChangeRequestDto changeRequestDto) {
         User finduUser = userRepository.findById(changeRequestDto.getId());
