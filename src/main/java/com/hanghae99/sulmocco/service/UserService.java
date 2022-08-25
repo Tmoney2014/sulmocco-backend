@@ -84,14 +84,18 @@ public class UserService {
     }
 
     public ResponseEntity<?> mypage(UserDetailsImpl userDetails) {
-        User user = userDetails.getUser();
+        String username = userDetails.getUser().getUsername();
+//        Long userId = userDetails.getUser().getUserId();
 
-        MypageResponseDto mypageResponseDto = new MypageResponseDto();
-        mypageResponseDto.add(user);
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        MypageResponseDto mypageResponseDto = new MypageResponseDto(user);
 
         return new ResponseEntity<>(mypageResponseDto, HttpStatus.valueOf(200));
     }
 
+    @Transactional
     public ResponseEntity<?> changeUser(UserDetailsImpl userDetails, ChangeRequestDto changeRequestDto) {
         User finduser = userDetails.getUser();
         String password = bCryptPasswordEncoder.encode(changeRequestDto.getPassword());

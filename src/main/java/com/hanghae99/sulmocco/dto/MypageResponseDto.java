@@ -1,7 +1,15 @@
 package com.hanghae99.sulmocco.dto;
 
 import com.hanghae99.sulmocco.model.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MypageResponseDto {
 
     private String username;
