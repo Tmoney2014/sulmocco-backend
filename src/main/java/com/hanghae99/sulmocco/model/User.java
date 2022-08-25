@@ -67,13 +67,9 @@ public class User {
 
     }
 
-    public void updateUser(String password, ChangeRequestDto changeRequestDto) {
-        this.id=changeRequestDto.getId();
-        this.userId = changeRequestDto.getUserId();
+    public void updateUser(ChangeRequestDto changeRequestDto) {
         this.username = changeRequestDto.getUsername();
         this.level = changeRequestDto.getLevel();
         this.profileUrl = changeRequestDto.getProfileUrl();
-        this.password = password;
-
     }
 }
