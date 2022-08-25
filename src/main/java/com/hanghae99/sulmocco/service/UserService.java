@@ -94,6 +94,7 @@ public class UserService {
         return new ResponseEntity<>(mypageResponseDto, HttpStatus.valueOf(200));
     }
 
+    // 회원정보 수정
     @Transactional
     public ResponseEntity<?> changeUser(UserDetailsImpl userDetails, ChangeRequestDto changeRequestDto) {
         String username = userDetails.getUser().getUsername();
