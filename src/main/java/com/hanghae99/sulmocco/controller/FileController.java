@@ -16,17 +16,11 @@ public class FileController {
 
     private final S3Service s3Service;
 
-    // 이미지 업로드 V1 - List<UploadResponseDto>
+    // 이미지 업로드
     @PostMapping("/api/images")
     public ResponseEntity<?> uploadImageV1(@RequestPart(value = "file", required = false) List<MultipartFile> files) throws IOException {
         return s3Service.uploadImageV1(files);
     }
-
-//    // 이미지 업로드 V2 - List<String>
-//    @PostMapping("/api/images/uploadV2")
-//    public List<String> uploadImageV2(@RequestPart(value = "file", required = false) List<MultipartFile> files) throws IOException {
-//        return s3Service.uploadImageV2(files);
-//    }
 
     // 이미지 삭제
     @DeleteMapping("/api/images")
