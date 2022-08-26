@@ -47,4 +47,5 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("select r from Room r where r.version=:version and r.alcoholTag in :splitAlcoholTag ")
     Page<Room> getRoomsOrderByVersionAndAlcoholTag(Pageable pageable, String version, String[] splitAlcoholTag);
 
+    Optional<Room> findByUsername(String username);
 }

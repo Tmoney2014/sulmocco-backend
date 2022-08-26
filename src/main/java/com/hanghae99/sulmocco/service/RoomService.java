@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,11 @@ public class RoomService {
      * 술모임 만들기
      */
     public String createRoom(RoomRequestDto requestDto, User user) {
+
+        Optional<Room> findRoom = roomRepository.findByUsername(user.getUsername());
+        if (findRoom.isPresent()) {
+            throw new IllegalArgumentException("술모임은 하나만 생성할 수 있습니다.");
+        }
 
         if (requestDto.getTitle() == null) {
             throw new IllegalArgumentException("방 이름을 입력해주세요.");
