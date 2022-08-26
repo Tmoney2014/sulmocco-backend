@@ -55,13 +55,13 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<?> checkUserIdPw(String Id) {
+    public boolean checkUserIdPw(String Id) {
 
         User user = userRepository.findById(Id);
-        if (user == null) {
-            throw new IllegalArgumentException("존재하지 않는 회원입니다 회원가입을 해주세요.");
+       if (user == null) {
+            return false;
         } else {
-            return new ResponseEntity<>("회원인증이 완료 되었습니다", HttpStatus.valueOf(200));
+            return true;
         }
 
     }
