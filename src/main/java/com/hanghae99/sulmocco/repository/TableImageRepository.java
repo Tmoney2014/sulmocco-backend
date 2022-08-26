@@ -10,7 +10,7 @@ public interface TableImageRepository extends JpaRepository<TableImage, Long> {
 
     Long deleteByTables(Tables tables);
 
-    TableImage findByTables(Tables findTable);
+    List<TableImage> findByTables(Tables findTable);
 
 //    TableImage findByTablesAndIsThumbnailImage(Tables tables, boolean isRepImage);
 }

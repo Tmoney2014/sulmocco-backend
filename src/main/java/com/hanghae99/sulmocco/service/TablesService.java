@@ -136,9 +136,17 @@ public class TablesService {
             throw new IllegalStateException("작성자만 삭제할 수 있습니다.");
         }
         // 이미지 삭제
-        List<TableImage> imgUrls = findTable.getImgUrls();
-        s3Service.deleteImages(imgUrls.stream().map(TableImage::getTableImgUrl)
-                .collect(Collectors.toList()));
+        List<TableImage> imgUrls = tableImageRepository.findByTables(findTable);
+        if (!imgUrls.isEmpty()) {
+            List<String> urlList = new ArrayList<>();
+            for (TableImage imgUrl : imgUrls) {
+                urlList.add(imgUrl.getTableImgUrl());
+                s3Service.deleteImages(urlList);
+            }
+        }
+//        s3Service.deleteImages(imgUrls.stream().map(TableImage::getTableImgUrl)
+//                .collect(Collectors.toList()));
+
         // 술상 삭제
         tablesRepository.deleteById(tableId);
 
