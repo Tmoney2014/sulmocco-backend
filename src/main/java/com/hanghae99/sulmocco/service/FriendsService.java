@@ -7,7 +7,9 @@ import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.repository.FriendsRepository;
 import com.hanghae99.sulmocco.repository.RoomRepository;
 import com.hanghae99.sulmocco.repository.UserRepository;
+import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,5 +75,23 @@ public class FriendsService {
         friendsRepository.delete(deleteFriend);
 
         return ResponseEntity.ok(new ResponseDto(true, "친구를 삭제되었습니다."));
+    }
+
+    public ResponseEntity<?> addingFriend(String username, UserDetailsImpl userDetails) {
+        User addingFriend = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+        User user = userDetails.getUser();
+
+      Friends friends = friendsRepository.findByAddFriendIdAndUser(addingFriend.getUserId(), user);
+
+      boolean isfriend = (friends!=null);
+
+
+
+        FriendsResponseDto friendsResponseDto = new FriendsResponseDto(addingFriend,isfriend,user.getUsername());
+
+        return new ResponseEntity<>(friendsResponseDto, HttpStatus.valueOf(200));
+
     }
 }
