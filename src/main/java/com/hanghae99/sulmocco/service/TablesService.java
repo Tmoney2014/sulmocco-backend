@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class TablesService {
     private final ReplyRepository replyRepository;
     private final LikeRepository likeRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final S3Service s3Service;
 
     /**
      * 술상 추천 작성 - ok
@@ -133,12 +135,15 @@ public class TablesService {
         if (!findTable.getUser().getId().equals(user.getId())) {
             throw new IllegalStateException("작성자만 삭제할 수 있습니다.");
         }
+        // 이미지 삭제
+        List<TableImage> imgUrls = findTable.getImgUrls();
+        s3Service.deleteImages(imgUrls.stream().map(TableImage::getTableImgUrl)
+                .collect(Collectors.toList()));
         // 술상 삭제
         tablesRepository.deleteById(tableId);
 
         return ResponseEntity.ok().body(new ResponseDto(true, "술상을 엎었습니다."));
     }
-
 
     /**
      * 술상 추천 목록
@@ -205,7 +210,6 @@ public class TablesService {
 
         List<TablesResponseDto> todayTablesDtos = new ArrayList<>();
         for (Tables todayTable : todayTables) {
-//            Thumbnail thumbnail = thumbnailRepository.findByTables(todayTable);
             todayTablesDtos.add(TablesResponseDto.todayTableDto(todayTable));
         }
         return ResponseEntity.ok().body(todayTablesDtos);

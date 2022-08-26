@@ -37,7 +37,6 @@ public class RoomService {
         }
 
         Room room = Room.create(requestDto, user);
-        //비밀번호가 있다면 true, 없다면 false
         Room createRoom = roomRepository.save(room);
 
         return createRoom.getChatRoomId();
