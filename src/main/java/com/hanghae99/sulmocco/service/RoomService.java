@@ -155,7 +155,6 @@ public class RoomService {
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         Slice<Room> roomSlice = null;
-        String[] splitAlcoholTag = alcohol.split(",");  // ex) 소주,맥주,와인
 
         if (version == null) {
             if (alcohol == null) {
@@ -163,6 +162,7 @@ public class RoomService {
                 roomSlice = roomRepository.findAllRooms(pageable);
             } else {
                 // version X 술태그 O
+                String[] splitAlcoholTag = alcohol.split(",");  // ex) 소주,맥주,와인
                 roomSlice = roomRepository.getRoomsOrderByAlcoholTag(pageable, splitAlcoholTag);
             }
         } else {
@@ -171,6 +171,7 @@ public class RoomService {
                 roomSlice = roomRepository.findAllRoomsByVersion(pageable, version);
             } else {
                 // version O 술태그 O
+                String[] splitAlcoholTag = alcohol.split(",");  // ex) 소주,맥주,와인
                 roomSlice = roomRepository.getRoomsOrderByVersionAndAlcoholTag(pageable, version, splitAlcoholTag);
             }
         }
