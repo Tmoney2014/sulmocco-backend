@@ -16,7 +16,6 @@ import java.security.SecureRandom;
 @RequiredArgsConstructor
 public class FriendsController {
 
-//    private final ReplyService replyService;
 
     private final FriendsService friendsService;
 
@@ -47,5 +46,13 @@ public class FriendsController {
             return friendsService.deleteFriends(username, user);
         }
         return ResponseEntity.badRequest().body("로그인이 만료되었습니다.");
+    }
+
+    @GetMapping("/api/friends/{username}")
+    public ResponseEntity<?> addingFriend (@PathVariable String username,
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return friendsService.addingFriend (username,userDetails);
+
+
     }
 }

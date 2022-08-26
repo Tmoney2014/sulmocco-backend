@@ -42,23 +42,6 @@ public class RoomController {
         return roomService.getPagingRooms(page, size, sortBy, isAsc, alcohol, version);
     }
 
-//    // 술모임 생성
-//    @PostMapping("/api/room")
-//    public ResponseEntity<?> createRoom(@RequestBody RoomRequestDto requestDto,
-//                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        User user = userDetails.getUser();
-//        return roomService.createRoom(requestDto, user);
-//    }
-//
-//    // 술모임 입장
-//    @PostMapping("/api/room/enter/{roomId}")
-//    public ResponseEntity<?> enterRoom(@PathVariable String roomId,
-//                                       @RequestBody RoomUrlRequestDto requestDto,
-//                                       @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        User user = userDetails.getUser();
-//        return roomService.enterRoom(roomId, requestDto, user);
-//    }
-
     // 지금 인기있는 술약속 Top 8
     @GetMapping("/api/room/main")
     public ResponseEntity<?> getRoomsOrderByCount() {
@@ -74,6 +57,7 @@ public class RoomController {
     }
 
     //  userEnter 테이블 조인(현재 방에 접속 중인 유저 확인 테이블)
+    //  TODO 필요한지 알아봐야함
     @PostMapping("/api/chat/room/enter/{chatRoomId}")
     public ResponseEntity<List<EnterUserResponseDto>> enterRoom(@PathVariable String chatRoomId,
                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -81,6 +65,7 @@ public class RoomController {
     }
 
     // enterUser 삭제
+    // TODO 필요한지 알아 봐야함
     @DeleteMapping("/api/chat/room/quit/{chatRoomId}")
     public void quitRoom(@PathVariable String chatRoomId,
                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -88,13 +73,13 @@ public class RoomController {
         roomService.quitRoom(chatRoomId, user);
     }
 
-    //특정방 조회
+    //술모임 상세
     @GetMapping("/api/chat/room/{chatRoomId}")
     public ResponseEntity<?> getRoomDetail(@PathVariable String chatRoomId) {
         return ResponseEntity.ok().body(roomService.getRoom(chatRoomId));
     }
 
-    //    room 삭제
+    //방 삭제
     @DeleteMapping("/api/room/delete/{chatRoomId}")
     public void deleteRoom(@PathVariable String chatRoomId,
                            @AuthenticationPrincipal UserDetailsImpl userDetails) {

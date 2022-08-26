@@ -61,22 +61,24 @@ public class Bbatoncontroller {
                 String user_id = (String) jsonBody2.get("user_id");
 
                 // 비바톤ID와 우리 ID가 동일하기 때문에 여기서 이전에 회원가입을 했는지 DB 조회
-                userService.checkUserId(user_id);
+//                userService.checkUserId(user_id);
+                if (userService.checkUserIdPw(user_id) == false) {
 
-                if ("Y".equals(adultFlag)) {
-                    //인증 성공
-                    return new ResponseEntity<>(new BbatonResponseDto(true, user_id), HttpStatus.valueOf(200));
+                    if ("Y".equals(adultFlag)) {
+                        //인증 성공
+                        return new ResponseEntity<>(new BbatonResponseDto(true, user_id), HttpStatus.valueOf(200));
+                    } else {
+                        //인증 실패 처리
+                        return new ResponseEntity<>(new BbatonResponseDto(false, "미성년자입니다."), HttpStatus.valueOf(400));
+                    }
                 } else {
-                    //인증 실패 처리
-                    return new ResponseEntity<>(new BbatonResponseDto(false, "미성년자입니다"), HttpStatus.valueOf(400));
+                    return new ResponseEntity<>("이미 가입한 회원입니다 비밀번호 찾기를 진행해 주세요.", HttpStatus.valueOf(401));
                 }
-            } else {
-                return new ResponseEntity<>("오류가 발생했습니다", HttpStatus.valueOf(401));
             }
-
         }
-        return new ResponseEntity<>("인증에 성공하였습니다.", HttpStatus.valueOf(200));
+        return new ResponseEntity<>("토큰 호출 성공.", HttpStatus.valueOf(200));
     }
+
 
     //비밀번호 수정
     @GetMapping(value = "/oauth2/redirect_pw")
@@ -118,20 +120,18 @@ public class Bbatoncontroller {
                 String user_id = (String) jsonBody2.get("user_id");
 
                 // 비바톤ID와 우리 ID가 동일하기 때문에 여기서 이전에 회원가입을 했는지 DB 조회
-                userService.checkUserIdPw(user_id);
+//                userService.checkUserIdPw(user_id);
+                if (userService.checkUserIdPw(user_id) == true) {
 
-                if ("Y".equals(adultFlag)) {
-                    //인증 성공
-                    return new ResponseEntity<>(new BbatonResponseDto(true, user_id), HttpStatus.valueOf(200));
-                } else {
-                    //인증 실패 처리
-                    return new ResponseEntity<>(new BbatonResponseDto(false, "미성년자입니다"), HttpStatus.valueOf(400));
+                    if ("Y".equals(adultFlag)) {
+                        //인증 성공
+                        return new ResponseEntity<>(new BbatonResponseDto(true, user_id), HttpStatus.valueOf(200));
+                    }
                 }
             } else {
-                return new ResponseEntity<>("오류가 발생했습니다", HttpStatus.valueOf(401));
+                return new ResponseEntity<>("회원이 아닙니다 회원가입을 진행해 주세요.", HttpStatus.valueOf(401));
             }
-
         }
-        return new ResponseEntity<>("인증에 성공하였습니다.", HttpStatus.valueOf(200));
+        return new ResponseEntity<>("토큰 호출 성공.", HttpStatus.valueOf(200));
     }
 }
