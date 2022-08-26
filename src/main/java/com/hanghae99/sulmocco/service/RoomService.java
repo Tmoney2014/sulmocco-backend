@@ -12,12 +12,14 @@ import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class RoomService {
 
     private final RoomRepository roomRepository;
@@ -27,17 +29,17 @@ public class RoomService {
     /**
      * 술모임 만들기
      */
+    @Transactional
     public String createRoom(RoomRequestDto requestDto, User user) {
 
         if (requestDto.getTitle() == null) {
             throw new IllegalArgumentException("방 이름을 입력해주세요.");
         }
-        if (requestDto.getThumbnail() == null) {
-            requestDto.setThumbnail("Default 이미지URL");
-        }
+//        if (requestDto.getThumbnail() == null) {
+//            requestDto.setThumbnail("Default 이미지URL");
+//        }
 
         Room room = Room.create(requestDto, user);
-        //비밀번호가 있다면 true, 없다면 false
         Room createRoom = roomRepository.save(room);
 
         return createRoom.getChatRoomId();
@@ -47,6 +49,7 @@ public class RoomService {
      * 술모임 입장
      */
     //방 진입
+    @Transactional
     public List<EnterUserResponseDto> enterRoom(String chatRoomId, User user) {
 
         Room room = roomRepository.findByChatRoomId(chatRoomId).orElseThrow(
@@ -83,6 +86,7 @@ public class RoomService {
     /**
      * 술모임 나가기
      */
+    @Transactional
     public void quitRoom(String roomId, User user) {
         Room room = roomRepository.findByChatRoomId(roomId).orElseThrow(() -> new IllegalArgumentException("해당 방이 존재하지 않습니다."));
         EnterUser enterUser = enterUserRepository.findByRoomAndUser(room, user);
@@ -92,6 +96,7 @@ public class RoomService {
     /**
      * 술모임 종료
      */
+    @Transactional
     public ResponseEntity<?> deleteRoom(String roomId, User user) {
 
         Room room = roomRepository.findByChatRoomId(roomId).orElseThrow(
@@ -182,6 +187,7 @@ public class RoomService {
     }
 
     //특정 방 조회
+    @Transactional
     public ResponseEntity<?> getRoom(String chatRoomId) {
         Room room = roomRepository.findByChatRoomId(chatRoomId).orElseThrow(
                 () -> new IllegalArgumentException("해당 방이 존재하지 않습니다."));
