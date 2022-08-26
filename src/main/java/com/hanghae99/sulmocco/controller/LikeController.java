@@ -17,17 +17,17 @@ public class LikeController {
 
     private final LikeService likesService;
 
-
+//좋아요 생성
     @PostMapping("/api/tables/{tableId}/like")
     public ResponseEntity<?> postLikes(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long tableId) {
         Long userId = userDetails.getUser().getUserId();
         return likesService.postLikes(userId, tableId);
     }
 
-
+//좋아요 삭제
     @DeleteMapping("/api/tables/{tableId}/like")
     public ResponseEntity<?> deletetLikes(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long tableId) {
-        User user = userDetails.getUser();
-        return likesService.deleteLikes(user, tableId);
+        Long userId = userDetails.getUser().getUserId();
+        return likesService.deleteLikes(userId, tableId);
     }
 }
