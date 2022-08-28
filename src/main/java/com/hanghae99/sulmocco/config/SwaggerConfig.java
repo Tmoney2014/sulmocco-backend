@@ -41,9 +41,9 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
 
         return new ApiInfoBuilder()
-                .title("결제 API 서비스")
-                .description("결제 API 서비스 입니다")
-                .version("1.0")
+                .title("술모꼬")
+                .description("원격 술 모임 서비스")
+                .version("0.1")
 //                .termsOfServiceUrl("https://antstudy.tistory.com/")
 //                .license("LICENSE")
 //                .licenseUrl("")
