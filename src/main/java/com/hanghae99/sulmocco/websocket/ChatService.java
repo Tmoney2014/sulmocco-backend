@@ -25,12 +25,12 @@ public class ChatService {
 
 
     //     destination정보에서 roomId 추출
-    public String getRoomId(String destination) {
+    public String getChatRoomId(String destination) {
         int lastIndex = destination.lastIndexOf('/');
         if (lastIndex != -1) {
             return destination.substring(lastIndex + 1);
         } else {
-            return "";
+            return "룸아이디가 존제하지 않습니다.";
         }
     }
 
