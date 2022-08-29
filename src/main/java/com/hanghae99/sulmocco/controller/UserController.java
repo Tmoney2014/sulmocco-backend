@@ -48,4 +48,9 @@ public class UserController {
 
     }
 
+    @GetMapping("/api/getUser")
+    public ResponseEntity<?> getUser (@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return userService.getUser(userDetails);
+    }
+
 }
