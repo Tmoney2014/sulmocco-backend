@@ -36,7 +36,7 @@ public class UserService {
         return new ResponseEntity<>(new ResponseDto(true, "회원가입이 완료 되었습니다."), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> checkUsername(String username) {
+    public ResponseEntity<?> checkUsername(String username){
 
         if (userRepository.findByUsername(username).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 닉네임 입니다.");

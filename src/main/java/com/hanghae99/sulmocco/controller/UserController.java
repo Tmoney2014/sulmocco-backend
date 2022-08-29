@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -19,7 +21,6 @@ public class UserController {
     // 닉네임 중복 확인
     @GetMapping("/api/checkUser/{username}")
     public ResponseEntity<?> checkNickName(@PathVariable String username) {
-//        return ResponseEntity.ok().body(userService.checkNickName(nickName), );
         return userService.checkUsername(username);
     }
 
@@ -32,19 +33,20 @@ public class UserController {
 
     //비밀번호 수정
     @PutMapping("/api/resetPw")
-    public  ResponseEntity<?> changePw(@RequestBody ChangeRequestDto changeRequestDto){
+    public ResponseEntity<?> changePw(@RequestBody ChangeRequestDto changeRequestDto) {
         return userService.changePw(changeRequestDto);
     }
-//마이 페이지 접속
+
+    //마이 페이지 접속
     @GetMapping("/api/mypage")
-    public  ResponseEntity<?> mypage(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<?> mypage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return userService.mypage(userDetails);
     }
 
     // 회원정보 수정
     @PutMapping("/api/mypage")
-    public ResponseEntity<?> changeUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody ChangeRequestDto changeRequestDto){
-        return userService.changeUser(userDetails,changeRequestDto);
+    public ResponseEntity<?> changeUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody ChangeRequestDto changeRequestDto) {
+        return userService.changeUser(userDetails, changeRequestDto);
 
     }
 

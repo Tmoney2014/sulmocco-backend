@@ -58,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/h2-console/**",
+//                        "https://scw5dza5e4.execute-api.ap-northeast-2.amazonaws.com",
                         // swagger 관련 리소스 시큐리티 필터 제거
                         "/api/v1/auth/**",
                         "/v2/api-docs", "/swagger-resources/**", "/swagger-ui/index.html",

@@ -24,6 +24,7 @@ public class FriendsResponseDto {
     public FriendsResponseDto(User user, boolean isOnair ) {
         this.username = user.getUsername();
         this.profile = user.getProfileUrl();
+        this.level = user.getLevel();
         this.isOnair = isOnair;
     }
 

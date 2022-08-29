@@ -18,16 +18,16 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     Optional<Room> findByChatRoomId(String chatRoomId);
 
     // 지금 인기있는 술약속 Top 8
-    @Query("select r from Room r ORDER BY r.userCount DESC, r.id DESC ")
-    List<Room> findByOrderByCount(Pageable pageable);
+    @Query("select r from Room r where r.version in :setVersion ORDER BY r.userCount DESC, r.id DESC ")
+    List<Room> findByOrderByCount(Pageable pageable, String[] setVersion);
 
     // 전체 목록
-    @Query("select r from Room r ")
-    Page<Room> findAllRooms(Pageable pageable);
+    @Query("select r from Room r where r.version in :setVersion")
+    Page<Room> findAllRooms(Pageable pageable, String[] setVersion);
 
     // 술모임 검색
-    @Query("select r from Room r where r.title LIKE %:keyword% Or r.alcoholTag LIKE %:keyword% Or r.food LIKE %:keyword% Or r.theme LIKE %:keyword% ")
-    Page<Room> getRoomsBySearch(Pageable pageable, String keyword);
+    @Query("select r from Room r where r.version in :setVersion and r.title LIKE %:keyword% Or r.alcoholTag LIKE %:keyword% Or r.food LIKE %:keyword% Or r.theme LIKE %:keyword% ")
+    Page<Room> getRoomsBySearch(Pageable pageable, String keyword, String[] setVersion);
 
     // 술모임 검색 with version 설정
     @Query("select r from Room r where r.version=:version and r.title LIKE %:keyword% Or r.alcoholTag LIKE %:keyword% Or r.food LIKE %:keyword% Or r.theme LIKE %:keyword% ")
@@ -36,8 +36,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
 
     // 술 태그로만 조회
-    @Query("select r from Room r where r.alcoholTag in :splitAlcoholTag ")
-    Page<Room> getRoomsOrderByAlcoholTag(Pageable pageable, String[] splitAlcoholTag);
+    @Query("select r from Room r where r.version in :setVersion and r.alcoholTag in :splitAlcoholTag ")
+    Page<Room> getRoomsOrderByAlcoholTag(Pageable pageable, String[] splitAlcoholTag, String[] setVersion);
 
     // version으로만 조회
     @Query("select r from Room r where r.version=:version ")

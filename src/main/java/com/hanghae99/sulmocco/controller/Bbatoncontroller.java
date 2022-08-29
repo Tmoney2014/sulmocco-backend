@@ -37,6 +37,7 @@ public class Bbatoncontroller {
         params.add("code", code);
         params.add("grant_type", "authorization_code");
         params.add("redirect_uri", "http://localhost:3000/oauth2/redirect");
+//        params.add("redirect_uri", "https://sulmoggo.web.app/oauth2/redirect");
 
         HttpEntity<MultiValueMap<String, String>> requestParams = new HttpEntity<>(params, headers);
         ResponseEntity response = restTemplate.postForEntity("https://bauth.bbaton.com/oauth/token", requestParams, String.class);
@@ -96,6 +97,8 @@ public class Bbatoncontroller {
         params.add("code", code);
         params.add("grant_type", "authorization_code");
         params.add("redirect_uri", "http://localhost:3000/oauth2/redirect_pw");
+//        params.add("redirect_uri", "https://sulmoggo.web.app/oauth2/redirect_pw");
+
 
         HttpEntity<MultiValueMap<String, String>> requestParams = new HttpEntity<>(params, headers);
         ResponseEntity response = restTemplate.postForEntity("https://bauth.bbaton.com/oauth/token", requestParams, String.class);

@@ -126,7 +126,8 @@ public class RoomService {
     public ResponseEntity<?> getRoomsOrderByCount() {
 
         Pageable pageable = PageRequest.ofSize(8);
-        List<Room> hotRooms = roomRepository.findByOrderByCount(pageable);
+        String[] setVersion = {"host", "friend"};
+        List<Room> hotRooms = roomRepository.findByOrderByCount(pageable, setVersion);
 
         List<RoomResponseDto> hotRoomsDtos = new ArrayList<>();
         for (Room hotRoom : hotRooms) {
@@ -145,9 +146,10 @@ public class RoomService {
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         Slice<Room> roomSlice = null;
+        String[] setVersion = {"host", "friend"};
 
         if (version == null) {
-            roomSlice = roomRepository.getRoomsBySearch(pageable, keyword);
+            roomSlice = roomRepository.getRoomsBySearch(pageable, keyword, setVersion);
         } else {
             roomSlice = roomRepository.getRoomsByVersionAndSearch(pageable, keyword, version);
         }
@@ -167,15 +169,16 @@ public class RoomService {
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         Slice<Room> roomSlice = null;
+        String[] setVersion = {"host", "friend"};
 
         if (version == null) {
             if (alcohol == null) {
                 // version X 술태그 X (첫화면)
-                roomSlice = roomRepository.findAllRooms(pageable);
+                roomSlice = roomRepository.findAllRooms(pageable, setVersion);
             } else {
                 // version X 술태그 O
                 String[] splitAlcoholTag = alcohol.split(",");  // ex) 소주,맥주,와인
-                roomSlice = roomRepository.getRoomsOrderByAlcoholTag(pageable, splitAlcoholTag);
+                roomSlice = roomRepository.getRoomsOrderByAlcoholTag(pageable, splitAlcoholTag, setVersion);
             }
         } else {
             if (alcohol == null) {

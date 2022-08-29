@@ -20,7 +20,7 @@ public class FriendsController {
     private final FriendsService friendsService;
 
     // 친구목록
-    @GetMapping("/api/friends/")
+    @GetMapping("/api/friends")
     public ResponseEntity<?> getFriends(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return friendsService.getFriends(user);
@@ -28,7 +28,7 @@ public class FriendsController {
 
     //친구추가
     @PostMapping("/api/friends/{username}")
-    public ResponseEntity<?> createFriens(@PathVariable String username,
+    public ResponseEntity<?> createFriends(@PathVariable String username,
                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails != null) {
             User user = userDetails.getUser();

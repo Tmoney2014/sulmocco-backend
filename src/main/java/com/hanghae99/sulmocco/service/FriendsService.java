@@ -83,13 +83,11 @@ public class FriendsService {
 
         User user = userDetails.getUser();
 
-      Friends friends = friendsRepository.findByAddFriendIdAndUser(addingFriend.getUserId(), user);
+        Friends friends = friendsRepository.findByAddFriendIdAndUser(addingFriend.getUserId(), user);
 
-      boolean isfriend = (friends!=null);
+        boolean isfriend = (friends != null);
 
-
-
-        FriendsResponseDto friendsResponseDto = new FriendsResponseDto(addingFriend,isfriend,user.getUsername());
+        FriendsResponseDto friendsResponseDto = new FriendsResponseDto(addingFriend, isfriend, user.getUsername());
 
         return new ResponseEntity<>(friendsResponseDto, HttpStatus.valueOf(200));
 
