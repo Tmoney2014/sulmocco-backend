@@ -30,9 +30,20 @@ public class MainPageDataRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
+        //테스트 유저 1
         User testUser1 = new User("testUser", bCryptPasswordEncoder.encode("테ster!23"), "테스트 백", "술찌", "https://s3.ap-northeast-2.amazonaws.com/bucketservice/roomDefault.png");
         userRepository.save(testUser1);
+        //테스트 유저 2.3.4.5
+        User testUser2 = new User("testUser2", bCryptPasswordEncoder.encode("2222@@@@"), "테스트2", "0", "https://s3.ap-northeast-2.amazonaws.com/bucketservice/roomDefault.png");
+        User testUser3 = new User("testUser3", bCryptPasswordEncoder.encode("3333####"), "테스트3", "1", "https://s3.ap-northeast-2.amazonaws.com/bucketservice/roomDefault.png");
+        User testUser4 = new User("testUser4", bCryptPasswordEncoder.encode("4444$$$$"), "테스트4", "2", "https://s3.ap-northeast-2.amazonaws.com/bucketservice/roomDefault.png");
+        User testUser5 = new User("testUser5", bCryptPasswordEncoder.encode("5555%%%%"), "테스트5", "3", "https://s3.ap-northeast-2.amazonaws.com/bucketservice/roomDefault.png");
+        userRepository.save(testUser2);
+        userRepository.save(testUser3);
+        userRepository.save(testUser4);
+        userRepository.save(testUser5);
+
+        //테스트 데이터 생성
         createData(27, testUser1);
 
         Banner banner1 = new Banner(1L, "https://s3.ap-northeast-2.amazonaws.com/bucketservice/banner01.png", "https://www.ob.co.kr/stellaartois");
