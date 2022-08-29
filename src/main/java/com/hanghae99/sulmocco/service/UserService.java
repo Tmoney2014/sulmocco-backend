@@ -107,4 +107,15 @@ public class UserService {
 
         return new ResponseEntity<>("회원정보수정 완료", HttpStatus.valueOf(200));
     }
+
+    public ResponseEntity<?> getUser(UserDetailsImpl userDetails) {
+        if (userDetails == null){
+            return new ResponseEntity<>("유효한 토큰이 아닙니다.",HttpStatus.valueOf(401));
+        }else {
+            String username = userDetails.getUser().getUsername();
+            String id = userDetails.getUser().getId();
+
+           return new ResponseEntity<>(new ResponseDto(true,username,id),HttpStatus.valueOf(200));
+        }
+    }
 }

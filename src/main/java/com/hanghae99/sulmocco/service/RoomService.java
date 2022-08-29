@@ -25,7 +25,10 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
     private final EnterUserRepository enterUserRepository;
-    private final int LIMIT = 500;
+
+    private final int FriendsLimit = 6;
+
+    private final int HostLimit = 500;
 
     /**
      * 술모임 만들기
@@ -69,11 +72,19 @@ public class RoomService {
 
         List<EnterUser> enterUserSize = enterUserRepository.findByRoom(room);
 
-        if (enterUserSize.size() > 0) {
-            if (LIMIT < enterUserSize.size() + 1) {
-                throw new IllegalArgumentException("입장인원을 초과하였습니다.");
+
+        if (room.getVersion().contains("friend")) {
+            if (enterUserSize.size() > 0) {
+                if (FriendsLimit < enterUserSize.size() + 1) {
+                    throw new IllegalArgumentException("입장인원을 초과하였습니다. (6)");
+                }
+            }
+        } else if (enterUserSize.size() > 0) {
+            if (HostLimit < enterUserSize.size() + 1) {
+                throw new IllegalArgumentException("입장인원을 초과하였습니다. (500)");
             }
         }
+
 
         EnterUser enterUser = new EnterUser(user, room);
         enterUserRepository.save(enterUser);

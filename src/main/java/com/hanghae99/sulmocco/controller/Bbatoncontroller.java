@@ -76,8 +76,9 @@ public class Bbatoncontroller {
                     return new ResponseEntity<>("이미 가입한 회원입니다 비밀번호 찾기를 진행해 주세요.", HttpStatus.valueOf(401));
                 }
             }
+            return new ResponseEntity<>("토큰으로 사용자 정보 요청 성공.", HttpStatus.valueOf(200));
         }
-        return new ResponseEntity<>("토큰 호출 성공.", HttpStatus.valueOf(200));
+        return new ResponseEntity<>("토큰 호출 성공", HttpStatus.valueOf(200));
     }
 
 
@@ -130,11 +131,12 @@ public class Bbatoncontroller {
                         //인증 성공
                         return new ResponseEntity<>(new BbatonResponseDto(true, user_id), HttpStatus.valueOf(200));
                     }
+                } else {
+                    return new ResponseEntity<>("회원이 아닙니다 회원가입을 진행해 주세요.", HttpStatus.valueOf(401));
                 }
-            } else {
-                return new ResponseEntity<>("회원이 아닙니다 회원가입을 진행해 주세요.", HttpStatus.valueOf(401));
             }
+            return new ResponseEntity<>("토큰으로 사용자 정보 요청 성공.", HttpStatus.valueOf(200));
         }
-        return new ResponseEntity<>("토큰 호출 성공.", HttpStatus.valueOf(200));
+        return new ResponseEntity<>("토큰 호출 성공", HttpStatus.valueOf(200));
     }
 }

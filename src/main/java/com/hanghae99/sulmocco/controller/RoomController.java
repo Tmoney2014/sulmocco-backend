@@ -57,7 +57,6 @@ public class RoomController {
     }
 
     //  userEnter 테이블 조인(현재 방에 접속 중인 유저 확인 테이블)
-    //  TODO 필요한지 알아봐야함
     @PostMapping("/api/chat/room/enter/{chatRoomId}")
     public ResponseEntity<List<EnterUserResponseDto>> enterRoom(@PathVariable String chatRoomId,
                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -65,7 +64,6 @@ public class RoomController {
     }
 
     // enterUser 삭제
-    // TODO 필요한지 알아 봐야함
     @DeleteMapping("/api/chat/room/quit/{chatRoomId}")
     public void quitRoom(@PathVariable String chatRoomId,
                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
