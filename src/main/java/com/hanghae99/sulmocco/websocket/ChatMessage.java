@@ -17,13 +17,13 @@ public class ChatMessage {
     }
 
     @Builder
-    public ChatMessage(MessageType type, String chatRoomId, String sender, String message, long userCount, String profileImg) {
+    public ChatMessage(MessageType type, String chatRoomId, String sender, String message, long userCount) {
         this.type = type;
         this.chatRoomId = chatRoomId;
         this.sender = sender;
         this.message = message;
         this.userCount = userCount;
-        this.profileImg = profileImg;
+
     }
 
 
@@ -50,8 +50,6 @@ public class ChatMessage {
 
     @Column
     private long userCount; // 채팅방 인원수, 채팅방 내에서 메시지가 전달될때 인원수 갱신시 사용
-
-    private String profileImg;
 
 
 }
