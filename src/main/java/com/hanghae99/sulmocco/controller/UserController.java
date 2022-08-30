@@ -3,6 +3,7 @@ package com.hanghae99.sulmocco.controller;
 import com.hanghae99.sulmocco.dto.ChangeRequestDto;
 import com.hanghae99.sulmocco.dto.ResponseDto;
 import com.hanghae99.sulmocco.dto.SignUpRequestDto;
+import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class UserController {
     // 닉네임 중복 확인
     @GetMapping("/api/checkUser/{username}")
     public ResponseEntity<?> checkNickName(@PathVariable String username) {
+//        return ResponseEntity.ok().body(userService.checkNickName(nickName), );
         return userService.checkUsername(username);
     }
 
@@ -30,6 +32,11 @@ public class UserController {
         return userService.signup(signUpRequestDto);
     }
 
+    // 리프레쉬 토큰 재발급 API
+    @PutMapping("/api/refreshToken")
+    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+        return userService.refreshToken(request);
+    }
 
     //비밀번호 수정
     @PutMapping("/api/resetPw")
@@ -55,4 +62,9 @@ public class UserController {
         return userService.getUser(userDetails);
     }
 
+    @DeleteMapping("/api/deleteUser")
+    public ResponseEntity<?> deleteUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return userService.deleteUser(user);
+    }
 }

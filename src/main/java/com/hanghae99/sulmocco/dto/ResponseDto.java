@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @NoArgsConstructor
@@ -17,6 +18,8 @@ public class ResponseDto {
     private String nickname;
 
     private Long roomId;
+
+    private Enum<HttpStatus> httpStatus;
 
     private String id;
 
@@ -31,4 +34,9 @@ public class ResponseDto {
         this.id = id;
         this.username = username;
     }
+    public ResponseDto (Enum<HttpStatus> httpStatus, String message) {
+        this.httpStatus = httpStatus;
+        this.message = message;
+    }
+
 }

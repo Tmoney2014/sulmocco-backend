@@ -1,10 +1,12 @@
 package com.hanghae99.sulmocco.config;
 
+import com.hanghae99.sulmocco.repository.RefreshTokenRepository;
 import com.hanghae99.sulmocco.security.FilterSkipMatcher;
 import com.hanghae99.sulmocco.security.FormLoginSuccessHandler;
 import com.hanghae99.sulmocco.security.filter.FormLoginFilter;
 import com.hanghae99.sulmocco.security.filter.JwtAuthFilter;
 import com.hanghae99.sulmocco.security.jwt.HeaderTokenExtractor;
+import com.hanghae99.sulmocco.security.jwt.JwtDecoder;
 import com.hanghae99.sulmocco.security.provider.FormLoginAuthProvider;
 import com.hanghae99.sulmocco.security.provider.JWTAuthProvider;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JWTAuthProvider jwtAuthProvider;
     private final HeaderTokenExtractor headerTokenExtractor;
+    private final RefreshTokenRepository refreshTokenRepository;
+
+    private final JwtDecoder jwtDecoder;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -43,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public FormLoginSuccessHandler formLoginSuccessHandler() {
-        return new FormLoginSuccessHandler();
+        return new FormLoginSuccessHandler(refreshTokenRepository);
     }
 
     @Bean
@@ -58,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/h2-console/**",
+                        "ec2-13-209-8-162.ap-northeast-2.compute.amazonaws.com",
 //                        "https://scw5dza5e4.execute-api.ap-northeast-2.amazonaws.com",
                         // swagger 관련 리소스 시큐리티 필터 제거
                         "/api/v1/auth/**",
@@ -102,6 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        skipPathList.add("POST,/**");
 //        skipPathList.add("GET,/**");
         skipPathList.add("POST,/api/login");
+        skipPathList.add("PUT,/api/refreshToken");
         skipPathList.add("POST,/api/signup");
         skipPathList.add("GET,/api/checkUser/{username}");
         skipPathList.add("GET,/oauth2/redirect");
@@ -125,7 +132,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/**"
         );
 
-        JwtAuthFilter filter = new JwtAuthFilter(matcher, headerTokenExtractor);
+        JwtAuthFilter filter = new JwtAuthFilter(matcher, headerTokenExtractor, jwtDecoder);
         filter.setAuthenticationManager(super.authenticationManagerBean());
 
         return filter;

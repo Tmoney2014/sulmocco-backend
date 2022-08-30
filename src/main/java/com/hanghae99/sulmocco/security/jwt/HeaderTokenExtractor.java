@@ -20,7 +20,7 @@ public class HeaderTokenExtractor {
      */
     public final String HEADER_PREFIX = "Bearer ";
 
-    public String extract(String header, HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
+    public String extract(String header, HttpServletRequest request) throws AuthenticationException {
         /*
          * - Token 값이 올바르지 않은경우 -
          * header 값이 비어있거나 또는 HEADER_PREFIX 값보다 짧은 경우
@@ -29,15 +29,9 @@ public class HeaderTokenExtractor {
 
 
         if (header == null || header.equals("") || header.length() < HEADER_PREFIX.length()) {
+
             System.out.println("error request : " + request.getRequestURI());
-
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            objectMapper.writeValue(response.getWriter(),"올바른 JWT 값이 아닙니다.");
-//            throw new NoSuchElementException("올바른 JWT 정보가 아닙니다.");
+            throw new NoSuchElementException("올바른 JWT 정보가 아닙니다.");
 
         }
 

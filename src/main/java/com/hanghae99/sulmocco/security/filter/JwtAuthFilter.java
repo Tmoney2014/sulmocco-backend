@@ -2,6 +2,7 @@ package com.hanghae99.sulmocco.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanghae99.sulmocco.security.jwt.HeaderTokenExtractor;
+import com.hanghae99.sulmocco.security.jwt.JwtDecoder;
 import com.hanghae99.sulmocco.security.jwt.JwtPreProcessingToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,14 +26,16 @@ import java.io.IOException;
 public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
 
     private final HeaderTokenExtractor extractor;
+    private final JwtDecoder jwtDecoder;
 
     public JwtAuthFilter(
             RequestMatcher requiresAuthenticationRequestMatcher,
-            HeaderTokenExtractor extractor
+            HeaderTokenExtractor extractor,
+            JwtDecoder jwtDecoder
     ) {
         super(requiresAuthenticationRequestMatcher);
-
         this.extractor = extractor;
+        this.jwtDecoder = jwtDecoder;
     }
 
     @Override
@@ -47,16 +50,21 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
         String tokenPayload = request.getHeader("Authorization");
         if (tokenPayload == null) {
 
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            objectMapper.writeValue(response.getWriter(),"로그인 후 이용해주세요");
-
+            responseMessage(response, objectMapper, "로그인 후 이용해주세요");
             return null;
         }
 
+        //==================11번=======================//
+        String accessToken = extractor.extract(tokenPayload, request);
+        if (jwtDecoder.isExpiredToken(accessToken)) {
+            // 어떤 요청이 들어왔을 때, 여기에 보내라? 인터샙터 - 프론트
+            // 같은 401인데 3번째 인자 메시지가 있으면 리프레쉬 해라
+            responseMessage(response, objectMapper, "만료된 토큰입니다."); // 만료 신호
+        }
+
         JwtPreProcessingToken jwtToken = new JwtPreProcessingToken(
-                extractor.extract(tokenPayload, request,response));
+//                extractor.extract(tokenPayload, request,response));
+                extractor.extract(tokenPayload, request));
 
         return super
                 .getAuthenticationManager()
@@ -104,5 +112,12 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
                 response,
                 failed
         );
+    }
+
+    private void responseMessage(HttpServletResponse response,ObjectMapper objectMapper,Object object) throws IOException {
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        objectMapper.writeValue(response.getWriter(), object);
     }
 }
