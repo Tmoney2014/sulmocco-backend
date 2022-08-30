@@ -41,6 +41,7 @@ public class StompHandler implements ChannelInterceptor {
         if (StompCommand.CONNECT == accessor.getCommand()) {
 
             jwtDecoder.decodeNickname(accessor.getFirstNativeHeader("Authorization").substring(7));
+
         } else if (StompCommand.SUBSCRIBE == accessor.getCommand()) {
 
             String destination = Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId");
@@ -63,7 +64,6 @@ public class StompHandler implements ChannelInterceptor {
                 e.printStackTrace();
             }
 
-
             if (chatRoomId != null) {
                 Room room = roomRepository.findByChatRoomId(chatRoomId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 방입니다."));
                 room.setUserCount(redisRepository.getUserCount(chatRoomId));
@@ -83,6 +83,8 @@ public class StompHandler implements ChannelInterceptor {
                 redisRepository.minusUserCount(chatRoomId);
                 try {
                     chatService.sendChatMessage(ChatMessage.builder().type(ChatMessage.MessageType.QUIT).chatRoomId(chatRoomId).sender(username).build());
+                    log.info("유저네임 ={}", username);
+                    log.info("챗룸아이디 ={}", chatRoomId);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -95,12 +97,12 @@ public class StompHandler implements ChannelInterceptor {
                     roomRepository.save(room);
                 }
 
-                User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저네임입니다"));
-                if (enterUserRepository.findByRoomAndUser(room, user).getRoom().getChatRoomId().equals(chatRoomId)) {
-                    EnterUser enterUser = enterUserRepository.findByRoomAndUser(room, user);
-                    enterUserRepository.delete(enterUser);
-                    log.info("USERENTER_DELETE {}, {}", username, chatRoomId);
-                }
+//                User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저네임입니다"));
+//                if (enterUserRepository.findByRoomAndUser(room, user).getRoom().getChatRoomId().equals(chatRoomId)) {
+//                    EnterUser enterUser = enterUserRepository.findByRoomAndUser(room, user);
+//                    enterUserRepository.delete(enterUser);
+//                    log.info("USERENTER_DELETE {}, {}", username, chatRoomId);
+//                }
 
                 redisRepository.removeUserEnterInfo(sessionId);
                 log.info("DISCONNECTED {}, {}", sessionId, chatRoomId);
