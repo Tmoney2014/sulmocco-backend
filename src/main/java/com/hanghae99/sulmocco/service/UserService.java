@@ -173,7 +173,7 @@ public class UserService {
         if (!user.getUsername().equals(deleteUser.getUsername())) {
             throw new IllegalArgumentException("본인만 회원탈퇴가 가능합니다");
         }
-        userRepository.delete(deleteUser);
+        userRepository.deleteById(deleteUser.getUserId());
         return ResponseEntity.ok().body(new ResponseDto(true, "정상적으로 회원탈퇴가 되었습니다"));
     }
 }
