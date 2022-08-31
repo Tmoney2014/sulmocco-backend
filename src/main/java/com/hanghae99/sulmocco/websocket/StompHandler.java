@@ -94,6 +94,9 @@ public class StompHandler implements ChannelInterceptor {
 
                 if (chatRoomId != null) {
                     room.setUserCount(redisRepository.getUserCount(chatRoomId));
+                    if (redisRepository.getUserCount(chatRoomId) < 0 || room.getUserCount() < 0) { //입장유저가 -보다 작을때 0으로 셋팅
+                        room.setUserCount(min);
+                    }
                     roomRepository.save(room);
                 }
 
