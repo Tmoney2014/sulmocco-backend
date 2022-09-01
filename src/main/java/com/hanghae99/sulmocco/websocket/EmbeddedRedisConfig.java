@@ -24,7 +24,12 @@ public class EmbeddedRedisConfig {
 
     @PostConstruct
     public void redisServer() {
-        redisServer = new RedisServer(redisPort);
+//        redisServer = new RedisServer(redisPort);
+//        redisServer.start();
+        redisServer = RedisServer.builder()
+                .port(redisPort)
+                .setting("maxmemory 128M") // 레디스는 메모리 할당에 문제가 있어서 직접 제한을 걸어달란 소리다.
+                .build();
         redisServer.start();
     }
 
