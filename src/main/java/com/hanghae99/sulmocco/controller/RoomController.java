@@ -57,25 +57,25 @@ public class RoomController {
     }
 
     //  userEnter 테이블 조인(현재 방에 접속 중인 유저 확인 테이블)
-    @PostMapping("/api/chat/room/enter/{chatRoomId}")
-    public ResponseEntity<List<EnterUserResponseDto>> enterRoom(@PathVariable String chatRoomId,
+    @GetMapping("/api/chat/room/{chatRoomId}")
+    public ResponseEntity<?> enterRoom(@PathVariable String chatRoomId,
                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok().body(roomService.enterRoom(chatRoomId, userDetails.getUser()));
     }
 
-    // enterUser 삭제
-    @DeleteMapping("/api/chat/room/quit/{chatRoomId}")
-    public void quitRoom(@PathVariable String chatRoomId,
-                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        User user = userDetails.getUser();
-        roomService.quitRoom(chatRoomId, user);
-    }
+//    // enterUser 삭제
+//    @DeleteMapping("/api/chat/room/quit/{chatRoomId}")
+//    public void quitRoom(@PathVariable String chatRoomId,
+//                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        User user = userDetails.getUser();
+//        roomService.quitRoom(chatRoomId, user);
+//    }
 
-    //술모임 상세
-    @GetMapping("/api/chat/room/{chatRoomId}")
-    public ResponseEntity<?> getRoomDetail(@PathVariable String chatRoomId) {
-        return ResponseEntity.ok().body(roomService.getRoom(chatRoomId));
-    }
+//    //술모임 상세
+//    @GetMapping("/api/chat/room/{chatRoomId}")
+//    public ResponseEntity<?> getRoomDetail(@PathVariable String chatRoomId) {
+//        return ResponseEntity.ok().body(roomService.getRoom(chatRoomId));
+//    }
 
     //방 삭제
     @DeleteMapping("/api/room/delete/{chatRoomId}")

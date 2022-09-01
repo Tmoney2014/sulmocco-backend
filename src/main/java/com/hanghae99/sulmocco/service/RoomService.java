@@ -59,7 +59,7 @@ public class RoomService {
      */
     //방 진입
     @Transactional
-    public List<EnterUserResponseDto> enterRoom(String chatRoomId, User user) {
+    public ResponseEntity<?> enterRoom(String chatRoomId, User user) {
 
         Room room = roomRepository.findByChatRoomId(chatRoomId).orElseThrow(
                 () -> new IllegalArgumentException("해당 방이 존재하지 않습니다."));
@@ -85,27 +85,29 @@ public class RoomService {
             }
         }
 
-
         EnterUser enterUser = new EnterUser(user, room);
         enterUserRepository.save(enterUser);
 
-        List<EnterUser> enterUsers = enterUserRepository.findByRoom(room);
-        List<EnterUserResponseDto> enterRoomUsers = new ArrayList<>();
-        for (EnterUser enterUser2 : enterUsers) {
-            enterRoomUsers.add(new EnterUserResponseDto(
-                    enterUser2.getUser().getUsername(),
-                    enterUser2.getUser().getProfileUrl()
-            ));
-        }
-        return enterRoomUsers;
+        return new ResponseEntity<>(new RoomResponseDto(room), HttpStatus.valueOf(200));
     }
+
+//        List<EnterUser> enterUsers = enterUserRepository.findByRoom(room);
+//        List<EnterUserResponseDto> enterRoomUsers = new ArrayList<>();
+//        for (EnterUser enterUser2 : enterUsers) {
+//            enterRoomUsers.add(new EnterUserResponseDto(
+//                    enterUser2.getUser().getUsername(),
+//                    enterUser2.getUser().getProfileUrl()
+//            ));
+//    }
+//        return enterRoomUsers;
+//    }
 
     /**
      * 술모임 나가기
      */
     @Transactional
-    public void quitRoom(String roomId, User user) {
-        Room room = roomRepository.findByChatRoomId(roomId).orElseThrow(() -> new IllegalArgumentException("해당 방이 존재하지 않습니다."));
+    public void quitRoom(String chatRoomId, User user) {
+        Room room = roomRepository.findByChatRoomId(chatRoomId).orElseThrow(() -> new IllegalArgumentException("해당 방이 존재하지 않습니다."));
         EnterUser enterUser = enterUserRepository.findByRoomAndUser(room, user);
         enterUserRepository.delete(enterUser);
     }
@@ -206,13 +208,14 @@ public class RoomService {
 
         return ResponseEntity.ok().body(roomResponseDtos);
     }
-
-    //특정 방 조회
-    @Transactional
-    public ResponseEntity<?> getRoom(String chatRoomId) {
-        Room room = roomRepository.findByChatRoomId(chatRoomId).orElseThrow(
-                () -> new IllegalArgumentException("해당 방이 존재하지 않습니다."));
-
-        return new ResponseEntity<>(new RoomResponseDto(room), HttpStatus.valueOf(200));
-    }
 }
+
+//    //특정 방 조회
+//    @Transactional
+//    public ResponseEntity<?> getRoom(String chatRoomId) {
+//        Room room = roomRepository.findByChatRoomId(chatRoomId).orElseThrow(
+//                () -> new IllegalArgumentException("해당 방이 존재하지 않습니다."));
+//
+//        return new ResponseEntity<>(new RoomResponseDto(room), HttpStatus.valueOf(200));
+//    }
+//}

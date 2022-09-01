@@ -9,6 +9,8 @@ import com.hanghae99.sulmocco.repository.RoomRepository;
 import com.hanghae99.sulmocco.repository.UserRepository;
 import com.hanghae99.sulmocco.security.jwt.JwtDecoder;
 
+import com.hanghae99.sulmocco.service.RoomService;
+import com.hanghae99.sulmocco.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
@@ -30,18 +32,20 @@ public class StompHandler implements ChannelInterceptor {
     private final RedisRepository redisRepository;
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
-    private final EnterUserRepository enterUserRepository;
+    private final RoomService roomService;
+
+
     private final Long min = 0L;
 
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
-        // websocket 연결시 헤더의 jwt token 검증
+        // 커넥트 커멘드 일시 헤더의 jwt token 검증
         if (StompCommand.CONNECT == accessor.getCommand()) {
-
             jwtDecoder.decodeNickname(accessor.getFirstNativeHeader("Authorization").substring(7));
 
+            //구독 커멘드 일시
         } else if (StompCommand.SUBSCRIBE == accessor.getCommand()) {
 
             String destination = Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId");
@@ -73,6 +77,7 @@ public class StompHandler implements ChannelInterceptor {
                 roomRepository.save(room);  //입장한 유저 를 더해서 room에 저장.
             }
 
+            //디스 커넥트 커맨드 일시
         } else if (StompCommand.DISCONNECT == accessor.getCommand()) {
             String sessionId = (String) message.getHeaders().get("simpSessionId");
 
@@ -90,19 +95,16 @@ public class StompHandler implements ChannelInterceptor {
                 }
 
                 Room room = roomRepository.findByChatRoomId(chatRoomId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 방입니다.(DISCONNECT)"));
-
-
-                if (chatRoomId != null) {
-                    room.setUserCount(redisRepository.getUserCount(chatRoomId));
-                    roomRepository.save(room);
+                room.setUserCount(redisRepository.getUserCount(chatRoomId));
+                if (redisRepository.getUserCount(chatRoomId) < 0 || room.getUserCount() < 0) { //입장유저가 -보다 작을때 0으로 셋팅
+                    room.setUserCount(min);
                 }
+                roomRepository.save(room);  //퇴장한 유저 를 빼서 room에 저장.
 
-//                User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저네임입니다"));
-//                if (enterUserRepository.findByRoomAndUser(room, user).getRoom().getChatRoomId().equals(chatRoomId)) {
-//                    EnterUser enterUser = enterUserRepository.findByRoomAndUser(room, user);
-//                    enterUserRepository.delete(enterUser);
-//                    log.info("USERENTER_DELETE {}, {}", username, chatRoomId);
-//                }
+                //quit room
+                User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저네임입니다"));
+                roomService.quitRoom(chatRoomId, user);
+
 
                 redisRepository.removeUserEnterInfo(sessionId);
                 log.info("DISCONNECTED {}, {}", sessionId, chatRoomId);
