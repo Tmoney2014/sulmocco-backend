@@ -17,11 +17,11 @@ public class Bookmark extends Timestamped {
     @Column(name = "bookmark_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tables_id")
     private Tables tables;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
