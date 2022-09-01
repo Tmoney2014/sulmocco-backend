@@ -218,4 +218,3 @@ public class RoomService {
 //
 //        return new ResponseEntity<>(new RoomResponseDto(room), HttpStatus.valueOf(200));
 //    }
-//}
