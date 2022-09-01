@@ -21,6 +21,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,11 +66,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/h2-console/**",
                         "ec2-13-209-8-162.ap-northeast-2.compute.amazonaws.com",
-//                        "https://scw5dza5e4.execute-api.ap-northeast-2.amazonaws.com",
                         // swagger 관련 리소스 시큐리티 필터 제거
                         "/api/v1/auth/**",
                         "/v2/api-docs", "/swagger-resources/**", "/swagger-ui/index.html",
                         "/swagger-ui.html", "/webjars/**", "/swagger/**", "/favicon.ico");
+
+        web.httpFirewall(defaultHttpFirewall());
     }
 
     @Override
@@ -143,4 +146,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
+    @Bean
+    public HttpFirewall defaultHttpFirewall() {
+        // 더블슬래시를 허용해주는 놈을 Bean으로 등록한 후 WebSecurity 설정에 추가해준다.
+        return new DefaultHttpFirewall();
+    }
+
 }
