@@ -1,6 +1,6 @@
 package com.hanghae99.sulmocco.controller;
 
-import com.hanghae99.sulmocco.dto.BbatonResponseDto;
+import com.hanghae99.sulmocco.dto.bbaton.BbatonResponseDto;
 import com.hanghae99.sulmocco.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;

@@ -2,7 +2,7 @@ package com.hanghae99.sulmocco.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hanghae99.sulmocco.base.Timestamped;
-import com.hanghae99.sulmocco.dto.RoomRequestDto;
+import com.hanghae99.sulmocco.dto.room.RoomRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

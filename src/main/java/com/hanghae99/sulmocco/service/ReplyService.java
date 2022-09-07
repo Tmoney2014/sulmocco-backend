@@ -1,8 +1,8 @@
 package com.hanghae99.sulmocco.service;
 
-import com.hanghae99.sulmocco.dto.ReplyRequestDto;
-import com.hanghae99.sulmocco.dto.ReplyResponseDto;
-import com.hanghae99.sulmocco.dto.ResponseDto;
+import com.hanghae99.sulmocco.dto.reply.ReplyRequestDto;
+import com.hanghae99.sulmocco.dto.reply.ReplyResponseDto;
+import com.hanghae99.sulmocco.dto.response.ResponseDto;
 import com.hanghae99.sulmocco.model.Reply;
 import com.hanghae99.sulmocco.model.Tables;
 import com.hanghae99.sulmocco.model.User;

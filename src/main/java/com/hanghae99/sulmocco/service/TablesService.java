@@ -1,9 +1,9 @@
 package com.hanghae99.sulmocco.service;
 
-import com.hanghae99.sulmocco.dto.ReplyResponseDto;
-import com.hanghae99.sulmocco.dto.ResponseDto;
-import com.hanghae99.sulmocco.dto.TablesRequestDto;
-import com.hanghae99.sulmocco.dto.TablesResponseDto;
+import com.hanghae99.sulmocco.dto.reply.ReplyResponseDto;
+import com.hanghae99.sulmocco.dto.response.ResponseDto;
+import com.hanghae99.sulmocco.dto.tables.TablesRequestDto;
+import com.hanghae99.sulmocco.dto.tables.TablesResponseDto;
 import com.hanghae99.sulmocco.model.*;
 import com.hanghae99.sulmocco.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +41,10 @@ public class TablesService {
         Tables tables = new Tables(tablesRequestDto, user);
         // 술상 저장
         tablesRepository.save(tables);
+
+        if (tablesRequestDto.getImgUrlList().size() > 20) {
+            throw new IllegalStateException("사진첨부는 20장까지만 가능합니다");
+        }
 
         if (tablesRequestDto.getImgUrlList().size() > 1) {
             // 이미지 등록 ( 0번째는 썸네일, 1부터 저장 )

@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.hanghae99.sulmocco.dto.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -67,11 +66,11 @@ public class JwtDecoder {
         DecodedJWT decodedJWT = isValidToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("유효한 토큰이 아닙니다."));
 
-        String username = decodedJWT
+        String loginId = decodedJWT
                 .getClaim(CLAIM_USER_NAME)
                 .asString();
 
-        return username;
+        return loginId;
 
     }
 

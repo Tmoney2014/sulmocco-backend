@@ -1,6 +1,5 @@
 package com.hanghae99.sulmocco.controller;
 
-import com.hanghae99.sulmocco.dto.UploadResponseDto;
 import com.hanghae99.sulmocco.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

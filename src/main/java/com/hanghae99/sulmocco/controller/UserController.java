@@ -1,8 +1,8 @@
 package com.hanghae99.sulmocco.controller;
 
-import com.hanghae99.sulmocco.dto.ChangeRequestDto;
-import com.hanghae99.sulmocco.dto.ResponseDto;
-import com.hanghae99.sulmocco.dto.SignUpRequestDto;
+import com.hanghae99.sulmocco.dto.user.ChangeRequestDto;
+import com.hanghae99.sulmocco.dto.response.ResponseDto;
+import com.hanghae99.sulmocco.dto.user.SignUpRequestDto;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.service.UserService;

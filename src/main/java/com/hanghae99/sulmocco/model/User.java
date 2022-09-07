@@ -1,7 +1,7 @@
 package com.hanghae99.sulmocco.model;
 
-import com.hanghae99.sulmocco.dto.ChangeRequestDto;
-import com.hanghae99.sulmocco.dto.SignUpRequestDto;
+import com.hanghae99.sulmocco.dto.user.ChangeRequestDto;
+import com.hanghae99.sulmocco.dto.user.SignUpRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

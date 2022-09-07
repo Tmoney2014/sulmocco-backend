@@ -45,10 +45,9 @@ public class MainPageDataRunner implements ApplicationRunner {
 
         //테스트 데이터 생성
         createData(27, testUser1);
-
-        Banner banner1 = new Banner(1L, "https://s3.ap-northeast-2.amazonaws.com/bucketservice/banner01.png", "https://www.ob.co.kr/stellaartois");
-        Banner banner2 = new Banner(2L, "https://s3.ap-northeast-2.amazonaws.com/bucketservice/banner02.png", "https://www.ob.co.kr/hoegaarden");
-        Banner banner3 = new Banner(3L, "https://s3.ap-northeast-2.amazonaws.com/bucketservice/banner03.png", "https://www.ob.co.kr/budweiser");
+        Banner banner1 = new Banner(1L, "https://s3.ap-northeast-2.amazonaws.com/bucketservice/banner01.jpg", "https://www.ob.co.kr/stellaartois");
+        Banner banner2 = new Banner(2L, "https://s3.ap-northeast-2.amazonaws.com/bucketservice/banner02.jpg", "https://www.ob.co.kr/hoegaarden");
+        Banner banner3 = new Banner(3L, "https://s3.ap-northeast-2.amazonaws.com/bucketservice/banner03.jpg", "https://www.ob.co.kr/budweiser");
         bannerRepository.save(banner1);
         bannerRepository.save(banner2);
         bannerRepository.save(banner3);

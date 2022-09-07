@@ -1,7 +1,7 @@
 package com.hanghae99.sulmocco.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hanghae99.sulmocco.dto.TablesRequestDto;
+import com.hanghae99.sulmocco.dto.tables.TablesRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +10,6 @@ import com.hanghae99.sulmocco.base.Timestamped;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static javax.persistence.FetchType.LAZY;
 

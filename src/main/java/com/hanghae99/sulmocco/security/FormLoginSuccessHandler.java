@@ -1,7 +1,7 @@
 package com.hanghae99.sulmocco.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hanghae99.sulmocco.dto.TokenDto;
+import com.hanghae99.sulmocco.dto.token.TokenDto;
 import com.hanghae99.sulmocco.model.RefreshToken;
 import com.hanghae99.sulmocco.repository.RefreshTokenRepository;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
@@ -57,12 +57,8 @@ public class FormLoginSuccessHandler extends SavedRequestAwareAuthenticationSucc
             refreshTokenRepository.save(new RefreshToken(userDetails.getUser().getId(), tokenDto.getRefreshToken()));
         }
 
-        String id = userDetails.getUser().getId();
-        String username = userDetails.getUser().getUsername();
-
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getOutputStream()
-//                .write(objectMapper.writeValueAsBytes(new ResponseDto(true, id, username)));
                 .write(objectMapper.writeValueAsBytes(tokenDto));
     }
 }

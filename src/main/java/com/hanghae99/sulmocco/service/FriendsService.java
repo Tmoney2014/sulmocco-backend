@@ -1,7 +1,7 @@
 package com.hanghae99.sulmocco.service;
 
-import com.hanghae99.sulmocco.dto.FriendsResponseDto;
-import com.hanghae99.sulmocco.dto.ResponseDto;
+import com.hanghae99.sulmocco.dto.friend.FriendsResponseDto;
+import com.hanghae99.sulmocco.dto.response.ResponseDto;
 import com.hanghae99.sulmocco.model.Friends;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.repository.FriendsRepository;
@@ -55,6 +55,10 @@ public class FriendsService {
 
         User addfriends = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+
+        if (addfriends != null) {
+            throw new IllegalStateException("이미 등록된 친구입니다");
+        }
 
         Friends friends = new Friends(addfriends.getUserId(), user);
 

@@ -1,10 +1,16 @@
 package com.hanghae99.sulmocco.exception;
 
+import io.sentry.Sentry;
+import io.sentry.SentryEvent;
+import io.sentry.SentryLevel;
+import io.sentry.protocol.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.UUID;
 
 @RestControllerAdvice
 public class RestApiExceptionHandler {
@@ -15,6 +21,18 @@ public class RestApiExceptionHandler {
 //    https://thalals.tistory.com/268
     @ExceptionHandler(value = { IllegalArgumentException.class, ResponseStatusException.class}) // 여러개의 Exception 추가할 수 있다.
     public ResponseEntity<Object> handleApiRequestException(IllegalArgumentException ex) {
+
+        Message message = new Message();
+        message.setMessage("Exception 발생");
+
+        SentryEvent event = new SentryEvent();
+        event.setTag("Advice", UUID.randomUUID().toString());
+        event.setLevel(SentryLevel.WARNING);
+        event.setMessage(message);
+
+        Sentry.captureEvent(event);
+
+        Sentry.captureException(ex);
 
         RestApiException restApiException = new RestApiException();
         restApiException.setResponse(false);

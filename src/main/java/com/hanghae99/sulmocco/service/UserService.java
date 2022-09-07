@@ -1,6 +1,10 @@
 package com.hanghae99.sulmocco.service;
 
-import com.hanghae99.sulmocco.dto.*;
+import com.hanghae99.sulmocco.dto.response.ResponseDto;
+import com.hanghae99.sulmocco.dto.token.TokenDto;
+import com.hanghae99.sulmocco.dto.user.ChangeRequestDto;
+import com.hanghae99.sulmocco.dto.user.MypageResponseDto;
+import com.hanghae99.sulmocco.dto.user.SignUpRequestDto;
 import com.hanghae99.sulmocco.model.RefreshToken;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.repository.RefreshTokenRepository;
@@ -113,6 +117,10 @@ public class UserService {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         user.updateUser(changeRequestDto);
+
+//        TokenDto tokenDto = JwtTokenUtils.generateJwtAndRefreshToken(user.getId(), user.getUsername());
+//        tokenDto.setLoginId(user.getId());
+//        tokenDto.setNickname(user.getUsername());
 
         return new ResponseEntity<>("회원정보수정 완료", HttpStatus.valueOf(200));
     }

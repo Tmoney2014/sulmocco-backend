@@ -2,7 +2,7 @@ package com.hanghae99.sulmocco.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.hanghae99.sulmocco.dto.TokenDto;
+import com.hanghae99.sulmocco.dto.token.TokenDto;
 
 import java.util.Date;
 

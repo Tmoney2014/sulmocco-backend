@@ -1,6 +1,6 @@
 package com.hanghae99.sulmocco.controller;
 
-import com.hanghae99.sulmocco.dto.TablesRequestDto;
+import com.hanghae99.sulmocco.dto.tables.TablesRequestDto;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.service.TablesService;

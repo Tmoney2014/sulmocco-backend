@@ -1,16 +1,12 @@
 package com.hanghae99.sulmocco.controller;
 
-import com.hanghae99.sulmocco.dto.ReplyRequestDto;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.service.FriendsService;
-import com.hanghae99.sulmocco.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.SecureRandom;
 
 @RestController
 @RequiredArgsConstructor

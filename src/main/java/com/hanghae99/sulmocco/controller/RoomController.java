@@ -1,7 +1,6 @@
 package com.hanghae99.sulmocco.controller;
 
-import com.hanghae99.sulmocco.dto.EnterUserResponseDto;
-import com.hanghae99.sulmocco.dto.RoomRequestDto;
+import com.hanghae99.sulmocco.dto.room.RoomRequestDto;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.service.RoomService;
@@ -9,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -59,7 +56,7 @@ public class RoomController {
     //  userEnter 테이블 조인(현재 방에 접속 중인 유저 확인 테이블)
     @GetMapping("/api/chat/room/{chatRoomId}")
     public ResponseEntity<?> enterRoom(@PathVariable String chatRoomId,
-                                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                       @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok().body(roomService.enterRoom(chatRoomId, userDetails.getUser()));
     }
 

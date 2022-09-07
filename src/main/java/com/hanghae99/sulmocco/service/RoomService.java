@@ -1,11 +1,12 @@
 package com.hanghae99.sulmocco.service;
 
-import com.hanghae99.sulmocco.dto.*;
+import com.hanghae99.sulmocco.dto.response.ResponseDto;
+import com.hanghae99.sulmocco.dto.room.RoomRequestDto;
+import com.hanghae99.sulmocco.dto.room.RoomResponseDto;
 import com.hanghae99.sulmocco.model.EnterUser;
 import com.hanghae99.sulmocco.model.Room;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.repository.EnterUserRepository;
-import com.hanghae99.sulmocco.repository.RedisRepository;
 import com.hanghae99.sulmocco.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -44,9 +45,6 @@ public class RoomService {
         if (requestDto.getTitle() == null) {
             throw new IllegalArgumentException("방 이름을 입력해주세요.");
         }
-//        if (requestDto.getThumbnail() == null) {
-//            requestDto.setThumbnail("Default 이미지URL");
-//        }
 
         Room room = Room.create(requestDto, user);
         Room createRoom = roomRepository.save(room);
@@ -125,9 +123,6 @@ public class RoomService {
             throw new IllegalArgumentException("방을 만든 유저만 삭제할 수 있습니다.");
         }
 
-//        if (enterUserRepository.findByRoom(room) != null) {
-//            throw new IllegalArgumentException("모든 유저가 퇴장 후 방을 삭제할 수 있습니다.");
-//        }
         roomRepository.delete(room);
 
         return ResponseEntity.ok().body(new ResponseDto(true, "오늘 술은 여기까지입니다."));
@@ -209,13 +204,3 @@ public class RoomService {
         return ResponseEntity.ok().body(roomResponseDtos);
     }
 }
-
-//    //특정 방 조회
-//    @Transactional
-//    public ResponseEntity<?> getRoom(String chatRoomId) {
-//        Room room = roomRepository.findByChatRoomId(chatRoomId).orElseThrow(
-//                () -> new IllegalArgumentException("해당 방이 존재하지 않습니다."));
-//
-//        return new ResponseEntity<>(new RoomResponseDto(room), HttpStatus.valueOf(200));
-//    }
-//}

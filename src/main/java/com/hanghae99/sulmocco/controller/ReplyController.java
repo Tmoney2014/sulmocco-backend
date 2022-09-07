@@ -1,6 +1,6 @@
 package com.hanghae99.sulmocco.controller;
 
-import com.hanghae99.sulmocco.dto.ReplyRequestDto;
+import com.hanghae99.sulmocco.dto.reply.ReplyRequestDto;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.service.ReplyService;

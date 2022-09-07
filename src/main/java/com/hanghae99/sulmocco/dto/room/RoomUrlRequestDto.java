@@ -1,0 +1,13 @@
+package com.hanghae99.sulmocco.dto.room;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class RoomUrlRequestDto {
+
+    private String roomUrl;
+}

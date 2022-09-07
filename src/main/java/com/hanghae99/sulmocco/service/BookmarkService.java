@@ -1,6 +1,6 @@
 package com.hanghae99.sulmocco.service;
 
-import com.hanghae99.sulmocco.dto.BookmarkResponseDto;
+import com.hanghae99.sulmocco.dto.bookmark.BookmarkResponseDto;
 import com.hanghae99.sulmocco.model.Bookmark;
 import com.hanghae99.sulmocco.model.Tables;
 import com.hanghae99.sulmocco.model.User;
