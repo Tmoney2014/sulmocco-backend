@@ -1,4 +1,4 @@
-package com.hanghae99.sulmocco.websocket;
+package com.hanghae99.sulmocco.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
