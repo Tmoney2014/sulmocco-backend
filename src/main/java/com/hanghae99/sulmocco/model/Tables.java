@@ -23,7 +23,7 @@ public class Tables extends Timestamped {
     @Column(name = "tables_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String title;
 
     @Column(nullable = false, length = 60000)
@@ -32,6 +32,7 @@ public class Tables extends Timestamped {
     @Column(nullable = false)
     private String alcoholTag;
 
+    @Column(nullable = true , length = 10)
     private String freeTag;
 
     @JsonIgnore
