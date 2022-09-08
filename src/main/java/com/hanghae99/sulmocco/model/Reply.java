@@ -1,6 +1,5 @@
 package com.hanghae99.sulmocco.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hanghae99.sulmocco.base.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,22 +25,22 @@ public class Reply extends Timestamped {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="tables_id")
-    private Tables tables;
+    @JoinColumn(name="dish_id")
+    private Dish dish;
 
     //== 연관관계 (편의) 메서드==//
     public void setUser(User user) {
         this.user = user;
     }
 
-    public void setTables(Tables tables) {
-        this.tables = tables;
+    public void setDish(Dish dish) {
+        this.dish = dish;
     }
 
-    public Reply(String content, User user, Tables tables) {
+    public Reply(String content, User user, Dish dish) {
         this.content = content;
         setUser(user);
-        setTables(tables);
+        setDish(dish);
     }
 
     public void update(String content, User user) {

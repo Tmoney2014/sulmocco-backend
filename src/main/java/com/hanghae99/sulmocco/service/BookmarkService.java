@@ -2,7 +2,7 @@ package com.hanghae99.sulmocco.service;
 
 import com.hanghae99.sulmocco.dto.bookmark.BookmarkResponseDto;
 import com.hanghae99.sulmocco.model.Bookmark;
-import com.hanghae99.sulmocco.model.Tables;
+import com.hanghae99.sulmocco.model.Dish;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.repository.BookmarkRepository;
 import com.hanghae99.sulmocco.repository.TablesRepository;
@@ -31,14 +31,14 @@ public class BookmarkService {
     //북마크 USERID와 TABLESID를 받아서 TABLES와 USER 연결하여 저장하기
     public ResponseEntity<?> postbookmark(Long userId, Long tableId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다"));
-        Tables tables = postRepository.findById(tableId).orElseThrow(() -> new IllegalArgumentException("포스트가 없습니다"));
-        Optional<Bookmark> bookmarkFound = bookmarkRepository.findByUserAndTables(user,tables);
+        Dish dish = postRepository.findById(tableId).orElseThrow(() -> new IllegalArgumentException("포스트가 없습니다"));
+        Optional<Bookmark> bookmarkFound = bookmarkRepository.findByUserAndDish(user, dish);
         // 이미 북마크가 되어있는 POST 이면 이미 북마크한 게시글이라고 오류 메시지 날리기
         if(bookmarkFound.isPresent()){
             return new ResponseEntity<>("이미 북마크한 게시글입니다", HttpStatus.valueOf(400));
         }
         //새로운 BOOKMARK 객체 생성후 찾은 USER와 POST 넣어서 저장
-        Bookmark bookmark = new Bookmark(user, tables);
+        Bookmark bookmark = new Bookmark(user, dish);
         bookmarkRepository.save(bookmark);
 
         return new ResponseEntity<>("북마크를 등록했습니다.", HttpStatus.valueOf(200));
@@ -50,7 +50,7 @@ public class BookmarkService {
         //for문으로 앞단에서 갖고온 TABLESID 와 비교, 앞단에서 받아온 TABLESID와 일치하는 항목 삭제
         List<Bookmark> bookmarks = bookmarkRepository.findByUser(userDetails.getUser());
         for (Bookmark bookmark : bookmarks) {
-            if (bookmark.getTables().getId().equals(tableId)) {
+            if (bookmark.getDish().getId().equals(tableId)) {
                 bookmarkRepository.deleteById(bookmark.getId());
             }
         }

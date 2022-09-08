@@ -56,7 +56,8 @@ public class FriendsService {
         User addfriends = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("유저가 존재하지 않습니다."));
 
-        if (addfriends != null) {
+        Friends findUser = friendsRepository.findByAddFriendIdAndUser(addfriends.getUserId(), user);
+        if (findUser != null) {
             throw new IllegalStateException("이미 등록된 친구입니다");
         }
 

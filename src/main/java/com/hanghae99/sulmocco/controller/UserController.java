@@ -3,6 +3,7 @@ package com.hanghae99.sulmocco.controller;
 import com.hanghae99.sulmocco.dto.user.ChangeRequestDto;
 import com.hanghae99.sulmocco.dto.response.ResponseDto;
 import com.hanghae99.sulmocco.dto.user.SignUpRequestDto;
+import com.hanghae99.sulmocco.dto.user.UpdateUserRequestDto;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.security.auth.UserDetailsImpl;
 import com.hanghae99.sulmocco.service.UserService;
@@ -52,8 +53,8 @@ public class UserController {
 
     // 회원정보 수정
     @PutMapping("/api/mypage")
-    public ResponseEntity<?> changeUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody ChangeRequestDto changeRequestDto) {
-        return userService.changeUser(userDetails, changeRequestDto);
+    public ResponseEntity<?> changeUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UpdateUserRequestDto updateUserRequestDto) {
+        return userService.changeUser(userDetails, updateUserRequestDto);
 
     }
 

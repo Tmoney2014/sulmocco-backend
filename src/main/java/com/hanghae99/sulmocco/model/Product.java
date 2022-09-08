@@ -23,7 +23,7 @@ public class Product {
     private String name;
 
     @Column(nullable = false)
-    private Integer price;
+    private String price;
 
     @Column(nullable = false)
     private  String redirectUrl;

@@ -38,9 +38,9 @@ public class TablesService {
         // 술 태그 validation - 잘못된 주종 선택 시 Error 발생
         validateAlcoholtag(alcoholtag);
         // 술상 생성
-        Tables tables = new Tables(tablesRequestDto, user);
+        Dish dish = new Dish(tablesRequestDto, user);
         // 술상 저장
-        tablesRepository.save(tables);
+        tablesRepository.save(dish);
 
         if (tablesRequestDto.getImgUrlList().size() > 20) {
             throw new IllegalStateException("사진첨부는 20장까지만 가능합니다");
@@ -50,7 +50,7 @@ public class TablesService {
             // 이미지 등록 ( 0번째는 썸네일, 1부터 저장 )
             for (int i = 1; i < tablesRequestDto.getImgUrlList().size(); i++) {
                 String tableImgUrl = tablesRequestDto.getImgUrlList().get(i);
-                TableImage tableImage = new TableImage(tableImgUrl, tables);
+                TableImage tableImage = new TableImage(tableImgUrl, dish);
                 tableImageRepository.save(tableImage);
 //            tables.addTableImage(tableImage);
             }
@@ -65,7 +65,7 @@ public class TablesService {
     @Transactional
     public ResponseEntity<?> updateTables(Long tableId, TablesRequestDto tablesRequestDto, User user) {
 
-        Tables findTable = tablesRepository.findById(tableId).orElseThrow(
+        Dish findTable = tablesRepository.findById(tableId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 술상입니다."));
 
         if (!findTable.getUser().getId().equals(user.getId())) {
@@ -80,7 +80,7 @@ public class TablesService {
         findTable.update(tablesRequestDto);
 
         // 이미지 수정(업데이트)
-        tableImageRepository.deleteByTables(findTable);
+        tableImageRepository.deleteByDish(findTable);
 
         if (tablesRequestDto.getImgUrlList().size() > 1) {
             // 이미지 등록 ( 0번째는 썸네일, 1부터 저장 )
@@ -100,17 +100,17 @@ public class TablesService {
     @Transactional
     public ResponseEntity<?> getTableDetail(Long tableId, User user) {
         // 술상 조회
-        Tables findTable = tablesRepository.findById(tableId).orElseThrow(
+        Dish findTable = tablesRepository.findById(tableId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 술상입니다."));
 
         // 북마크, 좋아요 조회
-        Optional<Bookmark> bookmark = bookmarkRepository.findByUserAndTables(user, findTable);
-        Optional<Likes> likes = likeRepository.findByUserAndTables(user, findTable);
+        Optional<Bookmark> bookmark = bookmarkRepository.findByUserAndDish(user, findTable);
+        Optional<Likes> likes = likeRepository.findByUserAndDish(user, findTable);
         // 조회한 유저의 ID 저장 (조회수)
         findTable.addViewUser(user.getUserId());
 
         // 술상 댓글 DB 조회
-        List<Reply> replies = replyRepository.findAllByTablesOrderByCreatedAtDesc(findTable);
+        List<Reply> replies = replyRepository.findAllByDishOrderByCreatedAtDesc(findTable);
 
         List<ReplyResponseDto> replyResponseDtos = new ArrayList<>();
         for (Reply myReplies : replies) {
@@ -132,14 +132,14 @@ public class TablesService {
     @Transactional
     public ResponseEntity<?> deleteTables(Long tableId, User user) {
 
-        Tables findTable = tablesRepository.findById(tableId).orElseThrow(
+        Dish findTable = tablesRepository.findById(tableId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 술상입니다."));
 
         if (!findTable.getUser().getId().equals(user.getId())) {
             throw new IllegalStateException("작성자만 삭제할 수 있습니다.");
         }
         // 이미지 삭제
-        List<TableImage> imgUrls = tableImageRepository.findByTables(findTable);
+        List<TableImage> imgUrls = tableImageRepository.findByDish(findTable);
         if (!imgUrls.isEmpty()) {
             List<String> urlList = new ArrayList<>();
             for (TableImage imgUrl : imgUrls) {
@@ -164,7 +164,7 @@ public class TablesService {
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
-        Slice<Tables> tablesSlice = null;
+        Slice<Dish> tablesSlice = null;
 
         if (alcohol == null) {
             tablesSlice = tablesRepository.findAllTables(pageable); // 전체 목록
@@ -189,7 +189,7 @@ public class TablesService {
 //        Pageable pageable = PageRequest.of(page, size, sort);
         Pageable pageable = PageRequest.of(page, size);
 
-        Slice<Tables> tablesSlice = tablesRepository.findAllByUserOrderByCreatedAtDesc(user, pageable);
+        Slice<Dish> tablesSlice = tablesRepository.findAllByUserOrderByCreatedAtDesc(user, pageable);
 
         Slice<TablesResponseDto> tablesResponseDtoSlice = TablesResponseDto.myPageTablesResponseDto(tablesSlice);
         return ResponseEntity.ok().body(tablesResponseDtoSlice);
@@ -204,7 +204,7 @@ public class TablesService {
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Slice<Tables> tablesSlice = tablesRepository.getTablesBySearch(pageable, keyword);
+        Slice<Dish> tablesSlice = tablesRepository.getTablesBySearch(pageable, keyword);
 
         Slice<TablesResponseDto> tablesResponseDtoSlice = TablesResponseDto.myPageTablesResponseDto(tablesSlice);
 
@@ -217,10 +217,10 @@ public class TablesService {
     public ResponseEntity<?> getTablesOrderByLikeCount() {
 
         Pageable pageable = PageRequest.ofSize(3);
-        List<Tables> todayTables = tablesRepository.findByOrderByLikesSize(pageable);
+        List<Dish> todayTables = tablesRepository.findByOrderByLikesSize(pageable);
 
         List<TablesResponseDto> todayTablesDtos = new ArrayList<>();
-        for (Tables todayTable : todayTables) {
+        for (Dish todayTable : todayTables) {
             todayTablesDtos.add(TablesResponseDto.todayTableDto(todayTable));
         }
         return ResponseEntity.ok().body(todayTablesDtos);

@@ -31,17 +31,17 @@ public class BookmarkResponseDto {
     public static Slice<BookmarkResponseDto> myPageBookmarkResponseDto(Slice<Bookmark> bookmarkSlice) {
             Slice<BookmarkResponseDto> bookmarkResponseDtoSlice = bookmarkSlice.map(t ->
                             BookmarkResponseDto.builder()
-                                    .title(t.getTables().getTitle())
-                                    .username(t.getTables().getUser().getUsername())
-                                    .content(t.getTables().getContent())
-                                    .tableId(t.getTables().getId())
-                                    .likecount(t.getTables().getLikes().size())
-                                    .viewcount(t.getTables().getViewUserList().size())
-                                    .alcoholtag(t.getTables().getAlcoholTag())
-                                    .freetag(t.getTables().getFreeTag())
-                                    .profileimgurl(t.getTables().getUser().getProfileUrl())
-                                    .thumbnail(t.getTables().getThumbnailImgUrl())
-                                    .createdAt(t.getTables().getCreatedAt())
+                                    .title(t.getDish().getTitle())
+                                    .username(t.getDish().getUser().getUsername())
+                                    .content(t.getDish().getContent())
+                                    .tableId(t.getDish().getId())
+                                    .likecount(t.getDish().getLikes().size())
+                                    .viewcount(t.getDish().getViewUserList().size())
+                                    .alcoholtag(t.getDish().getAlcoholTag())
+                                    .freetag(t.getDish().getFreeTag())
+                                    .profileimgurl(t.getDish().getUser().getProfileUrl())
+                                    .thumbnail(t.getDish().getThumbnailImgUrl())
+                                    .createdAt(t.getDish().getCreatedAt())
                                     .build()
             );
             return bookmarkResponseDtoSlice;

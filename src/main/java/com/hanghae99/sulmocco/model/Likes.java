@@ -1,6 +1,5 @@
 package com.hanghae99.sulmocco.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,16 +19,16 @@ public class Likes {
 
     @ManyToOne(fetch = LAZY)
 //    @JsonBackReference
-    @JoinColumn(name = "TABLES_ID")
-    private Tables tables;
+    @JoinColumn(name = "dish_id")
+    private Dish dish;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    public Likes(User user, Tables tables) {
+    public Likes(User user, Dish dish) {
         this.user = user;
-        this.tables = tables;
+        this.dish = dish;
     }
 }
 

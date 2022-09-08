@@ -3,8 +3,8 @@ package com.hanghae99.sulmocco.service;
 import com.hanghae99.sulmocco.dto.reply.ReplyRequestDto;
 import com.hanghae99.sulmocco.dto.reply.ReplyResponseDto;
 import com.hanghae99.sulmocco.dto.response.ResponseDto;
+import com.hanghae99.sulmocco.model.Dish;
 import com.hanghae99.sulmocco.model.Reply;
-import com.hanghae99.sulmocco.model.Tables;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.repository.ReplyRepository;
 import com.hanghae99.sulmocco.repository.TablesRepository;
@@ -31,11 +31,11 @@ public class ReplyService {
     public ResponseEntity<?> getReplies(Long tableId) {
 
         // 술상 조회
-        Tables findTable = tablesRepository.findById(tableId).orElseThrow(
+        Dish findTable = tablesRepository.findById(tableId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 술상입니다."));
 
         // 술상 댓글 DB 조회
-        List<Reply> replies = replyRepository.findAllByTablesOrderByCreatedAtDesc(findTable);
+        List<Reply> replies = replyRepository.findAllByDishOrderByCreatedAtDesc(findTable);
 
         List<ReplyResponseDto> replyResponseDtos = new ArrayList<>();
         for (Reply myReplies : replies) {
@@ -51,7 +51,7 @@ public class ReplyService {
      */
     public ResponseEntity<?> createReply(Long tableId, ReplyRequestDto replyRequestDto, User user) {
         // 술상 조회
-        Tables findTable = tablesRepository.findById(tableId).orElseThrow(
+        Dish findTable = tablesRepository.findById(tableId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 술상입니다."));
         // 댓글 생성
         Reply reply = new Reply(replyRequestDto.getContent(), user, findTable);

@@ -2,6 +2,7 @@ package com.hanghae99.sulmocco.model;
 
 import com.hanghae99.sulmocco.dto.user.ChangeRequestDto;
 import com.hanghae99.sulmocco.dto.user.SignUpRequestDto;
+import com.hanghae99.sulmocco.dto.user.UpdateUserRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,7 +42,7 @@ public class User {
     private List<Friends> friends = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Tables> tables = new ArrayList<>();
+    private List<Dish> dishes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<EnterUser> enterUsers = new ArrayList<>();
@@ -77,9 +78,9 @@ public class User {
 
     }
 
-    public void updateUser(ChangeRequestDto changeRequestDto) {
-        this.username = changeRequestDto.getUsername();
-        this.level = changeRequestDto.getLevel();
-        this.profileUrl = changeRequestDto.getProfileUrl();
+    public void updateUser(UpdateUserRequestDto updateUserRequestDto) {
+        this.username = updateUserRequestDto.getUsername();
+        this.level = updateUserRequestDto.getLevel();
+        this.profileUrl = updateUserRequestDto.getProfileUrl();
     }
 }

@@ -19,18 +19,18 @@ public class TableImage {
 
     @Column()
     private String tableImgUrl;
-    @JoinColumn(name = "tables_id", nullable = false)
+    @JoinColumn(name = "dish_id", nullable = false)
     @ManyToOne(fetch = LAZY)
-    private Tables tables;
+    private Dish dish;
 
-    public TableImage(String tableImgUrl, Tables tables) {
+    public TableImage(String tableImgUrl, Dish dish) {
         this.tableImgUrl = tableImgUrl;
-        setTables(tables);
+        setDish(dish);
     }
     //== 연관관계 메서드 ==//
-    public void setTables(Tables tables) {
-        this.tables = tables;
-        tables.getImgUrls().add(this);
+    public void setDish(Dish dish) {
+        this.dish = dish;
+        dish.getImgUrls().add(this);
     }
 
     public void update(String tableImgUrl) {

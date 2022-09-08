@@ -16,17 +16,17 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Tables extends Timestamped {
+public class Dish extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tables_id")
+    @Column(name = "dish_id")
     private Long id;
 
     @Column(nullable = false, length = 50)
     private String title;
 
-    @Column(nullable = false, length = 60000)
+    @Column(nullable = false, length = 60000, columnDefinition = "TEXT")
     private String content;
 
     @Column(nullable = false)
@@ -41,31 +41,31 @@ public class Tables extends Timestamped {
     private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "tables", cascade = CascadeType.ALL)
-    private List<Reply> replies;
+    @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
+    private List<Reply> replies = new ArrayList<>();;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "tables", cascade = CascadeType.ALL)
-    private List<Bookmark> bookmarks;
+    @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
+    private List<Bookmark> bookmarks = new ArrayList<>();;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "tables", cascade = CascadeType.ALL)
-    private List<Likes> likes;
+    @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
+    private List<Likes> likes = new ArrayList<>();;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "tables", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
     private List<TableImage> imgUrls = new ArrayList<>();
 
     @ElementCollection
-    @CollectionTable(name = "VIEWUSER", joinColumns = @JoinColumn(name = "tables_id"))
+    @CollectionTable(name = "VIEWUSER", joinColumns = @JoinColumn(name = "dish_id"))
     List<Long> viewUserList = new ArrayList<>();
 
-    @Column(length = 60000)
+    @Column()
     private String thumbnailImgUrl;
 
     private int count;
 
-    public Tables(String title, String content, String alcoholTag, String freetag, String thumbnailImgUrl, User user) {
+    public Dish(String title, String content, String alcoholTag, String freetag, String thumbnailImgUrl, User user) {
         this.title = title;
         this.content = content;
         this.alcoholTag = alcoholTag;
@@ -78,7 +78,7 @@ public class Tables extends Timestamped {
         this.user = user;
     }
 
-    public Tables(TablesRequestDto tablesRequestDto, User user) {
+    public Dish(TablesRequestDto tablesRequestDto, User user) {
         this.title = tablesRequestDto.getTitle();
         this.content = tablesRequestDto.getContent();
         this.alcoholTag = tablesRequestDto.getAlcoholtag();

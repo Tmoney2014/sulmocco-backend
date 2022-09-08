@@ -5,6 +5,7 @@ import com.hanghae99.sulmocco.dto.token.TokenDto;
 import com.hanghae99.sulmocco.dto.user.ChangeRequestDto;
 import com.hanghae99.sulmocco.dto.user.MypageResponseDto;
 import com.hanghae99.sulmocco.dto.user.SignUpRequestDto;
+import com.hanghae99.sulmocco.dto.user.UpdateUserRequestDto;
 import com.hanghae99.sulmocco.model.RefreshToken;
 import com.hanghae99.sulmocco.model.User;
 import com.hanghae99.sulmocco.repository.RefreshTokenRepository;
@@ -14,6 +15,7 @@ import com.hanghae99.sulmocco.security.jwt.HeaderTokenExtractor;
 import com.hanghae99.sulmocco.security.jwt.JwtDecoder;
 import com.hanghae99.sulmocco.security.jwt.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +28,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -111,12 +114,13 @@ public class UserService {
 
     // 회원정보 수정
     @Transactional
-    public ResponseEntity<?> changeUser(UserDetailsImpl userDetails, ChangeRequestDto changeRequestDto) {
+    public ResponseEntity<?> changeUser(UserDetailsImpl userDetails, UpdateUserRequestDto updateUserRequestDto) {
         String username = userDetails.getUser().getUsername();
 
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 회원입니다."));
-        user.updateUser(changeRequestDto);
+        user.updateUser(updateUserRequestDto);
+        userRepository.save(user);
 
 //        TokenDto tokenDto = JwtTokenUtils.generateJwtAndRefreshToken(user.getId(), user.getUsername());
 //        tokenDto.setLoginId(user.getId());
