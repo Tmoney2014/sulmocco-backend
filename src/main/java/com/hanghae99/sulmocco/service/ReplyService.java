@@ -75,6 +75,10 @@ public class ReplyService {
         if (reply.getContent().equals(replyRequestDto.getContent())) {
             throw new IllegalArgumentException("내용이 변경되지 않았습니다.");
         }
+        // 빈값으로 수정시 확인
+        if (replyRequestDto.getContent().equals("")){
+            throw new IllegalArgumentException("내용을 입력해 주세요.");
+        }
         reply.update(replyRequestDto.getContent(), user); // 더티 체킹
 
         return ResponseEntity.ok(new ResponseDto(true, "댓글이 수정되었습니다."));
