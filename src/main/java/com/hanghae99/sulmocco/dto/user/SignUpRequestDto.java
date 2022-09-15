@@ -1,11 +1,13 @@
 package com.hanghae99.sulmocco.dto.user;
 
 import com.hanghae99.sulmocco.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class SignUpRequestDto {
 
     private String id;

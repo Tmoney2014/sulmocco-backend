@@ -1,8 +1,8 @@
 package com.hanghae99.sulmocco.model;
 
-import com.hanghae99.sulmocco.dto.user.ChangeRequestDto;
 import com.hanghae99.sulmocco.dto.user.SignUpRequestDto;
 import com.hanghae99.sulmocco.dto.user.UpdateUserRequestDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,9 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Builder
 public class User {
 
     @Id
@@ -42,7 +44,7 @@ public class User {
     private List<Friends> friends = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Dish> dishes = new ArrayList<>();
+    private List<Tables> tables = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<EnterUser> enterUsers = new ArrayList<>();
