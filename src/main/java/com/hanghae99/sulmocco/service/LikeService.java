@@ -17,14 +17,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class LikeService {
     private final LikeRepository likesRepository;
     private final TablesRepository tablesRepository;
     private final UserRepository userRepository;
 
     //좋아요 저장
-    @Transactional
     public ResponseEntity<?> postLikes(Long userId, Long tableId) {
         //USERID 와 TABLESID 아이디로 USER 와 TABLES 를 찾아서 저장
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다"));
@@ -44,7 +42,6 @@ public class LikeService {
     }
 
     //좋아요 삭제
-    @Transactional
     public ResponseEntity<?> deleteLikes(User user, Long tableId) {
 
         Tables findTable = tablesRepository.findById(tableId).orElseThrow(
