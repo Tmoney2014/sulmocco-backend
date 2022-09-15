@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,23 +40,20 @@ public class S3Service {
         List<UploadResponseDto> responseDtos = new ArrayList<>();
 
         for (MultipartFile file : files) {
+            //파일명을 난수화
             String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            ObjectMetadata metadata = new ObjectMetadata();
-//            metadata.setContentType(file.getContentType());
-            metadata.setContentType(Mimetypes.getInstance().getMimetype(filename));
 
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType(Mimetypes.getInstance().getMimetype(filename));
             byte[] bytes = IOUtils.toByteArray(file.getInputStream());
-            metadata.setContentLength(bytes.length);
+            objectMetadata.setContentLength(bytes.length);
 
             ByteArrayInputStream byteArrayIs = new ByteArrayInputStream(bytes);
 
             try {
                 // 이미지 업로드
-//                PutObjectRequest por = new PutObjectRequest(bucket, filename, file.getInputStream(), metadata)
-                PutObjectRequest por = new PutObjectRequest(bucket, filename, byteArrayIs, metadata)
-                        .withCannedAcl(CannedAccessControlList.PublicRead);
-                amazonS3.putObject(por);
-                System.out.println("S3Service uploadImageV1 : 이미지 업로드 성공!!!");
+                amazonS3.putObject(new PutObjectRequest(bucket, filename, byteArrayIs, objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
             } catch (Exception e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드 중 문제가 발생했습니다");
             }
