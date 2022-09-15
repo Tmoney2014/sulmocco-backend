@@ -23,7 +23,8 @@ public interface TablesRepository extends JpaRepository<Tables, Long> {
 
     // 오늘의 술상 추천 - 좋아요 3순위
     @EntityGraph(attributePaths = {"user"})
-    @Query("select t from Tables t ORDER BY t.likes.size DESC, t.id DESC ")
+//    @Query("select t from Tables t ORDER BY t.likes.size DESC, t.id DESC ")
+    @Query("select t from Tables t ORDER BY size(t.likes) DESC, t.id DESC ")
     List<Tables> findByOrderByLikesSize(Pageable pageable);
 
     // 검색 - 제목, 내용, 추천술태그, 자유태그에 검색어를 포함한 리스트
