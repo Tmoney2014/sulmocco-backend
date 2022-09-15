@@ -1,6 +1,8 @@
 package com.hanghae99.sulmocco.model;
 
 import com.hanghae99.sulmocco.base.Timestamped;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Reply extends Timestamped {
 
     @Id
@@ -25,22 +29,22 @@ public class Reply extends Timestamped {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="dish_id")
-    private Dish dish;
+    @JoinColumn(name="tables_id")
+    private Tables tables;
 
     //== 연관관계 (편의) 메서드==//
     public void setUser(User user) {
         this.user = user;
     }
 
-    public void setDish(Dish dish) {
-        this.dish = dish;
+    public void setTables(Tables tables) {
+        this.tables = tables;
     }
 
-    public Reply(String content, User user, Dish dish) {
+    public Reply(String content, User user, Tables tables) {
         this.content = content;
         setUser(user);
-        setDish(dish);
+        setTables(tables);
     }
 
     public void update(String content, User user) {

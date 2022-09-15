@@ -19,16 +19,16 @@ public class Likes {
 
     @ManyToOne(fetch = LAZY)
 //    @JsonBackReference
-    @JoinColumn(name = "dish_id")
-    private Dish dish;
+    @JoinColumn(name = "tables_id")
+    private Tables tables;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    public Likes(User user, Dish dish) {
+    public Likes(User user, Tables tables) {
         this.user = user;
-        this.dish = dish;
+        this.tables = tables;
     }
 }
 

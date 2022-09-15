@@ -18,15 +18,15 @@ public class Bookmark extends Timestamped {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dish_id")
-    private Dish dish;
+    @JoinColumn(name = "tables_id")
+    private Tables tables;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Bookmark(User user, Dish dish) {
+    public Bookmark(User user, Tables tables) {
         this.user = user;
-        this.dish = dish;
+        this.tables = tables;
     }
 }

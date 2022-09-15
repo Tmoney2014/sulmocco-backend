@@ -2,7 +2,7 @@ package com.hanghae99.sulmocco.dto.tables;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hanghae99.sulmocco.dto.reply.ReplyResponseDto;
-import com.hanghae99.sulmocco.model.Dish;
+import com.hanghae99.sulmocco.model.Tables;
 import com.hanghae99.sulmocco.model.TableImage;
 import lombok.*;
 import org.springframework.data.domain.Slice;
@@ -41,43 +41,43 @@ public class TablesResponseDto {
     private List<ReplyResponseDto> replies;
 
     // 술상 추천 목록, 본인이 작성한 술상 목록
-    public TablesResponseDto(Dish dish) {
-        this.tableId = dish.getId();
-        this.title = dish.getTitle();
-        this.username = dish.getUser().getUsername();
-        this.thumbnail = dish.getThumbnailImgUrl();
-        this.likecount = dish.getLikes().size();
-        this.viewcount = dish.getViewUserList().size();
-        this.alcoholtag = dish.getAlcoholTag();
-        this.freetag = dish.getFreeTag();
-        this.createdAt = dish.getCreatedAt();
-        this.level = dish.getUser().getLevel();
-        this.profileimgurl = dish.getUser().getProfileUrl();
+    public TablesResponseDto(Tables tables) {
+        this.tableId = tables.getId();
+        this.title = tables.getTitle();
+        this.username = tables.getUser().getUsername();
+        this.thumbnail = tables.getThumbnailImgUrl();
+        this.likecount = tables.getLikes().size();
+        this.viewcount = tables.getViewUserList().size();
+        this.alcoholtag = tables.getAlcoholTag();
+        this.freetag = tables.getFreeTag();
+        this.createdAt = tables.getCreatedAt();
+        this.level = tables.getUser().getLevel();
+        this.profileimgurl = tables.getUser().getProfileUrl();
     }
 
     // 술상 추천 상세
-    public TablesResponseDto(Dish dish, List<ReplyResponseDto> replies,
+    public TablesResponseDto(Tables tables, List<ReplyResponseDto> replies,
                              Boolean isBookmark, Boolean isLike) {
-        this.tableId = dish.getId();
-        this.title = dish.getTitle();
-        this.username = dish.getUser().getUsername();
-        this.content = dish.getContent();
-        this.thumbnail = dish.getThumbnailImgUrl();
-        this.imgUrlList = dish.getImgUrls().stream()
+        this.tableId = tables.getId();
+        this.title = tables.getTitle();
+        this.username = tables.getUser().getUsername();
+        this.content = tables.getContent();
+        this.thumbnail = tables.getThumbnailImgUrl();
+        this.imgUrlList = tables.getImgUrls().stream()
                 .map(this::apply)
                 .collect(Collectors.toList());
         this.replies = replies; // findTable.getReplies(); // 이걸로도 되나 궁금하다
-        this.alcoholtag = dish.getAlcoholTag();
-        this.freetag = dish.getFreeTag();
-        this.likecount = dish.getLikes().size();
-        this.viewcount = dish.getViewUserList().size();
+        this.alcoholtag = tables.getAlcoholTag();
+        this.freetag = tables.getFreeTag();
+        this.likecount = tables.getLikes().size();
+        this.viewcount = tables.getViewUserList().size();
         this.isBookmark = isBookmark;
         this.isLike = isLike;
-        this.createdAt = dish.getCreatedAt();
-        this.profileimgurl = dish.getUser().getProfileUrl();
-        this.modifiedAt = dish.getModifiedAt();
-        this.level = dish.getUser().getLevel();
-        this.loginId = dish.getUser().getId();
+        this.createdAt = tables.getCreatedAt();
+        this.profileimgurl = tables.getUser().getProfileUrl();
+        this.modifiedAt = tables.getModifiedAt();
+        this.level = tables.getUser().getLevel();
+        this.loginId = tables.getUser().getId();
     }
 
     private String apply(TableImage tableImage) {
@@ -85,24 +85,24 @@ public class TablesResponseDto {
     }
 
     // 오늘의 술상 추천
-    public static TablesResponseDto todayTableDto(Dish dish) {
+    public static TablesResponseDto todayTableDto(Tables tables) {
         return TablesResponseDto.builder()
-                .tableId(dish.getId())
-                .thumbnail(dish.getThumbnailImgUrl())
-                .title(dish.getTitle())
-                .likecount(dish.getLikes().size())
-                .viewcount(dish.getViewUserList().size())
-                .alcoholtag(dish.getAlcoholTag())
-                .freetag(dish.getFreeTag())
-                .profileimgurl(dish.getUser().getProfileUrl())
-                .username(dish.getUser().getUsername())
-                .level(dish.getUser().getLevel())
-                .createdAt(dish.getCreatedAt())
+                .tableId(tables.getId())
+                .thumbnail(tables.getThumbnailImgUrl())
+                .title(tables.getTitle())
+                .likecount(tables.getLikes().size())
+                .viewcount(tables.getViewUserList().size())
+                .alcoholtag(tables.getAlcoholTag())
+                .freetag(tables.getFreeTag())
+                .profileimgurl(tables.getUser().getProfileUrl())
+                .username(tables.getUser().getUsername())
+                .level(tables.getUser().getLevel())
+                .createdAt(tables.getCreatedAt())
                 .build();
     }
 
     // 본인이 작성한 술상 목록
-    public static Slice<TablesResponseDto> myPageTablesResponseDto(Slice<Dish> tableSlice) {
+    public static Slice<TablesResponseDto> myPageTablesResponseDto(Slice<Tables> tableSlice) {
         Slice<TablesResponseDto> tablesResponseDtoSlice = tableSlice.map(t ->
                         TablesResponseDto.builder()
                                 .tableId(t.getId())
