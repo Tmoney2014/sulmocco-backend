@@ -52,8 +52,8 @@ public class StompHandler implements ChannelInterceptor {
             String chatRoomId = chatService.getChatRoomId(destination);
             String sessionId = (String) message.getHeaders().get("simpSessionId");
 
-            log.info("message header 정보들={}", message.getHeaders());
-            log.info("message destination은={}", destination);
+//            log.info("message header 정보들={}", message.getHeaders());
+//            log.info("message destination은={}", destination);
 
             redisRepository.setUserEnterInfo(sessionId, chatRoomId);
             redisRepository.plusUserCount(chatRoomId);
