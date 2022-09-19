@@ -30,7 +30,7 @@ public class Tables extends Timestamped {
     @Column(nullable = false, length = 50)
     private String title;
 
-    @Column(nullable = false, length = 60000, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @Column(nullable = false)

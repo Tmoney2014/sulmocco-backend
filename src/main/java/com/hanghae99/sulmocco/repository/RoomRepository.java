@@ -25,11 +25,11 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("select r from Room r where r.version in :setVersion")
     Page<Room> findAllRooms(Pageable pageable, String[] setVersion);
 
-    // 술모임 검색
+    // 술약속 검색
     @Query("select r from Room r where r.version in :setVersion and r.title LIKE %:keyword% Or r.alcoholTag LIKE %:keyword% Or r.food LIKE %:keyword% Or r.theme LIKE %:keyword% ")
     Page<Room> getRoomsBySearch(Pageable pageable, String keyword, String[] setVersion);
 
-    // 술모임 검색 with version 설정
+    // 술약속 검색 with version 설정
     @Query("select r from Room r where r.version=:version and r.title LIKE %:keyword% Or r.alcoholTag LIKE %:keyword% Or r.food LIKE %:keyword% Or r.theme LIKE %:keyword% ")
     Page<Room> getRoomsByVersionAndSearch(Pageable pageable, String keyword, String version);
 

@@ -32,14 +32,14 @@ public class RoomService {
     private final int HostLimit = 500;
 
     /**
-     * 술모임 만들기
+     * 술약속 만들기
      */
     @Transactional
     public String createRoom(RoomRequestDto requestDto, User user) {
 
         Optional<Room> findRoom = roomRepository.findByUsername(user.getUsername());
         if (findRoom.isPresent()) {
-            throw new IllegalArgumentException("술모임은 하나만 생성할 수 있습니다.");
+            throw new IllegalArgumentException("술약속은 하나만 생성할 수 있습니다.");
         }
 
         if (requestDto.getTitle() == null) {
@@ -56,7 +56,7 @@ public class RoomService {
     }
 
     /**
-     * 술모임 입장
+     * 술약속 입장
      */
     //방 진입
     @Transactional
@@ -104,7 +104,7 @@ public class RoomService {
 //    }
 
     /**
-     * 술모임 나가기
+     * 술약속 나가기
      */
     @Transactional
     public void quitRoom(String chatRoomId, User user) {
@@ -114,7 +114,7 @@ public class RoomService {
     }
 
     /**
-     * 술모임 종료
+     * 술약속 종료
      */
     @Transactional
     public ResponseEntity<?> deleteRoom(String roomId, User user) {
@@ -151,7 +151,7 @@ public class RoomService {
     }
 
     /**
-     * 전체 술모임 검색
+     * 전체 술약속 검색
      */
     public ResponseEntity<?> getPagingRoomsBySearch(int page, int size, String sortBy, boolean isAsc, String keyword, String version) {
 
@@ -174,7 +174,7 @@ public class RoomService {
     }
 
     /**
-     * 전체 술모임 조회
+     * 전체 술약속 조회
      */
     public ResponseEntity<?> getPagingRooms(int page, int size, String sortBy, boolean isAsc, String alcohol, String version) {
 

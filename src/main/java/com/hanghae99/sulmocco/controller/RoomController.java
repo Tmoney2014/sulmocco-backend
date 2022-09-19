@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class RoomController {
     private final RoomService roomService;
 
-    // 술모임 검색
+    // 술약속 검색
     @GetMapping("/api/room/search")
     public ResponseEntity<?> getPagingRoomsBySearch(@RequestParam("page") int page,
                                                     @RequestParam("size") int size,
@@ -27,7 +27,7 @@ public class RoomController {
         return roomService.getPagingRoomsBySearch(page, size, sortBy, isAsc, keyword, version);
     }
 
-    // 술모임 목록
+    // 술약속 목록
     @GetMapping("/api/room")
     public ResponseEntity<?> getPagingRooms(@RequestParam("page") int page,
                                             @RequestParam("size") int size,
@@ -68,7 +68,7 @@ public class RoomController {
 //        roomService.quitRoom(chatRoomId, user);
 //    }
 
-//    //술모임 상세
+//    //술약속 상세
 //    @GetMapping("/api/chat/room/{chatRoomId}")
 //    public ResponseEntity<?> getRoomDetail(@PathVariable String chatRoomId) {
 //        return ResponseEntity.ok().body(roomService.getRoom(chatRoomId));
